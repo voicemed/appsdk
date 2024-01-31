@@ -1,0 +1,134 @@
+.skip_tutorial {
+  margin-top: 4em;
+  @media screen and (max-device-height: $breakSizeSmallDevice) {
+    margin-top: 2em;
+  }
+  .skip--btn {
+    color:$text-color-primary;
+    font-weight: 700;
+    font-size: 20.9591px;
+    line-height: 18px;
+    @include fontFamilyBase();
+    text-transform: none;
+    border:2px solid rgba($text-color-primary,0.4);
+    border-radius: 33px;
+    padding:4px 14px;
+    .v-btn__content {
+      text-transform: none;
+      color:$text-color-primary;
+      opacity: 1 !important;
+    }
+    .v-icon {
+      margin-left: .5em;
+    }
+  }
+}
+
+.withdynamicTexts {
+  @include dynamicTextsBasis();
+}
+
+
+.vm_timepicker {
+  .v-time-picker-title,
+  .v-picker__title primary {
+    text-align: center;
+    justify-content:center;
+  }
+  .v-time-picker-clock__inner {
+    opacity: 1;
+    color:$black;
+  }
+  .v-time-picker-clock__item--active.accent {
+    background-color: $text-color-primary !important;
+    border-color: $text-color-primary !important;
+  }
+  .v-time-picker-clock__hand.accent {
+    background-color: $text-color-primary !important;
+    border-color: $text-color-primary !important;
+  }
+  @for $i from 14 through 25 {
+    .v-time-picker-clock__item:nth-child(#{$i}) {
+      opacity: .5;
+      color:$grey-color;
+      &.v-time-picker-clock__item--active {
+        opacity: 1;
+        color:$white;
+      }
+    }
+  }
+  .v-card__actions {
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    font-weight: bold;
+    .spacer {
+      display: none;
+    }
+    justify-content: space-between;
+    .v-btn__content {
+      font-weight: bold;
+    }
+  }
+}
+
+
+.socialBtns {
+  .v-btn.socialbtn {
+    min-width: 100% !important;
+    text-transform: none;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    background-color: $white !important;
+    min-height: 67px,;
+    border:1px solid $stdGrey;
+    @include btnShadow();
+    .v-btn__content {
+      text-transform: none;
+      @include fontFamilyBase();
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color:$text-color-secondary;
+    }
+    i {
+      display: block;
+      width: 32px;
+      height: 32px;
+      margin-right: 16px;
+      &:before {
+        content: ' ';
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        background: url("~/assets/images/apple-icon.png") center center;
+        background-size: contain;
+      }
+
+      &.google:before {
+        background: url("~/assets/images/google-icon.png") center center;
+        background-size: contain;
+      }
+      &.apple:before {
+        background: url("~/assets/images/apple-icon.png") center center;
+        background-size: contain;
+      }
+      &.meta:before {
+        background: url("~/assets/images/meta-icon.png") center center;
+        background-size: contain;
+      }
+      &.email:before {
+        background: url("~/assets/images/email-icon.png") center center;
+        background-size: contain;
+      }
+    }
+    &.email {
+      @include buttonGradientNext;
+
+      .v-btn__content {
+        color:$white;
+      }
+    }
+  }
+}

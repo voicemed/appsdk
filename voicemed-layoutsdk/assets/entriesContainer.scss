@@ -1,0 +1,109 @@
+.entries_container {
+  &.no-scroll {
+    overflow: hidden !important;
+    max-height: calc(100vh - 108px) !important;
+    height: calc(100vh - 108px) !important;
+    margin: 0px  !important;
+  }
+  .month_container {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    @include fontFamilyBase();
+    color: $black;
+  }
+  .v-list-item.entry {
+    margin-bottom: 19px;
+    background: $dirtyWhite;
+    border: 1px solid $stdGrey;
+    @include entriesShadow();
+    border-radius: 11px;
+    .v-btn {
+      background: $text-color-primary;
+      color:$white;
+      height: 30px;
+      width: 30px;
+      .v-btn__content {
+        color:$white;
+        font-size: 16px;
+        .mdi:before, .mdi-set {
+          font: normal normal normal 16px/1 "Material Design Icons" !important;
+        }
+      }
+    }
+    .v-list-item__title {
+      margin-top: 10px;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 1em;
+      line-height: 1.1em;
+      @include fontFamilyBase();
+      color: $black;
+    }
+    .v-list-item__subtitle {
+      margin-bottom: 10px;
+      @include fontFamilyBase();
+      font-style: normal;
+      font-weight: 400;
+      font-size: 1em;
+      line-height: 1.1em;
+      color: $text-color;
+    }
+  }
+  div.body {
+    position: relative;
+  }
+  .overlay {
+    position: absolute;
+    left:-16px;
+    right: -16px;
+    top:0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh;
+    height: calc(100vh - 15vh);
+    background-color: rgba(255,255,255,0.5);
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+  }
+
+  .v-btn.register {
+    @include homeGradientPrimary();
+    border-radius: 8px;
+    height: 68px !important;
+    padding: 0px 16px;
+    .v-btn__content {
+      color:$white;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      @include fontFamilyBase();
+      text-transform: none;
+      svg, svg * {
+        color:$white;
+      }
+      svg {
+        width: 24px;
+        margin-right: 10px;
+      }
+      span {
+        color:$white;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+        @include fontFamilyBase();
+      }
+    }
+  }
+
+  &.guestuser {
+    .noEntries {
+      display: none !important;
+    }
+  }
+}

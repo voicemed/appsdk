@@ -1,0 +1,244 @@
+.todayPage {
+  &.fullPageCard.indexPage {
+    margin-bottom: 0px !important;
+    padding-bottom: 15vh;
+  }
+
+  div.body {
+    background-color: transparent !important;
+    align-items: flex-start !important;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    flex-flow: column;
+
+    div.wrapper_container {
+      width: calc(100vw - 16px);
+      margin: 0px 16px;
+    }
+
+    div.fakeTutorial {
+      width: 100vw;
+      min-height: 50vh;
+      position: absolute;
+      z-index: 0;
+      background: transparent;
+      left: 0px;
+      right: 0px;
+      bottom: -15vh;
+    }
+  }
+
+  div.header {
+    .welcome_image {
+      .v-image {
+        max-height: 30vh;
+      }
+    }
+  }
+
+  .image.done {
+    max-width: calc(100vw / 4 * 2.5) !important;
+    position: relative;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      left: 5%;
+      right: 5%;
+      bottom: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      z-index: -1;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      max-height: calc(30vh - 8px);
+    }
+  }
+
+  .goodjob {
+    text-align: center;
+    margin-top: 32px;
+
+    h3 {
+      font-style: normal;
+      font-weight: 800;
+      font-size: 24px;
+      line-height: 120%;
+      margin-bottom: 22px;
+    }
+
+    .v-btn.goodjob-cta {
+      background: $white;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+      border-radius: 52px;
+      width: 100%;
+      height: 44px;
+
+      .v-btn__content {
+        text-transform: none;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24px;
+        color: $purple-color;
+      }
+    }
+  }
+
+  &.doneall {
+    div.body {
+      display: none;
+    }
+
+    div.header {
+      flex-grow: 1;
+      display: flex;
+      flex-flow: column;
+
+      .userwlecome {
+        flex-shrink: 1;
+      }
+
+      .welcome_image {
+        flex-grow: 1;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+
+        .image {
+          max-height: 30vh;
+        }
+      }
+    }
+  }
+
+  h3.todos {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 110%;
+    color: $white;
+  }
+
+  .exercises.todos {
+    .DISABLEwrapped_item.v2 {
+      position: relative;
+      filter: drop-shadow(0px -1px 19px rgba(0, 0, 0, 0.25));
+      height: calc(#{$cardHeight} + 0px) !important;
+
+      .challenge_name {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        z-index: -1;
+        background: $text-color-secondary;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 100%;
+        text-align: left;
+        border-top-left-radius: 9px;
+        border-top-right-radius: 9px;
+        padding: 0px 14px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-height: 30px;
+        color: $white;
+        display: flex;
+        align-items: center;
+        color: $white;
+      }
+    }
+  }
+
+  .challenge_list {
+    margin: 16px -16px 8px -16px;
+    padding-left: 16px;
+    width: 100vw;
+    overflow: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-flow: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: visible;
+      padding-bottom: 2px;
+      margin-right: 10px;
+
+      .challengePicker--spacer {
+        display: block;
+        width: 10px;
+        min-width: 10px;
+        text-indent: -999px;
+      }
+    }
+
+    .v-btn.challengePicker {
+      margin-left: 13px;
+
+      &:first-child {
+        margin-left: 0px;
+      }
+
+      &:last-child {
+        margin-right: 10px;
+      }
+
+      border-radius: 26.841px;
+      border: 1px solid rgba(255, 255, 255, 0.50);
+      height: fit-content;
+      width: fit-content;
+      background: transparent;
+
+      .v-btn__content {
+        text-transform: none;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 110.9%; /* 15.526px */
+        color: $white;
+        padding: 7.064px 10.43px;
+      }
+
+      &.active {
+        background: $white;
+
+        .v-btn__content {
+          color: var(--viola-airlyn, $purple-color);
+          font-weight: 700;
+        }
+      }
+
+    }
+  }
+}
+
+body .v-application.voicemed-app {
+  .todayPage {
+    h3.todos {
+      color: $almostblack;
+    }
+
+    .challenge_list .v-btn.challengePicker {
+      background-color: rgba(236, 72, 63,0.6);
+      &:not(.active) {
+        span {
+          color: $almostblack;
+        }
+      }
+
+      &.active {
+        background-color: $white;
+      }
+    }
+  }
+}

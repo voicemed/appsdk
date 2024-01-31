@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.airlyn.app",
+      "sha256_cert_fingerprints": [
+        "54:7A:E0:26:32:04:FD:37:41:9C:42:6D:B7:B1:1E:F2:5F:4D:F1:49:43:EF:EB:34:51:66:8E:CC:A5:8D:D8:49"
+      ]
+    }
+  }
+]

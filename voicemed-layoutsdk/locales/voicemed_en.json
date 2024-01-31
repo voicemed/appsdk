@@ -1,0 +1,631 @@
+{
+  "generic": {
+    "ok": "Ok",
+    "of": "of",
+    "redo": "Redo",
+    "done": "Done",
+    "contactus": "Contact us",
+    "continue": "Continue",
+    "done_arrow": "Done →",
+    "home": "Discovery",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "update": "Update →",
+    "close": "Close",
+    "loading": "Loading",
+    "skiptutorial": "Skip the tutorial and start",
+    "next": "Next →",
+    "letstart": "Let's start!",
+    "maybelater": "Maybe later",
+    "next_program": "Next<br/>program",
+    "next_noarrow": "Next",
+    "start_chevron": "Start →",
+    "join": "Join →",
+    "join_noicon": "Join",
+    "register": "Register",
+    "startanyway": "<div>Start anyway</div><div>→</div>",
+    "back": "← Back",
+    "goback": "← Go back",
+    "welldone": "Well done!",
+    "retry": "Retry",
+    "leave": "Leave",
+    "quit": "Quit",
+    "gotosettings": "Go to settings",
+    "nextprogram": "Next<br/>program",
+    "start": "Start",
+    "start_arrow": "Start →",
+    "info": "About",
+    "leaveanyway": "Leave anyway",
+    "getready": "Get ready in %s seconds...",
+    "totalestimated": "Time estimated: ",
+    "camera_warning_title": "Put your face within the circle",
+    "camera_warning": "Please maintain this distance \nduring the exercise.",
+    "permissionswarning": "If you don't allow access, you can <b>NOT</b> do the breathing exercises.",
+    "noisewarning": "If you do the exercise in a noisy environment, we won’t be able to correctly detect your breathing sounds. This means, we cannot give you personalized feedback to improve.",
+    "allowmicrophone": {
+      "title": "Allow access to microphone?",
+      "text": "We will record how you sound during the exercise to check how you are doing.",
+      "block": "Block",
+      "allow": "Allow"
+    },
+    "soundcheck": "Soundcheck",
+    "noisestart": "We are checking your recording environment...",
+    "exercisestart": "Start in",
+    "signup": "Signup",
+    "login": "Login",
+    "logout": "Logout",
+    "alright": "Alright",
+    "skip_login": "Skip for now",
+    "noiseready": "Tap start when you are ready<br/>↓",
+    "startagain": "Relax, let your breath<br/>return to its natural rhythm<br/><br/>You will repeat<br/>the exercise in:",
+    "exercisetype": {
+      "audio": "Audio",
+      "video": "Video",
+      "recording": "Breathing",
+      "hold": "Breathing",
+      "post": "Article",
+      "questionnaire": "Survey",
+      "quiz": "Quiz"
+    },
+    "unit_seconds_short": "sec",
+    "unit_minutes_short": "min",
+    "switch_language": "Change language",
+    "home": "Discovery",
+    "today": "Today",
+    "me": "Me",
+    "entries": "Entries",
+    "settings": "Settings",
+    "almostdone": "almost done",
+    "registrationstoredindocuments": "{file}<br/>saved in document folder",
+    "registrationstoredindocuments_error": "Cannot save your registration.",
+    "andnow": "And now",
+    "setreminder": "Set a daily reminder",
+    "dottedor": "...or",
+    "continuewithmoreexercises": "Continue with more exercises",
+    "explorehome": "Go to \"Today\" section\t",
+    "breathbettersince": "Healthier since"
+  },
+  "login": {
+    "wrongUsername": "Please check your email or password",
+    "forgot": "Forgot password? <b><u>Click here</u></b>",
+    "needaccount": "Need an account? <b><u>Register</u></b>",
+    "agree": "Using the VoiceMed app you agree to our <b><u>Terms</u></b> and <b><u>Privacy Policy</u></b>"
+  },
+  "forgot": {
+    "title_0": "Change your password",
+    "title_1": "Please confirm the code",
+    "title_2": "Change your password",
+    "title_3": "Your Password<br/>has been changed!",
+    "alreadyhaveacode": "Already have a Code? Insert your email and <b><u>Click here</u></b>",
+    "placeholder_0": "Please insert your email",
+    "placeholder_1": "Insert the new password",
+    "placeholder_2": "Confirm password",
+    "error_mismatch": "Password and confirm password does not match",
+    "success_0": "An <b>email</b> has been sent to your address!<br/>Please, check your email.",
+    "success_1": "Your password<br/>has been changed!"
+  },
+  "index": {
+    "onboarding": "Get the full<br/>benefits",
+    "onboardingv2": "Unlock all challenges",
+    "hi": "Hi",
+    "welcome": "Welcome",
+    "goodmorning": "Achieve your health goals",
+    "goodmorning_guest": "Achieve your health goals",
+    "goodmorning_old": "How do you feel today?",
+    "goodmorning_guest_old": "Achieve your health goals",
+    "exercisestitle": "Start with one of these",
+    "programstitle": "All challenges",
+    "signupmessages_title_0": "Achieve your health<br/>and fitness goals",
+    "signupmessages_title_1": "Measure your fitness<br/>without gadgets",
+    "signupmessages_title_2": "Get the support that<br/>you need to succeed",
+    "signupmessages_description_0": "Witness the positive impact of your efforts by following our Fitness Score, your personal compass to cardiorespiratory fitness",
+    "signupmessages_description_1": "The only app that allows you to measure your cardiorespiratory health with just your phone",
+    "signupmessages_description_2": "Connect with a support team of health coaches, physiotherapists and nutritionists through our partners",
+    "nextprogramexercise": "My challenges"
+  },
+  "welcome": {
+    "signupmessages_title_0": "Achieve your health<br/>and fitness goals",
+    "signupmessages_title_1": "Measure your fitness<br/>without gadgets",
+    "signupmessages_title_2": "Get the support that<br/>you need to succeed",
+    "signupmessages_description_0": "Witness the positive impact of your efforts by following our Fitness Score, your personal compass to cardiorespiratory fitness",
+    "signupmessages_description_1": "The only app that allows you to measure your cardiorespiratory health with just your phone.",
+    "signupmessages_description_2": "Connect with a support team of health coaches, physiotherapists and nutritionists through our partners."
+  },
+  "home": {
+    "title": "Exercise",
+    "description": "Please move to a quiet place.",
+    "hint": "Time estimated: 3 min"
+  },
+  "onboarding": {
+    "signupwelcome": "Unlock for FREE all benefits to improve asthma symptoms",
+    "checks": {
+      "1": "Get exercises personalised for you",
+      "2": "Access your stats, tracking, history",
+      "3": "Unlock  the clinically-proven  breathing challenges for asthma"
+    },
+    "signin_already_login": "Already registered?&nbsp;<u>Login</u>",
+    "signupquestion_2": "Nice to meet you!<br/>What’s your name?",
+    "signupquestion_3": "Welcome, %s!",
+    "signupquestion_4": "Choose a registration method",
+    "signupquestion_5": "Ok, almost done.",
+    "signupquestion_6": "Please accept our terms",
+    "signupquestion_7": "Please confirm the code",
+    "signupquestion_3_text": "Let’s get to know you better: <br/>Do you have ashtma?",
+    "signupquestion_4_text": "Create an account to get started on your health journey",
+    "signupquestion_5_text": "Please insert your<br/>email and password",
+    "signupquestion_6_text": "",
+    "signupquestion_7_text": "",
+    "logintitle": "Login",
+    "insertemailpww": "Please insert your<br/>email and password",
+    "resend_code": "Haven’t you received the code?<br/>Re-send it",
+    "ashma_questione_yes": "Yes, I have asthma",
+    "ashma_questione_no": "No, I don't have ashtma",
+    "ashma_questione_nodeclare": "I don’t want to declare",
+    "email": "Email address",
+    "password": "Password",
+    "privacy_1": "I have read and agree to the <a href='#terms'>Terms of Use</a> and <a href='#privacy'>Privacy Policy</a>",
+    "privacy_2": "I consent to the use of the personal health data that I voluntarily share here for the purpose of receiving personalized health information and improving the app.",
+    "name": "Name",
+    "height": "Height",
+    "weight": "Weight",
+    "age": "Age",
+    "gender": "Gender",
+    "password_hint": "Leave empty to keep the same",
+    "emailalreadyexists": "Email already exists",
+    "loginchoose": "Choose a login method",
+    "socialloginchoose": "Login to progress on your health journey",
+    "social": {
+      "google_cta": "Continue with Google",
+      "meta_cta": "Continue with Facebook",
+      "apple_cta": "Continue with Apple",
+      "login_email_cta": "Login with Email",
+      "email_cta": "Register with Email"
+    },
+    "creatingpersonalizedchallege": "We are preparing the app for you",
+    "wearesorrynochallenges": "We are sorry, no challenges meets your answers",
+    "readyforchallenges": "Ready for a challenge?",
+    "readyforchallenges-subtitle": "You have the power to improve.<br/>That’s why we propose you to join a challenge based on your answers.",
+    "readyforchallenges-hint": "Can you commit to one week<br/>of exercise?"
+  },
+  "program": {
+    "baseTag": "Challenge",
+    "leave": "Unjoin",
+    "alert": "Only proceed if you have an OK from doctor",
+    "todayexercises": "Your exercises",
+    "exerciseintro": "exercises in this program:",
+    "alwaysremember": "Always rembember",
+    "pleaseremember": "Please rembember",
+    "moreinformation": "More information",
+    "allexercises": "All exercises",
+    "exercises": "Exercises",
+    "seeall": "See all",
+    "seeless": "See less",
+    "welldone": "Well done",
+    "createdby": "Created by",
+    "programcompleted": "You completed this challenge.",
+    "onlyproceedwithdoctorok": "Always follow your doctor’s recommendations. If you have emphysema, get approval from your doctor to use the app.",
+    "climb": {
+      "title": "Do you want to improve your asthma?",
+      "text": "This is the place for you! <br/>This level is part of Asthma CLIMB, the <b>first clinically-proven program</b> for people with <b>asthma, available on your smartphone!</b><br/>It includes breathing exercises and videos to help you to:<br/><ol><li><b>better manage</b> your asthma <b>symptoms</b></li><li><b>improve</b> your <b>quality of life</b><li>be <b>less limited</b> in your <b>daily activities</b></li></ol><br/><b>Follow the 7 levels in the indicated order</b> and be ready to <b>retake control of your life</b>.<br/>Start now!<br/>"
+    },
+    "leavemessage": "If you <b>leave</b> the challenge your progress will be <b>lost</b>.<br/>Do you want to continue?",
+    "nextexerciseerror": "You have to do this exercise in the challenge at least once to unlock it",
+    "goodjob": "Good Job!",
+    "goodjob_text": "You’ve completed all for today",
+    "nomoreexercisestoday": "This exercise is scheduled for another day. Come back here later!",
+    "join_dialog_title": "You’re about to join one of our challenges",
+    "joinfirst_error": "To start the first exercise you have to join the challenge. Do you wish to continue?",
+    "challenge_completed_title": "Good job!",
+    "challenge_completed_subtitle": "Set the next goal, {name}.",
+    "challenge_completed_mgg": "{challenge} challenge completed",
+    "daychallenge_completed_title": "Good job!",
+    "daychallenge_completed_subtitle": "See you tomorrow,<br/>{name}.",
+    "daychallenge_completed_mgg": "<span>{tag}</span> exercises completed",
+    "creator_base": {
+      "name": "Dr. Ayana de Brito Martins",
+      "subtitle": "Qualified medical device regulatory expert"
+    }
+  },
+  "ProgramLoader": {
+    "program_doctorwarning_cta": "Always follow your doctor’s recommendations",
+    "program_join_body": "It includes breathing exercises and videos to help you to:</p><ol><li><strong>better manage</strong> your asthma <strong>symptoms</strong></li><li><strong>improve</strong> your <strong>quality of life</strong></li><li><strong>be less limited</strong> in your <strong>daily activities</strong> </li></ol><p><strong>Follow the 7 levels in the indicated order</strong> and be ready to <strong>retake control of your life</strong>.<br />Start now!",
+    "program_join_title": "Do you want to<strong> improve</strong> your <strong>asthma</strong>? This is the place for you. This level is part of Asthma CLIMB, the <strong>first clinically-proven program</strong> for<strong> </strong>people with<strong> asthma, available on your smartphone</strong>!",
+    "program_onlyproceedwithdoctorok_cta": "Always follow your doctor’s recommendations. If you have emphysema, get approval from your doctor to use the app."
+  },
+  "setup": {
+    "title": "Tutorial",
+    "always_remember": "Always Remember",
+    "cycles": "cycles",
+    "title_1": "Find a comfortable<br/>and quiet place",
+    "description_1": "Close the windows and doors in your<br/>room and sit in a comfortable position.",
+    "image_1": "/images/setup_phone_1.png",
+    "title_2": "Keep your device<br/>close to your mouth ",
+    "description_2": "Place the arm on a stable surface 20cm from your mouth, and get comfortable.",
+    "image_2": "/images/setup_phone_2.png",
+    "title_3": "Allow us<br/>the accesses",
+    "description_3": "In the next screen we’ll ask you to position your face to fit the canvas.<br/>Also, don’t forget to give us all the permission required for the exercise!",
+    "image_3": "/images/setup_phone_3.png",
+    "skip": "Skip this tutorial next time",
+    "onlyproceedwithdoctorok": "Do not proceed during an asthma crisis or if feeling too unwell.",
+    "voice_title_1": "Make sure to take<br/>the right position",
+    "voice_description_1": "Put your device below your chin in a 45° angle, to prevent the air flow from reaching it directly.",
+    "voice_image_1": "/images/voice_setup_phone_1.png",
+    "voice_title_2": "Keep your device<br/>close to your mouth ",
+    "voice_description_2": "Place the arm on a stable surface 20cm from your mouth, and get comfortable.",
+    "voice_image_2": "/images/voice_setup_phone_2.png",
+    "voice_title_3": "Allow us<br/>the accesses",
+    "voice_description_3": "In the next screen we’ll ask you to position your face to fit the canvas.<br/>Also, don’t forget to give us all the permission required for the exercise!",
+    "voice_image_3": "/images/setup_phone_3.png"
+  },
+  "custom_setup": {
+    "title_1": "Find a comfortable<br/>and quiet place",
+    "description_1": "Close the windows and doors in your<br/>room and sit in a comfortable position.",
+    "image_1": "/images/setup_phone_1.png",
+    "title_2": "Make sure to take<br/>the right position",
+    "description_2": "Put your device below your chin in<br/>a 45° angle, to prevent the air flow<br/>from reaching it directly.",
+    "image_2": "/images/custom_setup_phone_1.png",
+    "title_3": "Allow us<br/>the accesses",
+    "description_3": "In the next screen we’ll ask you to position your face to fit the canvas.<br/>Also, don’t forget to give us all the permission required for the exercise!",
+    "image_3": "/images/setup_phone_3.png"
+  },
+  "allows": {
+    "title": "Allow access to microphone?",
+    "description": "We will record how you sound during the exercise to check how you are doing.",
+    "deny": "Block",
+    "grant": "Allow"
+  },
+  "ml_start": {
+    "title": "Relax and get comfortable",
+    "description": "We’re about to start.<br/>Checking your recording environment.",
+    "checking": "Checking..."
+  },
+  "ml_exercise": {
+    "waiting": "Wrapping up...",
+    "almostdone": "Almost<br/>done...",
+    "stop_hold_phase_desc": "Tap Stop when you feel a slight urge to breathe",
+    "stop_hold_phase_cta": "Stop",
+    "voice": {
+      "stop_hold_phase_cta": "Tap “Stop” when you finish the exercise"
+    }
+  },
+  "ml_finish": {
+    "title": "Well done!",
+    "title_medal_bronze": "Keep going!",
+    "title_medal_silver": "Very good!",
+    "title_medal_gold": "Well done!",
+    "title_medal_improve": "You can do better",
+    "title_medal_gotzero": "It seems you got a zero",
+    "hintbox_title_improve": "How to get a better score?",
+    "hintbox_title_zero": "What can be the cause?",
+    "hintbox_desc_improve": "Please, try to move to a <b>more quite place</b>, <b>watch the tutorial</b> to ensure you are performing the excercise correctly, and try again.",
+    "hintbox_desc_zero": "<span>Maybe you are in a <b>noisy environment</b> or you have <b>not performed the exercise properly</b>.</span><span>Please, try to move to a <b>more quite place</b>, <b>watch the tutorial</b> to ensure you are performing the excercise correctly, and try again.</span>",
+    "improvewithprogram": "Do you want to improve your health?",
+    "improvewithprogram_sub": "",
+    "exercisedone": "Exercises done",
+    "breathescore": "Breathing<br/>Score",
+    "breathingtime": "Breathing<br/>time",
+    "breathingholdtime": "Breathing<br/>hold time",
+    "breathingholdtimeaverage": "Average breath holding",
+    "breathingstamina": "Fitness<br/>score*",
+    "breathingstaminaexplaination": "Fitness score*",
+    "registercta": "Register to unlock<br/>your progress!",
+    "registercta_v2": "Unlock all challenges",
+    "registercta_singleline": "Register to unlock",
+    "nextexercise": "Your next exercise",
+    "howisscorecalculated": "What does it mean?",
+    "scoreexplaination": "This score is the result of analysing the breathing sound of your exercise. It is backed by science.<br/>It helps you to <b>track your performance, identifying what you did well, and where to improve.</b><br/>",
+    "scoreexplainationdob": "The score describes your ability to exhale air quickly and powerfully.",
+    "timeScore": "Time",
+    "flowScore": "Flow",
+    "cyclesScore": "Cycles",
+    "timeScore_desc": "The <b>Time</b> is based on the <b>seconds of each phase of the breathing cycle</b> shown during the exercise (inhale, pause, <b>exhale</b>).<br/>The highest score is achieved if you <b>follow the circle as closely as possible</b>, for example <b>exhaling in the right amount of seconds</b>. If you received a low score means you inhaled or exhaled for too long or not long enough. It is important to <b>respect the Time</b> as each exercise was specially designed to provide <b>health benefits</b>.<br/><b>Try to focus on the circles and follow them precisely to improve your Time score!</b>",
+    "flowScore_desc": "The <b>Flow</b> is related to the amount of air you exhale.<br/>The highest score is achieved if you have a <b>stable flow of air</b>. That is, you exhale the <b>same amount of air per second</b> throughout the exercise. If you received a low score, the amount of air you exhaled in each second changed during the exercise.<br/><b>Try to make the airflow as stable as possible to improve your Flow score!</b><br/>",
+    "cyclesScore_desc": "The <b>Cycles</b> score is related to <b>how many breathing cycles you completed in this exercise</b>. Each breathing cycle is composed of inhalation - hold - exhalation - hold.<br/>The highest score is achieved if you completed all the breathing cycles of the exercise. If you received a low score means you did only some of cycles.<br/><b>Try to stay focused and avoid interruptions to complete all breathing cycles, and improve this score over the next exercise!</b><br/>",
+    "dobscore_description": "The score is based on the pattern of your exhalation through time. For example, the ability to exhale more air in less than a second.<br/><br/>It helps identify your fitness level, and it is correlated with breathing muscle strength, restedness and stamina.<br/><br/><b>*The Fitness Score is still under development and may not give accurate results every time. We appreciate your support in testing our product.</b>",
+    "zeroscore_description": "Here a list of things that you should check before redoing the exercise:<br/><br/><ul><li>Make sure you are recording in a quite environment</li><li>Watch the video tutorial at the beginning of the exercise, to make sure sure you perform the correct sound</li><li>Leave the mic's hole free from fingers and other materials</li></ul><br/><br/>If you keep experiencing a zero value, please e-mail us so that we can investigate.</br>",
+    "score_explaination_cta": "What does it mean?",
+    "exercises_done": "Exercises done",
+    "voice": {
+      "timeScore": "Time",
+      "flowScore": "Flow",
+      "cyclesScore": "Cycles",
+      "timeScore_desc": "The <b>Time</b> is based on the <b>seconds of each phase of the breathing cycle</b> shown during the exercise (inhale, pause, <b>exhale</b>).<br/>The highest score is achieved if you <b>follow the circle as closely as possible</b>, for example <b>exhaling in the right amount of seconds</b>. If you received a low score means you inhaled or exhaled for too long or not long enough. It is important to <b>respect the Time</b> as each exercise was specially designed to provide <b>health benefits</b>.<br/><b>Try to focus on the circles and follow them precisely to improve your Time score!</b>",
+      "flowScore_desc": "The <b>Flow</b> is related to the amount of air you exhale.<br/>The highest score is achieved if you have a <b>stable flow of air</b>. That is, you exhale the <b>same amount of air per second</b> throughout the exercise. If you received a low score, the amount of air you exhaled in each second changed during the exercise.<br/><b>Try to make the airflow as stable as possible to improve your Flow score!</b><br/>",
+      "cyclesScore_desc": "The <b>Cycles</b> score is related to <b>how many breathing cycles you completed in this exercise</b>. Each breathing cycle is composed of inhalation - hold - exhalation - hold.<br/>The highest score is achieved if you completed all the breathing cycles of the exercise. If you received a low score means you did only some of cycles.<br/><b>Try to stay focused and avoid interruptions to complete all breathing cycles, and improve this score over the next exercise!</b><br/>"
+    },
+    "guest_finish_message": "Do you want to use Voicemed<br/>at its full potential?",
+    "client_finish_message": "Building your healthy routine.<br/>Step by step!"
+  },
+  "entries": {
+    "title": "Your entries",
+    "no_entries": "No entries...yet"
+  },
+  "errors": {
+    "noisebrowser": {
+      "title": "Uh-oh!<br/>Browser error!",
+      "description": "Please go use this url from a browser like Chrome o Safari.<br/><br/><a href='http://airlyn.voicemed.io/' target='_blank' class='v-btn v-btn--outlined v-btn--text theme--light v-size--default leavevm--text openbrowser--text'><span class=\"v-btn__content\"><div class=\"btncustomcontent\"><div>Open in browser</div><div>→</div></div></span></a>"
+    },
+    "noise": {
+      "title": "Uh-oh!<br/>Too much noise!",
+      "description": "Please go to a quieter place and retry."
+    },
+    "nomic": {
+      "title": "Uh-oh!<br/>We weren’t able to hear any sound!",
+      "description": "Please be sure that your mic<br/>has the correct permissions."
+    },
+    "generic": {
+      "title": "Uh-oh! <br/>It seems something went wrong!<br/> ",
+      "description": "Please make sure your microphone/camera is working correctly and retry."
+    },
+    "camera": {
+      "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+      "description": "Your camera seems isn't working correctly.<br/>In order to continue you must allow this webApp to access to your camera."
+    },
+    "permissions": {
+      "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+      "description": "Your must grant permission to use Camera and Mic to continue."
+    },
+    "exercises": {
+      "title": "Uh-oh!<br/>It seems something went wrong!<br/>",
+      "description": "Sorry, cannot retrieve your breath exercises, please try again later"
+    },
+    "cam": {
+      "notfounderror": {
+        "title": "Uh-oh! <br/>It seems something went wrong!<br/> ",
+        "description": "Please make sure your camera is working correctly and retry."
+      },
+      "notallowedexception": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Camera to continue."
+      },
+      "notallowederror": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Camera to continue."
+      }
+    },
+    "mic": {
+      "deniederror": {
+        "title": "Uh-oh! <br/>It seems something went wrong!<br/> ",
+        "description": "You must grand permission to use Mic, please visit your Settings page and allow it to continue."
+      },
+      "notfoundexception": {
+        "title": "Uh-oh! <br/>It seems something went wrong!<br/> ",
+        "description": "Please make sure your microphone is working correctly and retry."
+      },
+      "notallowedexception": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Mic to continue."
+      },
+      "notallowederror": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Mic to continue."
+      }
+    },
+    "miccam": {
+      "notfoundexception": {
+        "title": "Uh-oh! <br/>It seems something went wrong!<br/> ",
+        "description": "Please make sure your microphone/camera is working correctly and retry."
+      },
+      "notallowedexception": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Mic and Camera to continue."
+      },
+      "notallowederror": {
+        "title": "Uh-oh!<br/>It seems something went wrong!<br/> ",
+        "description": "Your must grant permission to use Mic and Camera to continue."
+      }
+    },
+    "global": {
+      "uhoh": "Uh-oh!<br/>",
+      "title": "An error has occurred",
+      "msg_mic": "Seems you have trouble with the microphone.",
+      "msg_server": "Sorry, cannot connect to VoiceMed Server",
+      "msg_generic": "Sorry an error has occurred, please try again",
+      "msg_guestlogin": "Cannot access as guest",
+      "msg_loadaudiotrack": "Cannot load audio track",
+      "msg_loadvideotrack": "Cannot load video track",
+      "msg_restapi": "Error with restApi",
+      "msg_noquestions": "No questions for this survey!",
+      "msg_storeexercise": "Cannot resume exersise recording, please start again",
+      "msg_startrecording": "Cannot start Recording",
+      "msg_retrieverecording": "Cannot retrieve Recording",
+      "msg_notallowed": "NotAllowedError"
+    },
+    "toasts": {
+      "cannot_reproduce_exercise": "Cannot reproduce this Exercise",
+      "cannot_reproduce_tutorial": "Cannot reproduce tutorial",
+      "check_credentials": "Please check your credentials",
+      "rate_dialog": "Sorry cannot open rate dialog, please visit our Store page",
+      "join_program": "Sorry, an error occurred joining this program, try Again.",
+      "cannot_open_exercise": "Sorry, an error occurred opening this exercise, try Again.",
+      "exercise_notavailable": "You have to do all the previous exercises in order to do this one",
+      "adjust_volume": "Adjust the volume if you don't hear any sound"
+    }
+  },
+  "rules": {
+    "required": "Required.",
+    "max100chars": "Max 100 characters",
+    "invalidemail": "Invalid e-mail.",
+    "min3chars": "Min 3 characters",
+    "max64chars": "Max 64 characters",
+    "passwordrule": "Your password must be between 8 and 64 characters and contain at least one capital letter and one number"
+  },
+  "settings": {
+    "userlogout_ctatitla": "Are you sure you want to log out?",
+    "accountdeletion_ctatitle": "Are you sure you want to delete your account?",
+    "accountdeletion_cta": "Delete it",
+    "accountdeletion_title": "We are sorry to<br/>see you leave 😞",
+    "accountdeletion_msg": "We have opened the practice for deleting your account.<br/><br/>Check your email to take track of the progress of the operation.",
+    "accountdeletion_resterror": "Sorry cannot send account deletion request, try again later.",
+    "titles": {
+      "Settings": "Settings",
+      "My profile": "My profile",
+      "Update my info": "Update my info",
+      "Delete account": "Delete account",
+      "Logout": "Logout",
+      "More information": "More information",
+      "Help us to improve": "Help us to improve",
+      "Privacy policy": "Privacy policy",
+      "Terms of use": "Terms of use",
+      "Login": "Login",
+      "Register": "Register"
+    },
+    "colophon": "The Voicemed app contains <b>Asthma CLIMB</b>, a breathing program for persons with asthma that is CE-marked as a medical device."
+  },
+  "permissionpopup": {
+    "title": "Permissions",
+    "permission_storage_title": "Allow VoiceMed to access<br/>your microphone and<br/>file storage",
+    "permission_mic_title": "How we’ll use your microphone",
+    "permission_mic_msg": "We analyse your breathing activity so we can calculate a breathing score that describes how well you did the exercise.",
+    "permission_media_title": "How we’ll use media files",
+    "permission_media_msg": "We store temporary files with your recordings on your phone",
+    "about_title": "About permissions",
+    "about_msg": "You can change your choices at any time in your device settings. If you don’t allow access, you can’t do the breathing exercises."
+  },
+  "completitionfailed": {
+    "title_1": "Ops! Connection seems not working properly.",
+    "title_2": "It seems that connection doesn’t want to cooperate \uD83D\uDE1E",
+    "msg_1": "But don't worry, press the retry button to do another attempt without losing your progress!",
+    "msg_2": "Sometimes, bad days are there to remind us that we have good ones to look forward to.<br/>Try to comeback later!",
+    "bottomsheet_msg": "If you return to the home now, you will lose your progress",
+    "download_audio": "Download recording"
+  },
+  "months": {
+    "January": "January",
+    "February": "February",
+    "March": "March",
+    "April": "April",
+    "May": "May",
+    "June": "June",
+    "July": "July",
+    "August": "August",
+    "September": "September",
+    "October": "October",
+    "November": "November",
+    "December": "December",
+    "Jan_short": "Jan",
+    "Feb_short": "Feb",
+    "Mar_short": "Mar",
+    "Apr_short": "Apr",
+    "May_short": "May",
+    "Jun_short": "Jun",
+    "Jul_short": "Jul",
+    "Aug_short": "Aug",
+    "Sep_short": "Sep",
+    "Oct_short": "Oct",
+    "Nov_short": "Nov",
+    "Dec_short": "Dec",
+    "short-0": "Jan",
+    "short-1": "Feb",
+    "short-2": "Mar",
+    "short-3": "Apr",
+    "short-4": "May",
+    "short-5": "Jun",
+    "short-6": "Jul",
+    "short-7": "Aug",
+    "short-8": "Sep",
+    "short-9": "Oct",
+    "short-10": "Nov",
+    "short-11": "Dec"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Enable your notifications",
+    "topics": {
+      "challenges": {
+        "title": "Challenges",
+        "description": "Just a reminder to motivate you to reach your goals!"
+      }
+    },
+    "reminders": {
+      "title": "Set a reminder",
+      "description": "At what time would you like to be reminded about your breathing routine during a challenge?"
+    },
+    "messages": {
+      "challenge_reminder": {
+        "title": "Want to be healthier and fitter?",
+        "message": "It's time to track your fitness! Complete your tasks of {programname} now. Keep going to reach your health goals and get the discount price.",
+        "message_noprogram": "It's time to track your fitness! Complete your tasks now. Keep going to reach your health goals and get the discount price."
+      },
+      "today_reminder": {
+        "title": "Want to achieve your health goals?",
+        "message": "Remember to enter your data! Complete the challenge to be eligible for the discount and refund voucher.",
+        "message_noprogram": "Remember to enter your data! Complete the challenge to be eligible for the discount and refund voucher."
+      }
+    },
+    "turnoff_cta": "Turn off all reminders",
+    "customtime_cta": "Set custom time",
+    "customtime": "Custom",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "night": "Evening",
+    "timeoptions": {
+      "07:30": "7:30",
+      "12:30": "12:30",
+      "16:30": "16:30",
+      "20:30": "20:30"
+    }
+  },
+  "sharefiledialog": {
+    "title": "Open recording with",
+    "message": "Choose an app for {recording}",
+    "dialogtitle": "Recording"
+  },
+  "me": {
+    "track": "Track",
+    "stats": "Stats",
+    "history": "History",
+    "completed_exercises": "Exercises completed",
+    "completed_challenges": "Challenges completed",
+    "total_breaths": "Breaths analysed",
+    "top_day_streak": "Highest day streak",
+    "max_hold": "Top breath hold (sec)",
+    "minutes_breathing": "Minutes of breathing",
+    "gold_medal": "Gold medals",
+    "silver_medal": "Silver medals",
+    "bronze_medal": "Bronze medals",
+    "last7scores": "Last 7 scores",
+    "titleTrack": "Breathing score trend",
+    "scores": {
+      "humming": "Balance",
+      "shushing": "Rhythm"
+    },
+    "yournamehere": "Me",
+    "youneedtoregister": "You need to be <b>registered</b> to unlock your personal stats.",
+    "fullhistory": "Full history of user’s activities are available for registered users only.",
+    "nodatatodisplay": "Sorry, no data to display yet!"
+  },
+  "today": {
+    "goodjob": "You did all for today, %s.",
+    "goodjob_cta": "Discover more to do next",
+    "title": "Today's schedule"
+  },
+  "weeknames": {
+    "ushort-0": "S",
+    "ushort-1": "M",
+    "ushort-2": "T",
+    "ushort-3": "W",
+    "ushort-4": "T",
+    "ushort-5": "F",
+    "ushort-6": "S",
+    "long-0": "Sunday",
+    "long-1": "Monday",
+    "long-2": "Tuesday",
+    "long-3": "Wednesday",
+    "long-4": "Thursday",
+    "long-5": "Friday",
+    "long-6": "Saturday"
+  },
+  "tutorials": {
+    "index": {
+      "text_1": "Here you find individual tests to check yourself when you like. Give them a try!",
+      "text_2": "Here you find health and fitness challenges and programs. Track your health to get discounts and refund vouchers from our partners.",
+      "text_3": "Here you set reminders. Set them if you want to be reminded of what to do and track each day."
+    },
+    "today": {
+      "text_1": "Here you find all the activities to do today. Start your healthier life now!",
+      "text_2": "Here you set reminders. Set them if you want to be reminded of what to do and track each day."
+    }
+  }
+}

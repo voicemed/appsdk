@@ -1,0 +1,488 @@
+.fullPageCard.indexPage {
+
+  @include gradientVariant_1();
+  div.header {
+    &:before {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: ' ';
+      z-index: -100;
+      opacity: 0;
+      @include gradientVariant_3();
+      top:0px;
+      left:0px;
+      animation-duration: 6s;
+      animation-name: changeOpacity;
+      animation-iteration-count: infinite;
+      animation-direction: normal;
+
+    }
+    div.userwlecome {
+      margin-top: 0px;
+      line-height: 14px;
+
+      .v-btn,
+      .v-btn.v-btn--disabled {
+        max-width: 44px;
+        min-width: 44px;
+        margin-right: 1em;
+
+        &.profile {
+          .v-avatar {
+            min-width: 44px;
+            max-width: 44px;
+            border: 4px solid $white;
+            background: $radarBorder;
+
+            .v-icon {
+              background: $radarBorder;
+              color: $white !important;
+            }
+
+          }
+        }
+
+
+        &.bellicon {
+          margin-right: 0px;
+
+          .v-avatar {
+            border: 0px solid $white;
+            min-width: 44px;
+            max-width: 44px;
+            background: rgba(255, 255, 255, 0.5);
+
+            .v-icon {
+              background-color: transparent;
+
+              svg {
+                max-width: 22px;
+                max-height: 22px;
+              }
+            }
+
+          }
+        }
+      }
+
+      .super_titleText {
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 14px;
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .titleText {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 14px;
+        padding: 0px;
+        margin: 0px;
+      }
+    }
+
+    .userside {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .user__info {
+        padding-left: .3em;
+        align-self: center;
+
+        span {
+          display: block;
+          max-width: 60vw;
+          /*
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+           */
+          &.titleText {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          &.super_titleText {
+            margin-top:.3em;
+          }
+        }
+      }
+
+
+    }
+
+    .welcome_image {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      position: relative;
+      .circles {
+        position: absolute;
+        z-index: 0;
+        width: 90%;
+        height: 100%;
+        top:0px;
+        left: 5%;
+        opacity: 1;
+        .circle {
+          position: absolute;
+          top:0px;
+          left: 0px;
+          margin:0px auto;
+          background-color: $white;
+          border-radius: 50%;
+          opacity: 0;
+          &.one {
+            width: 80vw;
+            height: 80vw;
+            left: 0vw;
+            top: 0vw;
+            background-color: rgba(255,255,255,.2);
+            z-index: 1;
+          }
+          &.two {
+            left: 10vw;
+            top: 10vw;
+            width: 60vw;
+            height: 60vw;
+            background-color: rgba(255,255,255,.2);
+            z-index: 2;
+          }
+          &.three {
+            left: 20vw;
+            top: 20vw;
+            width: 40vw;
+            height: 40vw;
+            background-color: rgba(255,255,255,.2);
+            z-index: 3;
+          }
+        }
+      }
+
+      .image {
+        max-width: 70vw;
+        margin: 0px auto;
+      }
+
+      /*Ipad*/
+      @media only screen
+      and (min-device-width: 768px)
+      and (max-device-width: 1024px)
+      and (-webkit-min-device-pixel-ratio: 1) {
+        width: 50vw;
+        margin-left: auto;
+        margin-right: auto;
+        .circles {
+          width: calc( 50vw * 0.9);
+          position: absolute;
+          top:calc( 50vw * 0.05);
+          left:calc( 50vw * 0.05);
+          .circle {
+            &.one {
+              width: calc( 50vw * 0.8);
+              height: calc( 50vw * 0.8);
+              top:calc( 50vw * 0.1 / 2);
+              left:calc( 50vw * 0.1 / 2) ;
+              background-color: rgba(255,255,255,.2);
+              z-index: 1;
+            }
+            &.two {
+              width: calc( 50vw * 0.6);
+              height: calc( 50vw * 0.6);
+              top:calc( 50vw * 0.3 / 2);
+              left:calc( 50vw * 0.3 / 2);
+              background-color: rgba(255,255,255,.2);
+              z-index: 2;
+            }
+            &.three {
+              top:calc( 50vw * 0.5 / 2);
+              left:calc( 50vw * 0.5  / 2);
+              width: calc( 50vw * 0.4);
+              height: calc( 50vw * 0.4);
+              background-color: rgba(255,255,255,.2);
+              z-index: 3;
+            }
+          }
+        }
+      }
+      /*iPad 3, 4 and Pro 9.7*/
+      @media only screen
+      and (min-device-width: 768px)
+      and (max-device-width: 1024px)
+      and (-webkit-min-device-pixel-ratio: 2) {
+        width: 50vw;
+        margin-left: auto;
+        margin-right: auto;
+        .circles {
+          width: calc( 50vw * 0.9);
+          position: absolute;
+          top:calc( 50vw * 0.05);
+          left:calc( 50vw * 0.05);
+          .circle {
+            &.one {
+              width: calc( 50vw * 0.8);
+              height: calc( 50vw * 0.8);
+              top:calc( 50vw * 0.1 / 2);
+              left:calc( 50vw * 0.1 / 2) ;
+              background-color: rgba(255,255,255,.2);
+              z-index: 1;
+            }
+            &.two {
+              width: calc( 50vw * 0.6);
+              height: calc( 50vw * 0.6);
+              top:calc( 50vw * 0.3 / 2);
+              left:calc( 50vw * 0.3 / 2);
+              background-color: rgba(255,255,255,.2);
+              z-index: 2;
+            }
+            &.three {
+              top:calc( 50vw * 0.5 / 2);
+              left:calc( 50vw * 0.5  / 2);
+              width: calc( 50vw * 0.4);
+              height: calc( 50vw * 0.4);
+              background-color: rgba(255,255,255,.2);
+              z-index: 3;
+            }
+          }
+        }
+      }
+
+      /* ----------- iPad Pro 10.5" ----------- */
+      @media only screen
+      and (min-device-width: 834px)
+      and (max-device-width: 1112px)
+      and (-webkit-min-device-pixel-ratio: 2) {
+        width: 50vw;
+        margin-left: auto;
+        margin-right: auto;
+        .circles {
+          width: calc( 50vw * 0.9);
+          position: absolute;
+          top:calc( 50vw * 0.05);
+          left:calc( 50vw * 0.05);
+          .circle {
+            &.one {
+              width: calc( 50vw * 0.8);
+              height: calc( 50vw * 0.8);
+              top:calc( 50vw * 0.1 / 2);
+              left:calc( 50vw * 0.1 / 2) ;
+              background-color: rgba(255,255,255,.2);
+              z-index: 1;
+            }
+            &.two {
+              width: calc( 50vw * 0.6);
+              height: calc( 50vw * 0.6);
+              top:calc( 50vw * 0.3 / 2);
+              left:calc( 50vw * 0.3 / 2);
+              background-color: rgba(255,255,255,.2);
+              z-index: 2;
+            }
+            &.three {
+              top:calc( 50vw * 0.5 / 2);
+              left:calc( 50vw * 0.5  / 2);
+              width: calc( 50vw * 0.4);
+              height: calc( 50vw * 0.4);
+              background-color: rgba(255,255,255,.2);
+              z-index: 3;
+            }
+          }
+        }
+      }
+      /* ----------- iPad Pro 12.9" ----------- */
+      @media only screen
+      and (min-device-width: 1024px)
+      and (max-device-width: 1366px)
+      and (-webkit-min-device-pixel-ratio: 2) {
+        width: 50vw;
+        margin-left: auto;
+        margin-right: auto;
+        .circles {
+          width: calc( 50vw * 0.9);
+          position: absolute;
+          top:calc( 50vw * 0.05);
+          left:calc( 50vw * 0.05);
+          .circle {
+            &.one {
+              width: calc( 50vw * 0.8);
+              height: calc( 50vw * 0.8);
+              top:calc( 50vw * 0.1 / 2);
+              left:calc( 50vw * 0.1 / 2) ;
+              background-color: rgba(255,255,255,.2);
+              z-index: 1;
+            }
+            &.two {
+              width: calc( 50vw * 0.6);
+              height: calc( 50vw * 0.6);
+              top:calc( 50vw * 0.3 / 2);
+              left:calc( 50vw * 0.3 / 2);
+              background-color: rgba(255,255,255,.2);
+              z-index: 2;
+            }
+            &.three {
+              top:calc( 50vw * 0.5 / 2);
+              left:calc( 50vw * 0.5  / 2);
+              width: calc( 50vw * 0.4);
+              height: calc( 50vw * 0.4);
+              background-color: rgba(255,255,255,.2);
+              z-index: 3;
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  div.body .items_list.programs {
+    padding-bottom: 2em;
+  }
+  div.body .home_section {
+    margin: 0px 18px;
+    &.last_section {
+      padding-bottom: 20vh;
+    }
+  }
+  &.ipfix {
+    div.header {
+      overflow: visible;
+      padding-bottom: 0px;
+      &:before {
+        min-height: 70vh;
+      }
+    }
+  }
+
+  .onboarding__home {
+    width: 100%;
+    padding: 30px 18px;
+    margin: 0px;
+    border-top:3px solid $programProgressBar;
+    @include onboardingHomeGradient();
+    color:$white;
+    padding-bottom: 20vh;
+    overflow: hidden;
+    .titleText {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 23px;
+      display: flex;
+      align-items: center;
+      span {
+        margin-right: 6px;
+      }
+    }
+    .onboarding__action {
+      width: 100%;
+      max-width: 100%;
+      margin-top:18px;
+      margin-bottom: 18px;
+      color:$text-color-primary;
+      background-color: $white;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 24px;
+      padding: 19px 19px !important;
+      border-radius: 8px;
+      height: unset !important;
+      .v-btn__content {
+        text-transform: none;
+        color:$text-color-primary;
+      }
+    }
+    .onboarding_checks {
+      margin-left: 12px;
+      margin-top: 12px;
+      .row {
+        align-items: center;
+      }
+      .row div {
+        @include fontFamilyBase();
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 120%;
+        &:last-child {
+          margin-left: 4px;
+        }
+
+      }
+      span.checks.v-icon {
+        width: 15px;
+      }
+    }
+  }
+
+
+  .skeletonloader {
+    .section_title {
+      @include skeletonLoaderMixin(90);
+      border-radius: 30px;
+      text-indent: -9999px;
+      max-width: 50vw;
+      background-size: 400% 400%;
+      animation: skeletonCard 10s ease infinite;
+    }
+    .v-card.exercisecard.v2 {
+      @include skeletonLoaderMixin(68.73);
+      background-size: 400% 400%;
+      border-radius: 10px;
+      animation: skeletonCard 10s ease infinite;
+
+    }
+  }
+}
+
+.voicemed-app {
+  .fullPageCard.indexPage {
+    background: $pink-color;
+    div.header {
+      color:$almostblack;
+      &:before {
+        display: none;
+      }
+      .titleText,.super_titleText {
+        color:$almostblack;
+      }
+      div.userwlecome .v-btn.bellicon .v-avatar {
+        background: $text-color-secondary;
+      }
+    }
+    div.header div.userwlecome .v-btn.profile .v-avatar .v-icon,
+    div.header div.userwlecome .v-btn.v-btn--disabled.profile .v-avatar .v-icon {
+      background-color: $text-color-primary;
+    }
+
+  }
+}
+.v-bottom-sheet.v-dialog.error-bottom-sheet {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  overflow: hidden;
+}
+
+@keyframes changeOpacity {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes skeletonCard {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+

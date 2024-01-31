@@ -1,0 +1,404 @@
+.fullPageCard.programPage {
+  padding: 0px;
+
+  div.header {
+    display: block;
+    height: fit-content;
+    background: none;
+    color: $white;
+    align-items: self-start;
+    flex-grow: unset;
+
+    & > div {
+      width: 100%;
+    }
+    .leaveTopBtn {
+      position: absolute;
+      top:12px;
+      left:12px;
+      text-transform: none;
+      background-color: $white;
+      border-color: $countDownColor;
+      .v-btn__content {
+        color:$countDownColor;
+        font-size: 12px;
+        letter-spacing: normal;
+      }
+      .mdi:before {
+        font: normal normal normal 16px/1 "Material Design Icons" !important;
+      }
+    }
+  }
+
+  div.body {
+    height: calc(100vh - (20vh + 130px));
+    overflow: hidden;
+    background: $white;
+    border-radius: 22px 22px 0px 0px;
+    margin-top: -16px;
+    z-index: 1;
+    align-items: flex-start;
+
+    .program_page {
+      padding: 16px;
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      overflow-x: hidden;
+      padding-top: 0px;
+      position: relative;
+    }
+
+    .programIntro {
+      padding: 16px 0px 16px 0px;
+      margin: 0px;
+      top: 16px;
+      z-index: 2;
+      background-color: $white;
+      margin-bottom: 1em;
+
+      &:before {
+        position: absolute;
+        top: -16px;
+        content: ' ';
+        left: 0px;
+        right: 0px;
+        height: 16px;
+        background-color: $white;
+      }
+
+      position: sticky;
+
+      .ptitle {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 35px;
+        @media screen and (max-device-height: $breakSizeSmallDevice) {
+          font-size: 26px;
+          line-height: 25px;
+        }
+        font-family: $font-family-roboto;
+        color: $black;
+      }
+
+      .certifications {
+        display: flex;
+        align-items: center;
+
+        & > .v-icon:first-child {
+          margin-right: 8px;
+
+          svg {
+            height: 15px;
+          }
+        }
+
+        svg {
+          height: 19px;
+        }
+      }
+    }
+
+    .alertBox {
+      margin: 10px 12px 20px 12px;
+      padding-top: 20px;
+
+      .row {
+        background: rgba(86, 172, 221, 0.2);
+        border-radius: 10px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        height: max-content;
+        padding: 8px 26px 8px 26px;
+      }
+
+      div {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 21px;
+        color: $text-color-secondary;
+        font-family: $font-family-roboto;
+      }
+
+      .v-icon {
+        width: 36px;
+        color: $warning;
+        margin-right: 16px;
+      }
+
+      svg {
+        width: 36px;
+        color: $warning;
+
+        & * {
+          color: $warning;
+        }
+      }
+    }
+    .tutorial__medicalrisks {
+      margin-top: 0;
+      margin-bottom: .5em;
+      background: rgba(86, 172, 221, 0.2);
+      border-radius: 10px;
+      padding: 8px 14px 8px 14px;
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      justify-content: center;
+      .v-icon {
+        color: $riskIconColor;
+        font-size: 12px;
+        &.warn {
+          color:$warning;
+          fill: $warning;
+          font-size: 18px;
+          svg {
+            height: 18px;
+          }
+        }
+      }
+
+      .tutorial__medicalrisks__content {
+        padding-left: 1em;
+        flex-grow: 1;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 17px;
+        @include fontFamilyBase();
+        color: $text-color-secondary;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    .exandablePanel {
+      margin-top: 16px;
+      margin-bottom: 16px;
+      text-align: center;
+
+      .textPanel {
+        text-align: initial;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 22px;
+        font-family: $font-family-roboto;
+        color: $text-color-secondary;
+        transition: max-height ease-out 500ms;
+        max-height: 150px;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+          content: ' ';
+          transition: opacity linear 200ms, height linear 200ms;
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          height: 30px;
+          background: rgb(255, 255, 255);
+          background: -moz-linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+          background: -webkit-linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
+        }
+
+        &.opened {
+          max-height: var(--max-height);
+          transition: max-height ease-in 500ms;
+
+          &:after {
+            height: 0;
+            opacity: 0;
+          }
+        }
+      }
+
+      .v-btn {
+        margin: 0px auto;
+        color: $text-color-secondary;
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    .exercisesList {
+      margin-top: 30px;
+
+      .exercisesList__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 23px;
+        font-family: $font-family-roboto;
+        color: $black;
+
+        span {
+          color: $text-color-primary;
+        }
+      }
+
+      .v-list {
+        margin: 0px -14px 0px;
+
+        .v-list-item {
+          padding-left: 8px;
+        }
+      }
+
+      .exercisesList__item {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-items: flex-start;
+        margin-bottom: 16px;
+        width: 100%;
+
+        .item_status {
+          flex: 1;
+          width: 32px;
+          min-width: 32px;
+          max-width: 32px;
+          margin-right: 8px;
+          display: flex;
+          flex-flow: column;
+          justify-content: space-between;
+          align-content: center;
+          align-items: center;
+          align-self: stretch;
+
+          .item_status__before, .item_status__after {
+            width: 2px;
+            background-color: $whitesecondart;
+            height: 10px;
+
+            &.alpha {
+              opacity: 0;
+            }
+          }
+
+          .item_status__circle {
+            border: 2px solid $whitesecondart;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+
+            .v-icon {
+              opacity: 0;
+              color: $white;
+              font-size: 8px;
+            }
+
+            &.done {
+              background-color: $text-color-primary;
+              color: $white;
+
+              .v-icon {
+                opacity: 1;
+
+                &.mdi:before {
+                  font: normal normal normal 12px/1 "Material Design Icons" !important;
+                  color: $white;
+                  position: absolute;
+
+                  top: -9px;
+                  @media screen and (max-device-height: $breakSizeSmallDevice) {
+                    top: unset;
+                  }
+                }
+              }
+            }
+
+          }
+        }
+
+        .exercisecard {
+          flex-grow: 1;
+          opacity: 0.5;
+
+          .v-list-item__content {
+            max-width: calc(51vw + 40px);
+            padding-left: 8px;
+          }
+
+          &.done_exercise {
+            opacity: 0.5 !important;
+
+            .v-list-item__action {
+              opacity: 0;
+            }
+          }
+
+          &:not(.next) {
+            .v-list-item__action {
+              opacity: 0;
+            }
+          }
+
+          &.next {
+            opacity: 1;
+            border: 1px solid $text-color-primary;
+          }
+        }
+      }
+    }
+  }
+
+  div.footer {
+    height: 130px;
+    background: $white;
+    position: relative;
+    padding: 0px 16px;
+
+    &:before {
+      position: absolute;
+      top: -30px;
+      left: 0px;
+      right: 0px;
+      z-index: 3;
+      content: ' ';
+      height: 30px;
+      background: rgb(255, 255, 255);
+      background: -moz-linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+      background: -webkit-linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
+    }
+
+    .nextvm {
+      .v-icon, svg, svg *, .v-btn__loader, .v-btn__loader svg {
+        color: $white;
+      }
+
+      svg {
+        width: 14px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+
+  &.fixedHeader {
+    @include fixedHeaderParallax();
+
+    div.footer {
+      position: sticky;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      z-index: 100;
+    }
+  }
+}

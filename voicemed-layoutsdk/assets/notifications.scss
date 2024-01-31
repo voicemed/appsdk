@@ -1,0 +1,144 @@
+.notification_settings {
+  .content__title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 110.9%;
+    text-align: center;
+
+    .v-image {
+      margin-top: .5em;
+      max-width: 15vw;
+      margin: .5em auto;
+    }
+
+    p {
+      padding-top: .5em;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 130%;
+      text-align: center;
+      color: $text-color;
+    }
+  }
+
+  .content__body {
+    max-width: calc(100vw - 32px);
+    .v-list-item__action {
+      align-self: start;
+    }
+    .v-list-item__avatar {
+      border-radius: 0px;
+      align-self: start;
+      .v-icon,svg {
+        max-width: 24px;
+        max-height: 24px;
+      }
+    }
+    .v-list-item__content {
+      @include fontFamilyBase();
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 110.9%;
+      color: $text-color;
+      text-align: left;
+
+      div {
+        white-space: normal;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 22px;
+      }
+    }
+
+    .baseTimes {
+      margin: 22px -16px;
+      display: flex;
+      flex-flow: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      div.timeoption {
+        width: 33vw;
+        height: 33vw;
+        margin: 0px 8px 16px 8px;
+        background: $time-option-background;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        flex-flow: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        @include fontFamilyBase();
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 110.9%;
+        color: $text-color;
+        transition: background-color linear 300ms;
+        div {
+          width: 100%;
+        }
+        span {
+          width: 100%;
+          display: block;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 110.9%;
+          margin-top: 6px;
+        }
+
+        &.enabled {
+          &.t0730 {
+            background: $time-option-background_730;
+          }
+
+          &.t1230 {
+            background: $time-option-background_1230;
+          }
+
+          &.t1630 {
+            /*background: #D7A9F4;*/
+            background: $time-option-background_1630;
+          }
+
+          &.t2030 {
+            background: $time-option-background_2030;
+          }
+          &.tCustom {
+            background: $time-option-background_2030;
+          }
+        }
+      }
+    }
+
+    .custom_time {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 110.9%;
+      color: $text-color-primary;
+      .v-btn {
+        width: auto;
+        margin-top: 8px;
+        background: $time-option-background;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        text-transform: none;
+      }
+    }
+    .clear_all {
+      margin-top: 16px;
+      .v-btn {
+        background: none;
+        box-shadow: none;
+        text-transform: none;
+      }
+    }
+  }
+}

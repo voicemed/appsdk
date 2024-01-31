@@ -9,13 +9,32 @@
 /* Begin PBXBuildFile section */
 		03FC29A292ACC40490383A1F /* Pods_Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */; };
 		20C0B05DCFC8E3958A738AF2 /* Pods_PluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */; };
-		2F98D68224C9AAE500613A4C /* Voicemed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* Voicemed.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
 		50ADFF97201F53D600D50D53 /* VoicemedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* VoicemedTests.swift */; };
 		50ADFF99201F53D600D50D53 /* VoicemedPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* VoicemedPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* VoicemedPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* VoicemedPlugin.m */; };
 		50E1A94820377CB70090CE1A /* VoicemedPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* VoicemedPlugin.swift */; };
+		EA5205192B696B2300BF7971 /* swiped-events.min.js in Resources */ = {isa = PBXBuildFile; fileRef = EA5205152B696B2300BF7971 /* swiped-events.min.js */; };
+		EA52051A2B696B2300BF7971 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = EA5205162B696B2300BF7971 /* favicon.ico */; };
+		EA52051B2B696B2300BF7971 /* 200.html in Resources */ = {isa = PBXBuildFile; fileRef = EA5205172B696B2300BF7971 /* 200.html */; };
+		EA52051C2B696B2300BF7971 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = EA5205182B696B2300BF7971 /* index.html */; };
+		EA52051E2B696B5200BF7971 /* ml-index in Resources */ = {isa = PBXBuildFile; fileRef = EA52051D2B696B5200BF7971 /* ml-index */; };
+		EA5205202B696B6A00BF7971 /* ml in Resources */ = {isa = PBXBuildFile; fileRef = EA52051F2B696B6A00BF7971 /* ml */; };
+		EA5205222B696B7E00BF7971 /* it in Resources */ = {isa = PBXBuildFile; fileRef = EA5205212B696B7E00BF7971 /* it */; };
+		EA5205242B696B8D00BF7971 /* images in Resources */ = {isa = PBXBuildFile; fileRef = EA5205232B696B8D00BF7971 /* images */; };
+		EA5205262B696B9A00BF7971 /* en in Resources */ = {isa = PBXBuildFile; fileRef = EA5205252B696B9A00BF7971 /* en */; };
+		EA5205282B696BEE00BF7971 /* _nuxt in Resources */ = {isa = PBXBuildFile; fileRef = EA5205272B696BEE00BF7971 /* _nuxt */; };
+		EAA86C0B2B68231F006F6803 /* RecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C012B68231E006F6803 /* RecordData.swift */; };
+		EAA86C0C2B68231F006F6803 /* PermissionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C022B68231E006F6803 /* PermissionData.swift */; };
+		EAA86C0D2B68231F006F6803 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C032B68231F006F6803 /* Preferences.swift */; };
+		EAA86C0E2B68231F006F6803 /* PermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C042B68231F006F6803 /* PermissionStatus.swift */; };
+		EAA86C0F2B68231F006F6803 /* PowerMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C052B68231F006F6803 /* PowerMeter.swift */; };
+		EAA86C102B68231F006F6803 /* ResponseGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C062B68231F006F6803 /* ResponseGenerator.swift */; };
+		EAA86C112B68231F006F6803 /* MeterTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C072B68231F006F6803 /* MeterTable.swift */; };
+		EAA86C122B68231F006F6803 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C082B68231F006F6803 /* Messages.swift */; };
+		EAA86C132B68231F006F6803 /* CurrentRecordingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C092B68231F006F6803 /* CurrentRecordingStatus.swift */; };
+		EAA86C142B68231F006F6803 /* CustomMediaRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA86C0A2B68231F006F6803 /* CustomMediaRecorder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F98D68124C9AAE400613A4C /* Voicemed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voicemed.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF8B201F53D600D50D53 /* VoicemedPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoicemedPlugin.h; sourceTree = "<group>"; };
@@ -43,6 +61,26 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA5205152B696B2300BF7971 /* swiped-events.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "swiped-events.min.js"; path = "assets-voicemed/swiped-events.min.js"; sourceTree = "<group>"; };
+		EA5205162B696B2300BF7971 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = favicon.ico; path = "assets-voicemed/favicon.ico"; sourceTree = "<group>"; };
+		EA5205172B696B2300BF7971 /* 200.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = 200.html; path = "assets-voicemed/200.html"; sourceTree = "<group>"; };
+		EA5205182B696B2300BF7971 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "assets-voicemed/index.html"; sourceTree = "<group>"; };
+		EA52051D2B696B5200BF7971 /* ml-index */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ml-index"; path = "assets-voicemed/ml-index"; sourceTree = "<group>"; };
+		EA52051F2B696B6A00BF7971 /* ml */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ml; path = "assets-voicemed/ml"; sourceTree = "<group>"; };
+		EA5205212B696B7E00BF7971 /* it */ = {isa = PBXFileReference; lastKnownFileType = folder; name = it; path = "assets-voicemed/it"; sourceTree = "<group>"; };
+		EA5205232B696B8D00BF7971 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = "assets-voicemed/images"; sourceTree = "<group>"; };
+		EA5205252B696B9A00BF7971 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = "assets-voicemed/en"; sourceTree = "<group>"; };
+		EA5205272B696BEE00BF7971 /* _nuxt */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _nuxt; path = "assets-voicemed/_nuxt"; sourceTree = "<group>"; };
+		EAA86C012B68231E006F6803 /* RecordData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordData.swift; sourceTree = "<group>"; };
+		EAA86C022B68231E006F6803 /* PermissionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionData.swift; sourceTree = "<group>"; };
+		EAA86C032B68231F006F6803 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		EAA86C042B68231F006F6803 /* PermissionStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionStatus.swift; sourceTree = "<group>"; };
+		EAA86C052B68231F006F6803 /* PowerMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerMeter.swift; sourceTree = "<group>"; };
+		EAA86C062B68231F006F6803 /* ResponseGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseGenerator.swift; sourceTree = "<group>"; };
+		EAA86C072B68231F006F6803 /* MeterTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeterTable.swift; sourceTree = "<group>"; };
+		EAA86C082B68231F006F6803 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		EAA86C092B68231F006F6803 /* CurrentRecordingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentRecordingStatus.swift; sourceTree = "<group>"; };
+		EAA86C0A2B68231F006F6803 /* CustomMediaRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMediaRecorder.swift; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,8 +130,18 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				EA5205142B696B0800BF7971 /* assets-voicemed */,
+				EAA86C092B68231F006F6803 /* CurrentRecordingStatus.swift */,
+				EAA86C0A2B68231F006F6803 /* CustomMediaRecorder.swift */,
+				EAA86C082B68231F006F6803 /* Messages.swift */,
+				EAA86C072B68231F006F6803 /* MeterTable.swift */,
+				EAA86C022B68231E006F6803 /* PermissionData.swift */,
+				EAA86C042B68231F006F6803 /* PermissionStatus.swift */,
+				EAA86C052B68231F006F6803 /* PowerMeter.swift */,
+				EAA86C032B68231F006F6803 /* Preferences.swift */,
+				EAA86C012B68231E006F6803 /* RecordData.swift */,
+				EAA86C062B68231F006F6803 /* ResponseGenerator.swift */,
 				50E1A94720377CB70090CE1A /* VoicemedPlugin.swift */,
-				2F98D68124C9AAE400613A4C /* Voicemed.swift */,
 				50ADFF8B201F53D600D50D53 /* VoicemedPlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* VoicemedPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
@@ -129,6 +177,23 @@
 				F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA5205142B696B0800BF7971 /* assets-voicemed */ = {
+			isa = PBXGroup;
+			children = (
+				EA5205272B696BEE00BF7971 /* _nuxt */,
+				EA5205252B696B9A00BF7971 /* en */,
+				EA5205232B696B8D00BF7971 /* images */,
+				EA5205212B696B7E00BF7971 /* it */,
+				EA52051F2B696B6A00BF7971 /* ml */,
+				EA52051D2B696B5200BF7971 /* ml-index */,
+				EA5205172B696B2300BF7971 /* 200.html */,
+				EA5205162B696B2300BF7971 /* favicon.ico */,
+				EA5205182B696B2300BF7971 /* index.html */,
+				EA5205152B696B2300BF7971 /* swiped-events.min.js */,
+			);
+			name = "assets-voicemed";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +295,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA52051B2B696B2300BF7971 /* 200.html in Resources */,
+				EA52051C2B696B2300BF7971 /* index.html in Resources */,
+				EA52051E2B696B5200BF7971 /* ml-index in Resources */,
+				EA52051A2B696B2300BF7971 /* favicon.ico in Resources */,
+				EA5205262B696B9A00BF7971 /* en in Resources */,
+				EA5205242B696B8D00BF7971 /* images in Resources */,
+				EA5205222B696B7E00BF7971 /* it in Resources */,
+				EA5205282B696BEE00BF7971 /* _nuxt in Resources */,
+				EA5205192B696B2300BF7971 /* swiped-events.min.js in Resources */,
+				EA5205202B696B6A00BF7971 /* ml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,8 +381,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAA86C142B68231F006F6803 /* CustomMediaRecorder.swift in Sources */,
+				EAA86C0B2B68231F006F6803 /* RecordData.swift in Sources */,
 				50E1A94820377CB70090CE1A /* VoicemedPlugin.swift in Sources */,
-				2F98D68224C9AAE500613A4C /* Voicemed.swift in Sources */,
+				EAA86C0E2B68231F006F6803 /* PermissionStatus.swift in Sources */,
+				EAA86C0D2B68231F006F6803 /* Preferences.swift in Sources */,
+				EAA86C0C2B68231F006F6803 /* PermissionData.swift in Sources */,
+				EAA86C0F2B68231F006F6803 /* PowerMeter.swift in Sources */,
+				EAA86C122B68231F006F6803 /* Messages.swift in Sources */,
+				EAA86C132B68231F006F6803 /* CurrentRecordingStatus.swift in Sources */,
+				EAA86C112B68231F006F6803 /* MeterTable.swift in Sources */,
+				EAA86C102B68231F006F6803 /* ResponseGenerator.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* VoicemedPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

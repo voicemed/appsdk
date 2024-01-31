@@ -1,0 +1,155 @@
+.tutorials {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+
+  .tutorial_mask {
+    position: absolute;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+  }
+
+  .tutorial_dialog {
+    position: absolute;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+
+    .tutorial_card {
+      background: $white;
+      filter: drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.55));
+      width: 75vw;
+      height: 180px;
+      padding: 8px 0px;
+      position: relative;
+      &.bottomArrow:after {
+        content:'';
+        position: absolute;
+        left: -25%;
+        right: 0;
+        margin: 0 auto;
+        width: 0;
+        height: 0;
+        bottom: -8px;
+        border-top: 8px solid $white;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        z-index: 102;
+      }
+      &.topArrow:after {
+        content:'';
+        position: absolute;
+        left: calc(100% - 47px);
+        right: 0;
+        margin: 0 auto;
+        width: 0;
+        height: 0;
+        top: -8px;
+        border-bottom: 8px solid $white;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        z-index: 102;
+      }
+
+
+      .tutorial__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--viola-airlyn, $purple-color);
+
+        h3 {
+          @include fontFamilyBase();
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 130%; /* 18.2px */
+
+          margin-left: 16px;
+        }
+
+        .v-btn {
+          .mdi:before, .mdi-set {
+            font: normal normal normal 16px/1 "Material Design Icons" !important;
+            color: var(--viola-airlyn, $purple-color);
+          }
+        }
+      }
+
+      .tutorial__body {
+        color: var(--testi-secondari, $text-color-secondary);
+        @include fontFamilyBase();
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 130%;
+        margin: 0px 16px;
+        padding-bottom: 16px;
+
+      }
+
+      .tutorial__footer {
+        left: 16px;
+        right: 16px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(81, 85, 112, 0.20);
+        position: absolute;
+        bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+      }
+
+      .tutorial__btn {
+        border-radius: 4px;
+        @include tutorialBtnBackground();
+        box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.15);
+        @include fontFamilyBase();
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px; /* 150% */
+        text-transform: none;
+        margin-left: 18px;
+        color:$white;
+        .v-btn__content {
+
+        }
+      }
+      .tutorial_step {
+        color: rgba(81, 85, 112, 0.50);
+        @include fontFamilyBase();
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 130%; /* 15.6px */
+      }
+    }
+  }
+}
+
+.v-application.voicemed-app {
+  .tutorial_info .tutorial__header {
+    background: $pink-color;
+    .header_cycles {
+      color:$almostblack;
+      i:before {
+        color:$almostblack;
+      }
+    }
+    .step_image .v-image {
+      filter:brightness(0);
+    }
+    .step_title, .step_time {
+      color:$almostblack;
+    }
+  }
+  .tutorial_info .tutorial__body .tutorial__medicalrisks {
+    background-color: $pink-color;
+  }
+}

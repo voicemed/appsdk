@@ -1,0 +1,12 @@
+@import "variables_clean";
+.chkeditor__content {
+  @import "../node_modules/vuetify/src/styles/generic/_reset.scss";
+  font-size: 16px;
+  @include fontFamilyBase();
+
+  line-height: 1.5;
+  p {
+    margin:1em 0;
+  }
+  @include dynamicTextsBasis();
+}

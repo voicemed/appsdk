@@ -1,0 +1,80 @@
+.fullPageCard.withpage {
+  &.mediaexercise_step_0 {
+    padding-top:0px !important;
+    padding-bottom:0px !important;
+  }
+  .tutorial__header {
+    min-height: 35vh;
+    background:$text-color-primary;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+
+    @include programIconHolder(34vw, 34vw);
+    .icon_holder {
+      margin-top:-4vh;
+      &.audio {
+        background: url("~/assets/icons/ico_audio.svg") center center no-repeat;
+      }
+      &.video {
+        background: url("~/assets/icons/ico_video.svg") center center no-repeat;
+      }
+    }
+  }
+
+  &.videoExercise {
+    .tutorial__header {
+      background: $exercisesVideo;
+    }
+  }
+
+  div.footer .steps {
+    background: $white;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 100;
+    height: 15vh;
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+}
+
+
+a.download_audio_btn {
+  display: inline-block;
+  margin: 0px;
+  padding: 22px 22px;
+  @include fontFamilyBase;
+  color: $white !important;
+  @include buttonGradientNext;
+  @include btnShadow();
+  border-radius: 8px;
+  text-transform: none;
+  height: 68px;
+  text-decoration: none;
+  transition: opacity linear 300ms;
+  &.hidden {
+    opacity: 0;
+  }
+  .mdi:before, .mdi-set {
+    color:$white !important;
+  }
+}
+
+div.completition_downloadcontainer {
+  position: absolute;
+  z-index: 9999;
+  bottom: -68px;
+  left:0px;
+  right:0px;
+}
+
+div.withdownload_audio {
+  padding-bottom: 20px;
+}

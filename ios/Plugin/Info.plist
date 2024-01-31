@@ -20,5 +20,14 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Voicemed requires access to your microphone to record your breath exercises</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Voicemed requires access your photolibrary to allow Avatar change feature</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Voicemed requires access to your photo to attach pictures during the breath exercises</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+
 </dict>
 </plist>

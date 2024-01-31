@@ -1,0 +1,2928 @@
+body, html, .v-application {
+  background-color: transparent;
+
+  &.ready {
+    background-color: $white;
+  }
+
+  .v-sheet.v-alert.labelError.error {
+    box-shadow: none;
+    background-color: transparent !important;
+    color: $error;
+    border-color: transparent !important;
+    @include fontFamilyBase();
+    font-size: 1.3em;
+  }
+}
+
+.opening {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: $white;
+
+  .logo_overlay {
+    position: absolute;
+    z-index: 10;
+    left: 0px;
+    right: 0px;
+    top: 100%;
+    bottom: -100%;
+    background: $white;
+  }
+}
+
+@supports (padding:max(0px)) {
+  body {
+    padding-left: min(0vmin, env(safe-area-inset-left));
+    padding-right: min(0vmin, env(safe-area-inset-right));
+    font-size: 16px;
+    @media screen and (max-device-height: $breakSizeSmallDevice) {
+      font-size: 12px;
+    }
+  }
+}
+
+.mainBottom {
+  &.v-item-group.v-bottom-navigation {
+    justify-content: space-around;
+    padding: 0px 16px;
+    .v-btn {
+      margin: 0px .5em;
+      max-width: calc( ( 100vw - 64px) / 3 );
+      min-width: calc( ( 100vw - 64px) / 3 );
+
+      .v-icon svg {
+        stroke: currentColor !important;
+      }
+    }
+  }
+}
+
+.v-application .colorsecondary--text {
+  color: $text-color-primary !important;
+  caret-color: $text-color-primary !important;
+}
+
+.v-application {
+  .v-overlay {
+    .v-overlay__scrim {
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    &.v-overlay--active {
+      .v-overlay__scrim {
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  .v-dialog, .v-dialog__content {
+    border-radius: 18px;
+  }
+
+  .v-card {
+    @include noShadow();
+
+    .v-card__text {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 23px;
+      font-family: $font-family;
+      margin: 0px;
+      text-align: center;
+    }
+
+    .v-card__actions {
+      display: flex;
+      flex-direction: column;
+      margin: 12px 0px 0px 0px;
+      border-bottom: 0px solid $white;
+    }
+
+    .v-btn {
+      text-transform: none;
+      margin-bottom: 16px;
+    }
+  }
+
+}
+
+.v-bottom-navigation {
+  height: 108px;
+  border-top: 0.852273px solid $greyTertiary;
+  z-index: 199 !important;
+
+  .v-btn {
+    .v-btn__content {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 14px;
+      text-align: center;
+      font-family: $font-family;
+      @include bottomNormal();
+
+      span {
+        display: block;
+        margin-top: 9px;
+      }
+    }
+
+    &.v-btn--active {
+      &:before, &:hover:before {
+        opacity: 0;
+      }
+
+      .v-btn__content {
+        @include bottomActive();
+      }
+    }
+  }
+
+
+}
+
+
+.fill-width {
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
+#__nuxt, #__layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  #__layout {
+    flex: 1;
+
+    & > .v-application {
+      flex: 1;
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+.v-application--wrap {
+  min-height: 0vh !important;
+}
+
+.titleText {
+  @include fontFamilyBase;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.descriptionText {
+  @include fontFamilyBase;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.v-application {
+  @include fontFamilyBase;
+}
+
+.mdi:before, .mdi-set {
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons" !important;
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.v-btn.nextvm,
+.v-btn.leavevm,
+.v-btn.leavevm--text,
+.v-btn.backvm,
+.v-btn.backvm--text {
+  width: 36vw;
+  max-width: 300px;
+  flex-grow: 1;
+
+  &.openbrowser--text {
+    max-width: 80%;
+    width: fit-content;
+  }
+
+  &.nextController {
+    padding-right: calc(22px - .5em) !important;
+  }
+}
+
+.v-application {
+  .forgotsuccess {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 140%;
+    text-align: center;
+    color: $white;
+    @include fontFamilyBase();
+  }
+
+  .loginPage, .signinPage {
+    .mainLogo {
+      display: block;
+      margin: 0px auto;
+      margin-bottom: 5vh;
+      @media screen and (max-device-height: $breakSizeSmallDevice) {
+        margin-bottom: 1vh;
+      }
+      transition: height ease-in-out 300ms, width ease-in-out 300ms;
+    }
+
+    .stepTitle {
+      transition: opacity linear 300ms;
+    }
+  }
+
+  .loginPage {
+
+
+    .body {
+      flex-direction: column;
+      @media screen and (max-device-height: $breakSizeSmallDevice) {
+        justify-content: flex-start !important;
+      }
+    }
+
+    .v-carousel, .v-carousel__item {
+      min-height: 30vh !important;
+      height: unset !important;
+      max-height: fit-content;
+      @media screen and (min-device-height: $breakSizeSmallDeviceUp) {
+        max-height: 35vh;
+      }
+    }
+
+    //@include homeGradientPrimary();
+    background-color: $white;
+    transition: background-color linear 300ms;
+
+    &.navpages.fullPageCard {
+      margin-bottom: 0px !important;
+    }
+
+    .v-carousel__item {
+      .theme--light.v-sheet {
+        background-color: transparent;
+        border-width: 0px;
+        color: $almostblack;
+
+        .row {
+          marging-left: -12px;
+          marging-right: -12px;
+          margin-top: auto;
+          margin-bottom: auto;
+          flex-direction: column;
+        }
+
+        .text-h3 {
+          color: $almostblack;
+          @include fontFamilyBase();
+          font-style: normal;
+          font-weight: 700;
+          font-size: 26px !important;
+          line-height: 29px;
+          margin-bottom: 10px;
+          padding:0px 8px;
+        }
+
+        p {
+          color: $almostblack;
+          font-family: $font-family;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 24px;
+          margin-bottom: 2px;
+          padding: 0px 14px;
+        }
+      }
+    }
+
+    .v-carousel__controls {
+      background: transparent;
+      height: 12px;
+      align-items: center;
+
+      .v-carousel__controls__item.v-btn--icon.v-size--small {
+        width: 9px;
+        height: 9px;
+        margin-bottom: 0px;
+
+        .v-btn__content {
+          color: $dirtyWhiteDarken;
+        }
+
+        &.v-btn--active {
+          color: $white;
+
+          .v-btn__content {
+            color: $white;
+          }
+        }
+
+        .v-icon {
+          width: 9px;
+          height: 9px;
+          font-size: 9px !important;
+
+          &.mdi:before {
+            font: normal normal normal 9px/1 "Material Design Icons" !important;
+          }
+        }
+      }
+    }
+
+    .v-btn {
+      /*margin-bottom: 29px;*/
+      font-family: $font-family;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      @include noShadow();
+      text-transform: none;
+
+      &:not(.v-btn--outlined),
+      &:not(.v-btn--text) {
+        background: $white;
+        border-radius: 8px;
+        color: $almostblack;
+      }
+
+      &.v-btn--is-elevated {
+        @include btnShadow();
+      }
+
+      &.v-btn--outlined {
+        background: transparent;
+        border-color: $white;
+        color: $white;
+        @include btnShadow();
+      }
+
+      &.v-btn--text {
+        background: none;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: $white;
+      }
+
+
+      &:not(.v-btn--round).v-size--default {
+        height: 60px;
+        @media screen and (min-device-height: $breakSizeSmallDeviceUp) {
+          height: 70px;
+        }
+      }
+    }
+
+    .loginActions {
+      height: 100%;
+      padding: 0px 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      .v-btn:last-child {
+        margin-bottom: 0px;
+      }
+      &.voicemed {
+        .v-btn.v-btn--outlined {
+          color:$text-color-primary;
+          border-color: $text-color-primary;
+        }
+      }
+    }
+
+    div.footer {
+      min-height: 35vh;
+      @media screen and (min-device-height: $breakSizeSmallDeviceUp) {
+        max-height: 265px;
+        min-height: 265px;
+      }
+    }
+  }
+
+  .onboarding__title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 40px;
+    color: $white;
+    font-family: $font-family;
+    text-align: left;
+
+    span {
+      color: $white;
+    }
+  }
+
+  .onboarding_page {
+    .stepTitle__container {
+      margin-bottom: 3em;
+    }
+
+    .text-h3 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px !important;
+      line-height: 33px;
+      @include fontFamilyBase();
+      color: $text-color;
+    }
+
+
+    p {
+      font-style: normal;
+      font-weight: 300;
+      font-size: 1.5em;
+      line-height: 24px;
+      color: $text-color-secondary;
+
+    }
+
+    .isforgot {
+      p {
+        font-size: 1.4em;
+      }
+    }
+
+    .v-input {
+      width: 100%;
+      margin-bottom: 1.37em;
+
+      &.v-text-field--outlined {
+        & .v-input__control > .v-input__slot {
+          align-items: stretch;
+          min-height: 73px;
+          @include btnShadow();
+
+          fieldset {
+            transition: linear background-color 300ms,
+            border-bottom-color linear 300ms,
+            border-left-color linear 300ms,
+            border-top-color linear 300ms,
+            border-right-color linear 300ms;
+            backgroundc-color: transparent;
+            border-color: $greyBase;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 4px;
+          }
+        }
+
+        &.v-input--is-focused .v-input__control > .v-input__slot {
+          fieldset {
+            border-color: $text-color-primary !important;
+          }
+        }
+
+
+        .v-label {
+          font-family: $font-family;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 41px;
+          color: rgba(61, 61, 61, 0.6);
+          height: fit-content;
+          top: 16px;
+        }
+
+        &.v-input--is-focused {
+          .v-label {
+            top: 8px;
+            color: $text-color-primary;
+          }
+        }
+
+        .v-input__append-inner {
+          margin-top: 25px;
+        }
+
+        .v-text-field__details {
+          height: 0px;
+          min-height: 0px;
+          margin-bottom: 0px;
+          overflow: hidden;
+        }
+
+        &.error--text {
+          margin-bottom: 8px;
+          color: $text-color !important;
+          caret-color: $text-color !important;
+
+          .v-text-field__details {
+            height: fit-content;
+            min-height: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .onboardingprocess {
+    transition: background-color linear 300ms;
+
+    div.header {
+      max-height: 10vh;
+      flex-grow: 0.3 !important;
+    }
+
+    div.body {
+      padding-top: 2em;
+    }
+
+    .percent {
+      font-size: 12px;
+      text-align: right;
+      font-weight: lighter;
+      color: $text-percent-color;
+      @include fontFamilyBase();
+    }
+
+    .v-progress-linear {
+
+    }
+
+    .text-h3 {
+
+    }
+
+    .v-btn.ashma {
+      width: 100%;
+      height: 72px;
+      margin-bottom: 18px;
+      transition: linear background-color 300ms,
+      border-bottom-color linear 300ms,
+      border-left-color linear 300ms,
+      border-top-color linear 300ms,
+      border-right-color linear 300ms;
+
+
+      .v-btn__content {
+        transition: linear color 300ms;
+        text-transform: none;
+        align-items: center;
+        justify-content: center;
+
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.3em;
+        font-family: $font-family;
+        color: $text-color;
+
+      }
+
+      &:hover::before {
+        opacity: 0;
+      }
+
+      &.selected {
+        @include buttonGradientAsthma();
+        border-color: $text-color-secondary !important;
+        border-style: solid;
+        border-width: 1px;
+
+        .v-btn__content {
+          font-weight: bold;
+          color: $white;
+        }
+      }
+    }
+
+    .privacy_checks {
+      margin: 0px 2em;
+
+      .v-input--selection-controls {
+
+        &.v-input--switch {
+          .v-input--selection-controls__input {
+            align-self: flex-start;
+            margin-top: 6px;
+          }
+
+          .v-input--selection-controls__ripple {
+            display: none;
+          }
+
+          .v-input--switch__track {
+            background-color: $white;
+            border: $text-color-primary solid 2px;
+            transition: opacity linear 300ms, background-color linear 300ms;
+          }
+
+          .v-input--switch__thumb {
+            background-color: $text-color-primary;
+          }
+
+          &.v-input--is-label-active {
+            .v-input--switch__track {
+              background-color: $text-color-primary;
+              border: $text-color-primary solid 2px;
+              opacity: 1;
+            }
+
+            .v-input--switch__thumb {
+              background-color: $white;
+            }
+          }
+        }
+
+        label {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 0.9em;
+          line-height: 24px;
+          font-family: $font-family;
+          left: 22px !important;
+
+        }
+
+        .v-icon {
+          font-size: 1.35em;
+
+
+          &.mdi:before {
+            font: normal normal normal 1.35em/1 "Material Design Icons" !important;
+            padding: 0px;
+            margin: 0px;
+            color: $white;
+            border: 1px solid $text-color-primary;
+            border-radius: 4px;
+            box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+          }
+
+          &.mdi.mdi-checkbox-marked:before, &.mdi.mdi-check:before {
+            color: $white;
+            background-color: $text-color-primary;
+
+          }
+
+          &.mdi.mdi-checkbox-blank-outline:before {
+            color: $white;
+
+          }
+
+        }
+      }
+    }
+
+    .confirm_code {
+      margin: 0px 0em;
+      text-align: center;
+
+      @include otpInput();
+
+      .v-btn.v-btn--text {
+        margin: 0px;
+        padding: 0px;
+
+        .v-btn__content {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: $text-color-primary;
+          text-transform: none;
+          text-decoration: underline;
+          white-space: normal;
+
+          span {
+            color: $text-color-primary;
+          }
+        }
+      }
+
+      .labelError {
+        margin-bottom: 1.2em !important;
+      }
+    }
+
+    .v-text-field__details {
+      .v-messages {
+        font-size: 14px;
+        color: $text-color !important;
+        caret-color: $text-color !important;
+        @include fontFamilyBase();
+
+        &.error-text {
+          font-weight: bold;
+          color: $text-color !important;
+          caret-color: $text-color !important;
+        }
+      }
+    }
+
+    .v-text-field__slot input {
+      font-size: 1.4em;
+    }
+
+
+  }
+
+  .onboarding_page {
+
+  }
+
+  .onboarding_login, .forgotWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    &.isforgot {
+      display: block;
+      height: 100%;
+
+      .forgotWrapper {
+        height: 100%;
+      }
+    }
+
+    .v-btn {
+      width: 100%;
+    }
+
+    .fakebtn,
+    .v-btn.v-btn--text,
+    .forgot.v-btn.v-btn--text {
+      margin: 0px;
+      padding: 0px;
+
+      &.v-btn--disabled {
+        opacity: 0.5;
+      }
+
+      .v-btn__content {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1em;
+        line-height: 24px;
+        letter-spacing: normal;
+        color: $text-percent-color;
+        text-transform: none;
+        white-space: normal;
+
+        span {
+          color: $text-percent-color;
+        }
+      }
+
+      &:not(.forgot) {
+        .v-btn__content {
+          font-size: .8em;
+        }
+      }
+    }
+    .fakebtn {
+      color: $text-percent-color;
+    }
+
+    @include otpInput();
+
+  }
+
+  .onboarding_1 {
+    &.fullPageCard {
+      padding: 5% 5%;
+    }
+
+    div.body {
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+
+      .row {
+        margin: 10px 0px;
+        color: $white;
+        flex-wrap: nowrap;
+
+        div {
+          font-family: $font-family;
+          color: $white;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 31px;
+
+          &.checks {
+            line-height: 0px;
+          }
+
+          img {
+            margin-right: 10px;
+          }
+
+        }
+      }
+    }
+  }
+
+  .onboarding_2 {
+    .v-text-field__slot input {
+      text-align: center;
+    }
+  }
+
+  .loginPage.navpages.forgot_3.fullPageCard {
+    color: $white;
+    margin-bottom: 15vh !important;
+
+    div.header {
+      display: none !important;
+    }
+
+    div.body {
+      height: calc(100vh - 15vh);
+      margin: 0px;
+      padding: 0px;
+      justify-content: center !important;
+    }
+  }
+
+  .pager.forgot {
+    background-color: $white;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    height: 15vh !important;
+
+  }
+}
+
+a.backvm, button.backvm,
+a.backvm--text, button.backvm--text {
+  padding: 22px 22px;
+  @include fontFamilyBase;
+  color: $text-color;
+  background: transparent;
+  height: 68px;
+  text-transform: none;
+  border: 1px solid $greyBase;
+  @include btnShadow();
+  border-radius: 8px;
+
+  &.v-btn:not(.v-btn--round).v-size--default {
+    height: 68px;
+    color: $text-color;
+    padding: 22px 22px;
+  }
+
+  .v-btn__content {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+a.nextvm, button.nextvm {
+  padding: 22px 22px;
+  @include fontFamilyBase;
+  color: $white;
+  @include buttonGradientNext;
+  @include btnShadow();
+  border-radius: 8px;
+  text-transform: none;
+  height: 68px;
+
+  &.v-btn:not(.v-btn--round).v-size--default {
+    height: 68px;
+    color: $white;
+    padding: 22px 22px;
+  }
+
+  .v-btn__content {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+
+    span {
+      color: $white;
+    }
+  }
+
+  &.v-btn--disabled {
+    opacity: 0.6;
+  }
+
+  .v-btn__loader {
+    color: $white;
+
+    svg, svg * {
+      color: $white;
+    }
+  }
+
+  transition: opacity ease-in-out 300ms,
+  background-color ease-in-out 300ms;
+
+  &.pumpAnimation {
+    opacity: .5;
+    animation-name: pumpBtn;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+}
+
+a.leavevm--text, button.leavevm--text,
+a.leavevm, button.leavevm {
+  text-transform: none;
+  height: 68px !important;
+  padding: 22px 40px !important;
+  @include fontFamilyBase;
+  font-weight: bold !important;
+  color: $text-color;
+  border: 1px solid $greyBase;
+  @include btnShadow();
+  border-radius: 8px;
+
+  .v-btn__content span {
+    font-size: 20px;
+    line-height: 24px;
+    color: $text-color;
+  }
+}
+
+.mainApp {
+  overflow: hidden;
+  @include fontFamilyBase;
+
+  &.hasKeyboard {
+    div.header {
+      position: sticky;
+      top: -20px;
+
+      .mainLogo {
+        display: none;
+        max-width: 10vh !important;
+      }
+
+    }
+
+    .stepTitle {
+
+    }
+  }
+
+  small {
+    font-size: 80%;
+
+    &.v-icon.theme--light {
+      font-size: inherit;
+    }
+  }
+
+  .smalldescription {
+    font-size: 14px;
+    line-height: 14px;
+
+    .v-icon.v-icon,
+    &.v-icon.v-icon,
+    .v-icon.theme--light,
+    &.v-icon.theme--light {
+      font-size: 14px;
+
+      &.mdi:before, &.mdi-set {
+        font: normal normal normal 14px/1 "Material Design Icons" !important;
+      }
+    }
+
+  }
+
+  * {
+    @include fontFamilyBase;
+
+
+    &.v-icon.theme--light {
+      color: $text-color;
+    }
+
+  }
+
+
+  .v-main__wrap {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .fullPageCard {
+    flex: 1;
+    z-index: 5;
+    /*height: calc(#{$maxHeight} - 36px);*/
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    padding: 16px 16px;
+    flex-direction: column;
+
+    .exercise__title {
+      font-weight: 300;
+      font-size: 16px;
+      margin-bottom: 1em;
+      line-height: 22px;
+    }
+
+    .exercise__body {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+
+      img {
+        max-width: 70vw;
+      }
+    }
+
+    & > div.header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include fontFamilyBase;
+      font-weight: 700;
+      font-size: 32px;
+      text-align: center;
+      /*
+      max-height: 20%;
+      min-height: 20%;
+       */
+      flex-grow: 0.5;
+      line-height: 110.9%;
+
+      div.mintwoRows {
+        min-height: 110px;
+      }
+
+      div.standalone__title {
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 27px;
+        text-align: center;
+        font-family: $font-family;
+        color: $text-color-primary;
+      }
+
+    }
+
+    & > div.body {
+
+      display: flex;
+      flex-grow: 2;
+      justify-content: center;
+      align-items: center;
+
+      .cardtitle {
+        @include fontFamilyBase;
+        font-weight: 700;
+        font-size: 32px;
+      }
+    }
+
+    & > div.footer {
+
+      flex-grow: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /*
+      min-height: 100px;
+      max-height: 10%;
+       */
+      flex-grow: 0.5;
+    }
+
+    &.no-header {
+      padding: 0px;
+
+      & > div.header {
+        display: none;
+      }
+
+      & > div.body {
+        height: calc(100% - 10%);
+        padding: 0px;
+      }
+
+      & > div.footer {
+        padding: 32px;
+      }
+    }
+
+    &.no-footer {
+      /*height: calc(85vh - 36px);*/
+      padding-bottom: 0px;
+      max-height: 100vh;
+
+      & > div.footer {
+        display: none;
+      }
+    }
+
+    &.indexPage.no-footer, &.entries_container.no-footer {
+      max-height: max-content;
+    }
+
+    &.center-title {
+      & > div.header {
+        text-align: center;
+      }
+    }
+
+    &.standalone {
+      & > div.header {
+        min-height: 120px;
+        max-height: 120px;
+
+        .row.navigation {
+          margin: 40px 0px 40px;
+          @media screen and (max-device-height: $breakSizeSmallDevice) {
+            margin: 16px 0px 40px;
+          }
+
+          .exercise__title {
+            font-style: normal;
+            font-weight: 800;
+            font-size: 20px;
+            line-height: 35px;
+            text-align: center;
+            font-family: $font-family;
+            color: $text-color-primary;
+            margin-bottom: 0px;
+
+            span {
+              color: $text-color-primary;
+            }
+          }
+
+          .v-btn {
+            color: $text-color-primary;
+
+            .v-icon {
+              color: $text-color-primary;
+            }
+          }
+        }
+      }
+
+      & > div.body {
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  &.with__pager .navpages.fullPageCard {
+    margin-bottom: 15vh;
+
+    & > div.body {
+
+    }
+  }
+
+  &.with__bottom .navpages.fullPageCard {
+    margin-bottom: 108px;
+
+    & > div.body {
+
+    }
+  }
+
+  &.with__bottom.user-entries .navpages.fullPageCard,
+  &.with__bottom.home .navpages.fullPageCard,
+  &.with__bottom.index .navpages.fullPageCard,
+  &.with__bottom.settings .navpages.fullPageCard,
+  &.with__bottom.user-settings .navpages.fullPageCard {
+    &.standalone {
+      & > div.header {
+        min-height: 60px;
+        max-height: 60px;
+
+        .row.navigation {
+          margin: 40px 0px 20px;
+          @media screen and (max-device-height: $breakSizeSmallDevice) {
+            margin: 30px 0px 20px;
+          }
+
+          .exercise__title {
+            font-style: normal;
+            font-weight: 800;
+            font-size: 20px;
+            line-height: 35px;
+            text-align: center;
+            font-family: $font-family;
+            color: $text-color-primary;
+            margin-bottom: 0px;
+
+            span {
+              color: $text-color-primary;
+            }
+          }
+
+          .v-btn {
+            color: $text-color-primary;
+
+            .v-icon {
+              color: $text-color-primary;
+            }
+          }
+        }
+      }
+    }
+
+    .social {
+      padding: 20px 0px;
+      margin: 20px 0px;
+
+      .v-btn--icon, .v-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .spacer.spacer_middle {
+        flex-shrink: 1;
+        flex-grow: 0 !important;
+        min-width: 12px;
+      }
+
+      svg {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+
+  &.with__bottom.user-settings .navpages.fullPageCard {
+    margin-bottom: 15vh;
+  }
+
+  .pager {
+    z-index: 100;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: center;
+    transition: bottom ease-in-out 300ms;
+
+    &.moveOut {
+      bottom: -15vh;
+
+    }
+
+    &.pageTransition {
+      transition: opacity linear 300ms;
+    }
+
+    &.hidden {
+      opacity: 0;
+    }
+
+    .spacer {
+      max-width: 12px;
+      min-width: 8px;
+    }
+
+    &.signup_1 {
+      .backvm--text {
+        border-color: $white;
+
+        .v-btn__content span {
+          color: $white;
+        }
+      }
+
+      .nextvm {
+        background: $white;
+
+        .v-btn__content span {
+          color: $text-color-primary;
+        }
+
+      }
+    }
+
+    &[class*="signup"]:not(.signup_1) {
+      background-color: $white;
+    }
+
+    &.visible_btns_1 {
+      .v-btn.nextvm, .v-btn.leavevm, .v-btn.leavevm--text, .v-btn.backvm, .v-btn.backvm--text {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.errorDialog, .infoDialog, .customDialog {
+  background: $white;
+
+  span.infoContent {
+    display: block;
+    @include dynamicTextsBasis();
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+
+  &.infoprogram {
+    span.infoprogram, div.infoprogram {
+      text-align: initial;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 21px;
+      @include fontFamilyBase();
+    }
+
+    &.asthmap {
+      border-radius: 0px !important;
+
+      .fullPageCard {
+
+        .titleImage {
+          width: 100%;
+          max-width: 100%;
+          min-width: 100%;
+          height: auto;
+        }
+
+        margin-top: 0px !important;
+        padding: 0px 0px 32px !important;
+      }
+
+      .with__thumbInTitle {
+        margin: 0px !important;
+        padding: 0px !important;
+      }
+
+      .infodialog__title {
+        @include fontFamilyBase();
+        font-weight: 700 !important;
+        font-size: 24px !important;
+        line-height: 120% !important;
+        color: $text-color !important;
+        text-align: left !important;
+        padding: 0px 16px 0px;
+      }
+
+      div.body > .content {
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+        padding: 0px 16px 15vh !important;
+        @include fontFamilyBase();
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 150%;
+        color: $text-color !important;
+
+        b, strong {
+          font-weight: bold;
+        }
+      }
+
+      &.withdynamicTexts {
+        @include dynamicTextsBasis();
+      }
+    }
+  }
+
+  .fullPageCard {
+    z-index: 5;
+    height: $maxHeight;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    padding: 32px;
+    padding-bottom: 0px;
+    flex-direction: column;
+
+
+    & > div.header {
+      flex-shrink: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include fontFamilyBase;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 110.9%;
+
+      .with__thumbInTitle {
+        padding-top: 1em;
+
+        img {
+          margin-bottom: 1em;
+        }
+
+        .infodialog__title {
+          margin-bottom: .5em;
+        }
+      }
+
+      div.supertitle {
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 110.9%;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+
+      div {
+        display: block;
+        text-align: center;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 110.9%;
+        font-family: $font-family;
+        color: $text-color;
+      }
+    }
+
+    & > div.body {
+      display: flex;
+      flex-grow: 5;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    &:not(.error-dialog) > div.body {
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .content {
+        margin-top: 16px;
+        text-align: left !important;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        overflow-x: hidden;
+        padding-bottom: 15vh;
+      }
+    }
+
+    & > div.footer {
+      flex-shrink: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0px;
+      height: 111px;
+
+    }
+
+    &:not(.error-dialog) {
+      overflow: scroll;
+    }
+
+    &:not(.error-dialog) > div.footer {
+      position: fixed;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      background: $white;
+      padding: 0px 16px;
+
+      .nextvm {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    &.no-header {
+      padding: 0px;
+
+      & > div.header {
+        display: none;
+      }
+
+      & > div.body {
+        height: calc(100% - 10%);
+        padding: 0px;
+      }
+
+      & > div.footer {
+        padding: 32px;
+      }
+    }
+
+    &.no-footer {
+      height: calc(85vh - 36px);
+      padding-bottom: 0px;
+
+      & > div.footer {
+        display: none;
+      }
+    }
+
+    &.center-title {
+      & > div.header {
+        text-align: center;
+      }
+    }
+  }
+
+  .errorimage {
+    display: block;
+    max-width: 30vw;
+    margin: 0px auto;
+    margin-top: 3em;
+  }
+
+  .pager {
+    width: 100%;
+    display: flex;
+    padding: 0px 0px;
+    justify-content: center;
+    align-items: center;
+
+    &.multiple {
+      padding: 0px 0px;
+
+      .v-btn {
+        max-width: 40vw;
+        text-align: center;
+      }
+
+      .btncustomcontent {
+        width: min-content;
+      }
+
+      justify-content: space-between;
+    }
+  }
+
+  .btncustomcontent {
+    display: flex;
+    flex-flow: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    justify-items: center;
+
+    div {
+      width: fit-content;
+      white-space: break-spaces;
+      text-align: center;
+    }
+
+    @include fontFamilyBase;
+    color: $text-color;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &.medicalRisks {
+    .fullPageCard {
+      .infodialog__title {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.errorDialog {
+
+  .fullPageCard {
+    .header {
+      margin-top: 43px;
+      min-height: 120px;
+      align-items: flex-start;
+    }
+
+    & > div.body {
+      align-items: flex-start;
+      padding-top: 32px;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      text-align: center;
+      color: $text-color;
+
+      .errorimage {
+        margin-top: 5em;
+      }
+
+    }
+  }
+}
+
+.customDialog {
+  border-radius: 0px !important;
+
+  .closebtn {
+    width: 36px;
+    height: 36px;
+
+    &.v-btn--icon.v-size--default .v-icon, &.v-btn--fab.v-size--default .v-icon {
+      height: 36px;
+      font-size: 36px;
+      width: 36px;
+      color: $text-color-primary;
+
+      &:before {
+        font: normal normal normal 36px/1 "Material Design Icons" !important;
+      }
+    }
+  }
+
+  .fullPageCard.no-footer {
+    height: 100vh;
+    padding-top: 0px;
+  }
+
+  .fullPageCard > div.header {
+    padding-top: 32px;
+    padding-bottom: 32px;
+    justify-content: space-between;
+    position: sticky;
+    width: 100%;
+    background: $white;
+    top: 0px;
+  }
+
+  &.permissionPopup {
+    .fullPageCard {
+      height: 100vh;
+      padding: 0px 16px 16px;
+
+      & > div.header {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+
+        .row.navigation {
+          display: flex;
+          margin: 8px 0px 20px !important;
+
+          .exercise__title {
+            font-style: normal;
+            font-weight: 300;
+            font-size: 16px;
+            font-family: $font-family;
+            color: $text-color;
+            margin-bottom: 0px;
+            align-self: center;
+
+            span {
+              color: $text-color;
+            }
+          }
+
+          .v-btn {
+            color: $text-color-primary;
+
+            .v-icon {
+              color: $text-color-primary;
+
+              &:before {
+                font: normal normal normal 22px/1 "Material Design Icons" !important;
+              }
+            }
+          }
+        }
+      }
+
+      & > div.body .content {
+        color: $text-color;
+        @include fontFamilyBase();
+
+        .content__title {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 110.9%;
+          text-align: center;
+
+          .v-image {
+            max-width: 15vw;
+            margin: .5em auto;
+          }
+        }
+
+        .content__body {
+          .v-list-item {
+            padding: 0px;
+
+            .v-list-item__avatar {
+              align-self: flex-start;
+              border-radius: 0px;
+
+              .v-image {
+                width: 24px;
+                max-width: 24px;
+                max-height: 24px;
+                margin: 0px auto;
+              }
+            }
+
+            .v-list-item__content {
+              font-weight: 300;
+              font-size: 16px;
+              line-height: 22px;
+
+              b {
+                font-weight: 700;
+                font-size: 18px;
+                display: block;
+              }
+
+            }
+          }
+        }
+
+        .content__warning {
+          margin-top: 0;
+          margin-bottom: .5em;
+          background: rgba(86, 172, 221, 0.2);
+          border-radius: 10px;
+          padding: 8px 14px 8px 14px;
+          display: flex;
+          flex-flow: row;
+          align-items: center;
+          justify-content: center;
+
+          .v-icon {
+            color: $riskIconColor;
+            font-size: 12px;
+
+            &.warn {
+              color: $warning;
+              fill: $warning;
+              font-size: 18px;
+
+              svg {
+                height: 18px;
+              }
+            }
+          }
+
+          .tutorial__medicalrisks__content {
+            padding-left: 1em;
+            flex-grow: 1;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 21px;
+            @include fontFamilyBase();
+            color: $text-color-secondary;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-align: left;
+
+            b {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      & > div.footer {
+        width: 100%;
+        height: 15vh;
+        display: flex;
+        padding: 0px 16px;
+        justify-content: space-between;
+        align-items: center;
+
+        .v-btn {
+          min-width: 40%;
+          max-width: 50%;
+
+          &.nextvm.warning {
+            .v-btn__content {
+              display: flex;
+              flex-flow: row;
+
+              span {
+                display: block;
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* number of lines to show */
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                text-align: center;
+                white-space: normal;
+                font-size: 18px;
+                max-width: 60%;
+              }
+
+              i {
+                width: 24px;
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+}
+
+.bottomsheet {
+  color: $black;
+  font-family: $font-family;
+  background-color: $white;
+  min-height: 30vh;
+  padding: 28px 24px;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding-bottom: 32px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+
+  .actions {
+    margin-top: 24px;
+    width: 100%;
+    display: flex;
+    padding: 0px 0px;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 0px;
+
+    .v-btn {
+      max-width: 40vw;
+      text-align: center;
+    }
+
+    .btncustomcontent {
+      width: min-content;
+      display: flex;
+      flex-flow: row;
+      align-content: center;
+      align-items: center;
+      justify-content: space-between;
+      justify-items: center;
+
+      div:first-child {
+        font-size: 20px;
+        line-height: 24px;
+        color: $text-color;
+        font-weight: normal !important;
+        @include fontFamilyBase;
+      }
+
+      div {
+        width: fit-content;
+        white-space: break-spaces;
+        text-align: center;
+      }
+    }
+
+    justify-content: space-between;
+
+    &.vertical {
+      flex-flow: column;
+
+      .v-btn {
+        margin-top: 1em;
+        max-width: 90vw;
+        width: 100%;
+      }
+    }
+
+  }
+
+  .text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    &.text-center {
+      text-align: center;
+      margin: 0px auto;
+    }
+  }
+}
+
+.video__wrapper {
+  width: 100%;
+  height: 100%;
+
+
+  .video__overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    img {
+      width: 100%;
+      max-width: 74vw;
+      max-height: 74vh;
+      height: auto;
+      margin: 0px auto;
+      @media screen and (min-width: 1024px) {
+        max-width: 20vw;
+        max-height: auto;
+      }
+    }
+
+    .video__message {
+      position: absolute;
+      left: calc(50% - 50vw);
+      bottom: -1px;
+      width: 100vw;
+      height: max-content;
+      background-color: $white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: column;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      padding: 16px 32px 16px;
+      color: $text-color;
+      font-family: $font-family;
+
+      div {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 21px;
+        line-height: 29px;
+        text-align: center;
+        font-family: $font-family;
+      }
+
+      span {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 22px;
+        text-align: center;
+        font-family: $font-family;
+      }
+    }
+
+
+  }
+}
+
+.video__container {
+  height: 100%;
+  position: relative;
+  text-align: center;
+
+  .cameraWrapper {
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+
+    video {
+      height: 100%;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+
+
+  }
+}
+
+.sine__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+  background-repeat: repeat-x;
+  background-attachment: fixed;
+  background-position: 0px center;
+  background-size: 200% auto;
+
+  .sine_loader {
+    border-radius: 50%;
+    overflow: visible;
+    @include sineRadarGradient;
+    border: 3px solid $radarBorder;
+    box-sizing: border-box;
+    @include btnShadow();
+    width: calc(100vw / 2);
+    height: calc(100vw / 2);
+    transform: rotate(180deg);
+    position: relative;
+  }
+
+  .sine_bar {
+    &:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: $white;
+      top: calc(50% - 15px);
+      left: calc(50% - 15px);
+      border-radius: 15px;
+      box-sizing: border-box;
+      @include btnShadow();
+    }
+
+    &:after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 4px;
+      background-color: $white;
+      top: calc(50% + 10px);
+      left: calc(50% - 2px);
+      height: 53%;
+      box-sizing: border-box;
+      @include btnShadow();
+    }
+
+  }
+
+  @media screen and (min-width: 1280px) {
+    margin: 0px auto;
+    background-size: 80% auto;
+    background-repeat: repeat-x;
+    .sine_loader {
+      width: calc(30vw / 2);
+      height: calc(30vw / 2);
+    }
+
+  }
+}
+
+.phase_container {
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  .v-btn {
+    margin-top: 1em;
+  }
+
+}
+
+.exercises__container {
+  width: 100%;
+  text-align: center;
+  position: relative;
+
+  .timer {
+    margin-top: 2vh;
+    font-size: 18px;
+    line-height: 25px;
+
+    p {
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      text-align: center;
+      font-family: $font-family;
+      color: $text-color;
+    }
+  }
+
+  .donut_progress {
+    margin: 0px auto;
+    width: calc(100vw * 0.66);
+    height: calc(100vw * 0.66);
+    position: relative;
+  }
+
+  .cdc-overlay {
+    overflow: visible !important;
+  }
+
+  /*
+  .cdc-section .cdc-filler{
+    -webkit-transition: -webkit-transform .2s ease-in;
+    -ms-transition: -ms-transform .2s ease-in;
+    transition: transform .2s ease-in;
+  }
+   */
+
+  .breath_item {
+    @include breathCircleGradientOpacity;
+    border: 0px solid $breathBorder;
+    box-sizing: border-box;
+    @include noShadow();
+    border-radius: 50%;
+    width: calc(20vw / 2);
+    height: calc(20vw / 2);
+    min-width: 100px;
+    min-height: 100px;
+    z-index: 999;
+  }
+
+  .slices {
+    position: absolute;
+    overflow: hidden;
+    background-color: transparent;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+    transition: opacity linear 200ms;
+    z-index: 998;
+
+    &.done {
+      opacity: 0;
+    }
+
+    &:after {
+      position: absolute;
+      top: 0px;
+      left: calc(50% - 5px);
+      display: block;
+      content: ' ';
+      width: 10px;
+      height: 10px;
+      background-color: white;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .donut_progress {
+      width: calc(30vw / 2);
+      height: calc(30vw / 2);
+    }
+    .breath_item {
+      width: calc(5vw / 2);
+      height: calc(5vw / 2);
+    }
+  }
+}
+
+.exercises__wrapper_finish {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .wrapper_horizontal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .sine_merger {
+    background-repeat: repeat-x;
+    background-attachment: fixed;
+    background-position: 0px center;
+    background-size: 200% auto;
+    flex-grow: 1;
+    align-self: stretch;
+  }
+
+  .sine_loader {
+    border-radius: 50%;
+    overflow: visible;
+    @include sineRadarGradient;
+    border: 3px solid $radarBorder;
+    box-sizing: border-box;
+    @include btnShadow();
+    width: calc(100vw / 3);
+    height: calc(100vw / 3);
+    transform: rotate(180deg);
+    position: relative;
+    margin-left: 16px;
+  }
+
+  .sine_bar {
+    &:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: $white;
+      top: calc(50% - 15px);
+      left: calc(50% - 15px);
+      border-radius: 15px;
+      box-sizing: border-box;
+      @include btnShadow();
+    }
+
+    &:after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 4px;
+      background-color: $white;
+      top: calc(50% + 10px);
+      left: calc(50% - 2px);
+      height: 53%;
+      box-sizing: border-box;
+      @include btnShadow();
+    }
+
+  }
+
+  @media screen and (min-width: 1280px) {
+    margin: 0px auto;
+    .sine_merger {
+      background-size: 60% auto;
+      background-repeat: repeat-x;
+    }
+    .sine_loader {
+      width: calc(30vw / 2);
+      height: calc(30vw / 2);
+    }
+
+  }
+}
+
+
+.v-footer {
+  z-index: 1000 !important;
+}
+
+.count_down {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  font-family: $font-family;
+  color: $countDownColor;
+
+  &.small {
+    font-size: 16px;
+  }
+}
+
+.leaveFab {
+  border: 3px solid rgba(255, 98, 7, 0.5);
+  border-radius: 50%;
+  overflow: hidden;
+  @include btnShadow();
+  transition: opacity linear 300ms;
+
+  &.disabled {
+    opacity: 0;
+  }
+
+  .leavebtn {
+    background: linear-gradient(90deg, #000000 0%, #FF0362 0.01%, #FF6207 100%);
+    color: $white;
+
+    &.v-btn--icon.v-size--default {
+      height: 42px;
+      width: 42px;
+    }
+
+    i, .v-btn__content {
+      height: 36px;
+      width: 36px;
+      font-size: 20px;
+      color: $white !important;
+
+      &.mdi:before, &.mdi-set {
+        font: normal normal normal 20px/1 "Material Design Icons" !important;
+      }
+    }
+  }
+}
+
+.allowAdvice {
+  border: 1px solid $greyBase;
+  border-radius: 10px;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  div {
+    text-align: center;
+    font-family: $font-family;
+    color: $black;
+    margin-top: 16px;
+    /*border: 1px solid #000;*/
+    &:first-child {
+      margin-top: 0px;
+    }
+
+    &.__title {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+
+    }
+
+    &.__content {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    &.__footer {
+      flex: none;
+      order: 2;
+      align-self: stretch;
+      flex-grow: 0;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .v-btn, .v-btn.v-size--default {
+        font-weight: 700;
+        font-size: 14px;
+
+        .v-btn__content {
+          text-transform: none;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 14px;
+        }
+      }
+    }
+  }
+}
+
+.exercisecc {
+  padding-bottom: 0px !important;
+
+  & > div.header {
+    min-height: 160px !important;
+    overflow: hidden;
+
+    .exerciseSecText {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+
+  &.noise {
+    & > div.header {
+      flex-grow: 0;
+      flex-shrink: 1;
+      max-height: fit-content;
+      min-height: unset !important;
+    }
+  }
+
+  & > div.footer {
+    height: 111px;
+    max-height: 111px;
+
+    .leaveFab {
+      font-size: 24px;
+    }
+  }
+}
+
+.animated {
+  transition: opacity linear 300ms;
+
+  &.faded {
+    opacity: 0;
+  }
+}
+
+.fakeTitles {
+  position: absolute;
+  left: -1000px;
+  top: -1000px;
+  width: 100vw;
+  min-height: 90px;
+  height: fit-content;
+  border: 1px solid $black;
+  box-sizing: border-box;
+  flex: none;
+  z-index: -1;
+}
+
+.exercisecard.exercise {
+  background: rgb(223, 223, 223, 0.6);
+  border: 1px solid $greySecondary;
+  padding: 0.3em;
+
+
+  &.v-card {
+    @include exerciseCardGradient();
+    position: relative;
+    overflow: hidden;
+    border-width: 0px;
+
+    .v-avatar {
+      display: none;
+    }
+
+    .v-list-item:before {
+      position: absolute;
+      top: -16px;
+      left: -10px;
+      bottom: -16px;
+      content: ' ';
+      display: block;
+      background-color: $exercisesRegistration;
+      width: 16px;
+
+    }
+
+    &.audio {
+      .v-list-item:before {
+        background-color: $exercisesAudio;
+      }
+    }
+
+    &.video {
+      .v-list-item:before {
+        background-color: $exercisesVideo;
+      }
+    }
+    &.questionnaire {
+      .v-list-item:before {
+        background-color: $exercisesQuestinairre;
+      }
+    }
+    &.quiz {
+      .v-list-item:before {
+        background-color: $exercisesQuestinairre;
+      }
+    }
+
+    &.post, &.content {
+      .v-list-item:before {
+        background-color: $exercisesContent;
+      }
+    }
+  }
+
+
+  &.in_program.v-card {
+    /*background: rgb(223, 223, 223, 0.6) !important;*/
+    .v-list-item {
+      padding-left: 16px;
+    }
+  }
+
+  .v-list-item__title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.15em;
+    line-height: 1.2em;
+    color: $almostblack;
+    font-family: $font-family-roboto;
+  }
+
+  .v-list-item__subtitle {
+    margin-top: 4px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.87em;
+    line-height: 0.87em;
+    font-family: $font-family;
+    color: $text-color-secondary;
+  }
+
+  .v-list-item__avatar {
+
+  }
+
+  .v-list-item__content {
+
+
+  }
+
+  .v-list-item__action {
+    .v-btn {
+      background: $text-color-primary;
+      color: $white;
+      height: 30px;
+      width: 30px;
+      align-self: center;
+      margin: 0px;
+
+      .v-btn__content {
+        color: $white;
+        font-size: 16px;
+
+        .mdi:before, .mdi-set {
+          font: normal normal normal 16px/1 "Material Design Icons" !important;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .v-list-item__subtitle {
+    font-style: normal;
+    font-weight: 400;
+    font-size: .87em;
+    line-height: .87em;
+    font-family: $font-family;
+    color: $text-color-secondary;
+    padding-top: 1px;
+
+    .mdi:before, .mdi-set {
+      font: normal normal normal 14px/1 "Material Design Icons" !important;
+      margin-top: -2px;
+    }
+  }
+
+  &.programview {
+    color: $white;
+
+    &.v-card {
+      background: linear-gradient(31.92deg, #848CE6 33.3%, #79A4E1 89.11%) !important;
+
+      & *, .v-list-item__title, .v-list-item__subtitle {
+        color: $white !important;
+      }
+    }
+
+    .v-icon.program {
+      width: 14px;
+      height: 14px;
+      margin-left: .5em;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .v-list-item__action .v-btn {
+      background-color: $white;
+      color: $text-color-primary;
+
+      .v-btn__content {
+        color: $text-color-primary;
+
+        .mdi:before, .mdi-set {
+          color: $text-color-primary;
+        }
+      }
+    }
+  }
+}
+
+.mainBottom {
+  align-items: center;
+
+  .v-btn--has-bg {
+    background-color: transparent !important;
+
+    &:before {
+      opacity: 0 !important;
+    }
+
+    .v-ripple_container {
+      display: none;
+      opacity: 0;
+    }
+  }
+}
+
+.home_container {
+  overflow: visible;
+  height: max-content;
+}
+
+.v-icon.rotate {
+  &:before {
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+  }
+}
+
+.v-card.program {
+  .card-texts {
+    max-width: calc(100% - 10vw);
+
+    & .v-card__title {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-right: 0px;
+      padding-right: 0px;
+    }
+  }
+}
+
+.mainOverlay {
+  .logo_overlay {
+    position: absolute;
+    z-index: 10;
+    left: 0px;
+    right: 0px;
+    top: 100%;
+    bottom: -100%;
+    background: $white;
+  }
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+.loading-page {
+  &.welcome, &.login, &.signup_0, &.signup_1, &.signup_2, &.signup_3, &.signup_4, &.signup_5, &.signup_6 {
+    display: none;
+  }
+}
+
+.logoutCard {
+  .v-card__actions > div {
+    display: block;
+    text-align: center;
+
+    .v-btn {
+      display: block;
+      margin: 0px auto;
+      margin-bottom: 24px;
+    }
+  }
+
+  &.accountDeletion {
+    .v-card__text {
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      text-align: center;
+      @include fontFamilyBase();
+      color: $text-color;
+    }
+    .fullcard {
+      width: 100vw;
+      display: flex;
+    }
+    .v-icon {
+      margin-top: .5em;
+      margin-bottom: .5em;
+      width: 54px;
+      color: $warning;
+
+      .v-icon__component {
+        width: 54px;
+        height: 54px;
+
+      }
+
+      svg, svg * {
+        color: $warning;
+        width: 54px;
+      }
+    }
+  }
+}
+
+.accountDeletionFull {
+  .accountDeletion {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    @include fontFamilyBase();
+    color: $text-color;
+
+    .v-card__text {
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      text-align: center;
+      @include fontFamilyBase();
+      color: $text-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div.fullcard {
+text-align: center;
+      }
+      .v-image {
+        max-width: 70vw;
+        margin: 2.5em auto;
+      }
+    }
+    h1 {
+      @include fontFamilyBase();
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 140%;
+      color: $text-color-secondary;
+      text-align: center;
+    }
+  }
+}
+
+.section_separator {
+  display: block;
+  height: 1px;
+  background-color: $greyBase;
+  margin: 0px auto;
+  width: 100%;
+  margin-top: 2em;
+}
+
+body .v-application {
+  .v-snack {
+    z-index: 9999;
+    &.v-snack--bottom {
+      bottom: 14vh;
+      z-index: 9999;
+    }
+
+    .v-snack__wrapper, .v-snack__wrapper.v-sheet theme--dark {
+      border-radius: 8px !important;
+      min-width: auto;
+      width: fit-content;
+      min-height: auto;
+      height: fit-content;
+      text-align: center;
+      margin: 8px auto;
+      background-color: $greyDarken;
+
+      .v-snack__content {
+        padding: 6px 12px;
+        @include fontFamilyBase();
+        justify-content: center;
+        display: flex;
+        align-items: center;
+
+        .v-icon {
+          margin-right: 6px;
+
+          &:before {
+            font: normal normal normal 18px/1 "Material Design Icons" !important;
+          }
+        }
+      }
+
+      .v-snack__action {
+        display: none;
+      }
+
+      &.red.accent-2 {
+        background-color: $redAccent !important;
+        border-color: $redAccent !important;
+      }
+
+      &.green.accent-2 {
+        background-color: $greenAccent !important;
+        border-color: $greenAccent !important;
+
+        .v-snack__content {
+          color: $text-color !important;
+
+          .v-icon {
+            color: $text-color !important;
+
+            &:before {
+              color: $text-color !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+body .v-application.ios {
+  .v-snack {
+    &.v-snack--top {
+      top: env(safe-area-inset-top);
+    }
+
+    &.v-snack--bottom {
+      bottom: calc(14vh + env(safe-area-inset-bottom));
+    }
+  }
+
+  &.with__bottom.user-entries .navpages.fullPageCard,
+  &.with__bottom.home .navpages.fullPageCard,
+  &.with__bottom.index .navpages.fullPageCard,
+  &.with__bottom.settings .navpages.fullPageCard,
+  &.with__bottom.user-settings .navpages.fullPageCard {
+    &.standalone {
+      padding-top: env(safe-area-inset-top);
+    }
+  }
+
+  .errorDialog, .infoDialog, .customDialog {
+    .fullPageCard {
+      padding-top: env(safe-area-inset-top);
+
+      &:not(.error-dialog) > div.footer {
+        padding-top: env(safe-area-inset-top);
+      }
+
+      &.no-header {
+        padding-top: env(safe-area-inset-top);
+      }
+    }
+  }
+
+  .customDialog {
+    .fullPageCard.no-footer {
+      padding-top: env(safe-area-inset-top);
+    }
+  }
+
+
+  .fullPageCard.indexPage div.header div.userwlecome {
+    /*margin-top: env(safe-area-inset-top);*/
+  }
+}
+
+
+.emailfield input {
+  text-transform: lowercase;
+}
+
+@import "indexPage";
+@import "programPage";
+@import "exercisePage";
+@import "entriesContainer";
+@import "micInput";
+@import "tutorial";
+@import "aboutpanel";
+@import "design2023";
+@import "notifications";
