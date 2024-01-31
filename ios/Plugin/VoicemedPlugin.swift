@@ -76,13 +76,111 @@ public class VoicemedPlugin: CAPPlugin {
     }
 
     @objc func authenticateUser(_ call: CAPPluginCall) {
-        call.resolve(ResponseGenerator.successResponse())
+        let _extID = call.getString("externalID", "")
+        let _email = call.getString("email", "")
+        
+        if _extID.isEmpty {
+            call.reject("ExternalID must be filled")
+        }
+        if _email.isEmpty {
+            call.reject("Email is mandatory")
+        }
+        var json: [String:Any] = [
+            "externalID":_extID,
+            "email":_email,
+            "usermeta":false
+        ]
+        var _usermeta = [String:Any]()
+        
+        if let usermeta = call.getObject("usermeta") {
+            if let age = usermeta["age"] as? Int {
+                _usermeta.updateValue(age, forKey: "age")
+            }
+            if let height = usermeta["height"] as? Int {
+                _usermeta.updateValue(height, forKey: "height")
+            }
+            if let weight = usermeta["weight"] as? Int {
+                _usermeta.updateValue(weight, forKey: "weight")
+            }
+            if let sex = usermeta["sex"] as? String {
+                _usermeta.updateValue(sex, forKey: "sex")
+            }
+            json.updateValue(_usermeta, forKey: "usermeta")
+        }
+        if let jsonData = try? JSONSerialization.data(withJSONObject: json) {
+            //Add the new restApi path:
+            let url = URL(string: appUrl)!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.httpBody = jsonData
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    call.reject(error?.localizedDescription ?? "No data")
+                    return
+                }
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+                    print(responseJSON)
+                    call.resolve(responseJSON)
+                }
+            }
+            return
+        }
+        call.reject("Something whent wrong")
     }
 
     @objc func listExercises(_ call: CAPPluginCall) {
-        call.resolve(ResponseGenerator.successResponse())
+        let _token = call.getString("token", "")
+        
+        if _token.isEmpty {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+            return
+        }
+        //Add the new restApi path:
+        let url = URL(string: appUrl)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        //Authenticate request:
+        request.addValue("Token \(_token)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                call.reject(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                print(responseJSON)
+                call.resolve(responseJSON)
+            }
+        }
     }
     @objc func startExercise(_ call: CAPPluginCall) {
+        let _token = call.getString("token", "")
+        let _id = call.getString("id", "")
+        let _program_id = call.getString("program_id", "")
+        let _program_index = call.getInt("program_index", 0)
+        
+        if _token.isEmpty {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+            return
+        }
+        if _id.isEmpty {
+            call.reject("Exercise ID must be valid")
+            return
+        }
+        if _program_id.isEmpty {
+            call.reject("Program ID must be valid")
+            return
+        }
+        if _program_index<0 {
+            call.reject("Program Index must be valid")
+            return
+        }
+        
+        let json :[String:Any] = ["exercise_id":_id,"program_id":_program_id,"program_index":_program_index]
         
             //Check assets exists in project
             if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
@@ -95,6 +193,8 @@ public class VoicemedPlugin: CAPPlugin {
                     let final = "\(_baseUrl)/voicemed-sdk/index.html"
                     
                     print("final url: \(final)")
+                    let jsonData = try? JSONSerialization.data(withJSONObject: json)
+                    webview.evaluateJavaScript("window.currentExercise=\(jsonData)")
                     
                     webview.evaluateJavaScript("console.log('go to :', '\(final)');", completionHandler: { (object, error) in
                         if error == nil {

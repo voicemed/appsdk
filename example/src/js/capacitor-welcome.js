@@ -10,7 +10,7 @@ window.customElements.define(
 
       SplashScreen.hide();
       window.test = Voicemed;
-      console.log('test me', Voicemed.echo({'value':'Ciao be'}).then((r)=>{console.log('got somethng',r)}));
+      console.log('test me', Voicemed.echo({'value':'Dummy method'}).then((r)=>{console.log('got somethng',r)}));
 
       const root = this.attachShadow({ mode: 'open' });
 
@@ -100,7 +100,7 @@ window.customElements.define(
 
       self.shadowRoot.querySelector('#take-user').addEventListener('click', async function (e) {
         try {
-          const user = await Voicemed.authenticateUser({externalID:321,email:"testsdkuser@voicemed.io"});
+          const user = await Voicemed.authenticateUser({externalID:"321",email:"testsdkuser@voicemed.io"});
           console.log('got user data:', user);
         } catch (e) {
           console.warn('User cancelled', e);
@@ -108,7 +108,7 @@ window.customElements.define(
       });
         self.shadowRoot.querySelector('#take-list').addEventListener('click', async function (e) {
             try {
-                const exercises = await Voicemed.listExercises()
+                const exercises = await Voicemed.listExercises({token:"faketoken"})
                 console.log('got exercises:', exercises);
             } catch (e) {
                 console.warn('Error', e);
@@ -116,7 +116,7 @@ window.customElements.define(
         });
         self.shadowRoot.querySelector('#start-exe').addEventListener('click', async function (e) {
             try {
-                const result = await Voicemed.startExercise({id:321,program_id:123,program_index:1})
+                const result = await Voicemed.startExercise({token:"faketoken",id:"321",program_id:"123",program_index:1})
                 console.log('got result:', result);
             } catch (e) {
                 console.warn('Error', e);
