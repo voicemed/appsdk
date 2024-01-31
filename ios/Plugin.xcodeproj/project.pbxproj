@@ -15,6 +15,7 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* VoicemedPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* VoicemedPlugin.m */; };
 		50E1A94820377CB70090CE1A /* VoicemedPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* VoicemedPlugin.swift */; };
+		EA4F59582B6A36C000756FF2 /* VoicemedPluginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F59572B6A36C000756FF2 /* VoicemedPluginConfig.swift */; };
 		EA5205192B696B2300BF7971 /* swiped-events.min.js in Resources */ = {isa = PBXBuildFile; fileRef = EA5205152B696B2300BF7971 /* swiped-events.min.js */; };
 		EA52051A2B696B2300BF7971 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = EA5205162B696B2300BF7971 /* favicon.ico */; };
 		EA52051B2B696B2300BF7971 /* 200.html in Resources */ = {isa = PBXBuildFile; fileRef = EA5205172B696B2300BF7971 /* 200.html */; };
@@ -61,6 +62,7 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA4F59572B6A36C000756FF2 /* VoicemedPluginConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicemedPluginConfig.swift; sourceTree = "<group>"; };
 		EA5205152B696B2300BF7971 /* swiped-events.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "swiped-events.min.js"; path = "assets-voicemed/swiped-events.min.js"; sourceTree = "<group>"; };
 		EA5205162B696B2300BF7971 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = favicon.ico; path = "assets-voicemed/favicon.ico"; sourceTree = "<group>"; };
 		EA5205172B696B2300BF7971 /* 200.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = 200.html; path = "assets-voicemed/200.html"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				50ADFF8B201F53D600D50D53 /* VoicemedPlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* VoicemedPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
+				EA4F59572B6A36C000756FF2 /* VoicemedPluginConfig.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 			files = (
 				EAA86C142B68231F006F6803 /* CustomMediaRecorder.swift in Sources */,
 				EAA86C0B2B68231F006F6803 /* RecordData.swift in Sources */,
+				EA4F59582B6A36C000756FF2 /* VoicemedPluginConfig.swift in Sources */,
 				50E1A94820377CB70090CE1A /* VoicemedPlugin.swift in Sources */,
 				EAA86C0E2B68231F006F6803 /* PermissionStatus.swift in Sources */,
 				EAA86C0D2B68231F006F6803 /* Preferences.swift in Sources */,

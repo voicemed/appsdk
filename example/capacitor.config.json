@@ -7,9 +7,9 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
-    "VoicemedPlugin": {
+    "Voicemed": {
       "appKey": "hereYourAppKey",
-      "environment": "staging"
+      "environment": "production"
     }
   }
 }

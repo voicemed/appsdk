@@ -8,13 +8,16 @@ Voicemed sdk features
 npm install voicemed-appsdk
 npx cap sync
 ```
+### Layout Dist
+in voicemed-sdk there is the builded vendor layout files to be added to your webproject.
+
 
 ### Post Install
 
 Add the voicemed-layoutsdk as resource to your mobile projects.
 Example: 
-- npm run syncLayoutToDest --dest=./example/android/app/src/main
-- npm run syncLayoutToDest --dest=./example/ios/App/App
+- npm run syncAndroidLayoutToDest --dest=./example/android/app/src/main
+- npm run synciOSLayoutToDest --dest=./example/ios/App/App
 
 ## Library usage
 

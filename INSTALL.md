@@ -31,3 +31,31 @@ Example:
   - Voicemed.listExercises();
 - Start Exercise:
   - Voicemed.startExercise({exercise:exerciseObject});
+
+## Hint
+
+Use keepAwake and backbutton manager in your capacitor app: 
+```
+ App.addListener('appStateChange', ({isActive}) => {
+        if (isSupported()) {
+            if (isActive) {
+                keepAwake()
+                //$nuxt.$airlyn.maxVolume().then((r) => {
+                //  console.warn("Set Max Volume for device", r);
+                //});
+            } else {
+                allowSleep()
+            }
+        }
+    });
+    App.getState().then((r) => {
+        if (r.isActive) {
+            if (isSupported()) {
+                keepAwake()
+            }
+        }
+    });
+    App.addListener('backButton', backManager.fireEvent);
+```
+
+
