@@ -20,6 +20,20 @@ public class VoicemedPlugin: CAPPlugin {
     public let jsName = "Voicemed"
     private var voicemedplugin: VoicemedPlugin?
     
+    private let API_authenticationSuffix = "v1/auth/signup";
+    private let API_listProgramsSuffix = "v1/user/programs";
+    private let API_completeExerciseSuffix = "v2/user/breathing_exercises";
+    //let completeUrl = $nuxt.$apiConstants.userBreathingExercises + "/" + _id + "/" + suffix;
+    /*
+        let method = item.type === resManager.kindRECORDING ? 'POST' : 'PUT';
+        let suffix = item.type === resManager.kindRECORDING ? 'recordings' : 'complete';
+        let completeUrl = $nuxt.$apiConstants.userBreathingExercises + "/" + _id + "/" + suffix;
+        if (typeof item.program_id !== 'undefined') {
+         method = "POST";
+         suffix = "complete";
+         completeUrl = $nuxt.$apiConstants.userBreathingPrograms + "/" + item.program_id + '/' + item.program_index + '/' + _id + "/" + suffix;
+        }
+     */
     private var appKey = ""
     private var appUrl = ""
     private var environment = ""
