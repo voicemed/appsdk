@@ -91,6 +91,26 @@ export interface VoiceMedExercise {
     "__v": bigint;
 }
 
+export interface VoiceMedRequestExercise {
+    "token": string;
+    "id": string;
+    "program_id": string;
+    "program_index": bigint;
+}
+
+export interface VoiceMedRequest {
+    "token": string;
+}
+
+export interface VoiceMedFinishExercise {
+    "reason": string;
+    "result": {
+        "flowScore"?: any
+        "timeScore"?: any
+        "cyclesScore"?: any
+    }
+}
+
 export interface VoicemedPlugin {
     /* Dummy method */
     echo(options: {
@@ -101,12 +121,13 @@ export interface VoicemedPlugin {
 
     authenticateUser(options: VoicemedAuthenticateUser): Promise<{ token: string }>;
 
-    authenticateByToken(options: { token: string }): Promise<{ token: string }>;
+    authenticateByToken(options: VoiceMedRequest): Promise<{ token: string }>;
 
-    listExercises(): Promise<{ exercises: VoiceMedExercise[] }>;
+    listExercises(options: VoiceMedRequest): Promise<{ exercises: VoiceMedExercise[] }>;
 
-    // @ts-ignore
-    startExercise(options: VoiceMedExercise): Promise<{ value: string }>;
+    startExercise(options: VoiceMedRequestExercise): Promise<{ value: string }>;
+
+    finishExercise(options: VoiceMedFinishExercise): Promise<{ value: string }>;
 
     checkCameraPerm(): Promise<{
         value: string

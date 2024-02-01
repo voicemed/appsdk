@@ -1,10 +1,22 @@
 import {WebPlugin} from '@capacitor/core';
 
-import {VoicemedAuthenticateUser, VoiceMedExercise, VoicemedPlugin} from './definitions';
+import {
+    VoicemedAuthenticateUser,
+    VoiceMedExercise, VoiceMedFinishExercise,
+    VoicemedPlugin,
+    VoiceMedRequest,
+    VoiceMedRequestExercise
+} from './definitions';
 import * as console from "console";
 
 export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
-    startExercise(options: VoiceMedExercise): Promise<{ value: string; }> {
+    startExercise(options: VoiceMedRequestExercise): Promise<{ value: string; }> {
+        window.console.log('res', options);
+        return Promise.resolve({
+            value: "ok"
+        });
+    }
+    finishExercise(options: VoiceMedFinishExercise): Promise<{ value: string }> {
         window.console.log('res', options);
         return Promise.resolve({
             value: "ok"
@@ -16,13 +28,14 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         return Promise.resolve({token: ""});
     }
 
-    authenticateByToken(options: { token: string; }): Promise<{ token: string; }> {
+    authenticateByToken(options: VoiceMedRequest): Promise<{ token: string; }> {
         window.console.log('token', options.token);
         return Promise.resolve({token: ""});
     }
 
-    listExercises(): Promise<{ exercises: VoiceMedExercise[]; }> {
+    listExercises(options: VoiceMedRequest): Promise<{ exercises: VoiceMedExercise[]; }> {
         return Promise.resolve({
+            options: options,
             exercises: []
         });
 

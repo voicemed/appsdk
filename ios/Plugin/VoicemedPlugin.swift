@@ -24,6 +24,8 @@ public class VoicemedPlugin: CAPPlugin {
     private var appUrl = ""
     private var environment = ""
     private var preferences = Preferences(with: PreferencesConfiguration())
+    private var currentUrl = "";
+    private var currentExerciseView:WKWebView? = nil
     
     override public func load() {
         if let view = bridge?.viewController?.view {
@@ -123,6 +125,9 @@ public class VoicemedPlugin: CAPPlugin {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {
                     print(responseJSON)
+                    if let token = responseJSON["token"] {
+                        self.preferences.set(token as! String, for: "token")
+                    }
                     call.resolve(responseJSON)
                 }
             }
@@ -132,7 +137,7 @@ public class VoicemedPlugin: CAPPlugin {
     }
 
     @objc func listExercises(_ call: CAPPluginCall) {
-        let _token = call.getString("token", "")
+        let _token = call.getString("token", preferences.get(by: "token") ?? "")
         
         if _token.isEmpty {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
@@ -157,8 +162,11 @@ public class VoicemedPlugin: CAPPlugin {
             }
         }
     }
+    
+    
+    
     @objc func startExercise(_ call: CAPPluginCall) {
-        let _token = call.getString("token", "")
+        let _token = call.getString("token", preferences.get(by: "token") ?? "")
         let _id = call.getString("id", "")
         let _program_id = call.getString("program_id", "")
         let _program_index = call.getInt("program_index", 0)
@@ -184,16 +192,26 @@ public class VoicemedPlugin: CAPPlugin {
         
             //Check assets exists in project
             if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
+                //if(currentExerciseView != nil) {
+                //    currentExerciseView?.removeFromSuperview()
+                //    currentExerciseView = nil
+                //}
+                
                 DispatchQueue.main.async {
                     //Store current url for the future
-                    let webviewURL = webview.url
+                    //self.currentExerciseView = WKWebView(frame: webview.frame, configuration: webview.configuration)
+                    //webview.addSubview(self.currentExerciseView!)
                     
-                    print("found web view \(webviewURL)")
-                    
-                    let final = "\(_baseUrl)/voicemed-sdk/index.html"
+                    webview.evaluateJavaScript("document.location", completionHandler: { (object, error) in
+                        if error == nil {
+                                print(object)
+                            self.currentUrl = object as? String ?? ""
+                            }
+                    })
+                    let final = "\(_baseUrl)/voicemed-sdk/index.html?id=\(_id)&pid=\(_program_id)&px=\(_program_index)"
                     
                     print("final url: \(final)")
-                    let jsonData = try? JSONSerialization.data(withJSONObject: json)
+                    let jsonData = VoicemedPlugin.stringify(json: json)
                     webview.evaluateJavaScript("window.currentExercise=\(jsonData)")
                     
                     webview.evaluateJavaScript("console.log('go to :', '\(final)');", completionHandler: { (object, error) in
@@ -206,14 +224,39 @@ public class VoicemedPlugin: CAPPlugin {
                                 print(object)
                             }
                     })
-                    
+                    webview.evaluateJavaScript("window.currentExercise=\(jsonData)")
                     call.resolve(ResponseGenerator.successResponse())
-                }
+                 }
                 return
             }
             call.reject("Cannot find main View controller");
         
         
+    }
+    
+    @objc func finishExercise(_ call: CAPPluginCall) {
+        self.notifyListeners("finisheExercise", data: call.dictionaryRepresentation as! [String : Any])
+        //if(currentExerciseView != nil) {
+        //    currentExerciseView?.removeFromSuperview()
+        //    currentExerciseView = nil
+        //}
+        //call.resolve(ResponseGenerator.successResponse())
+        if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
+            //if(currentExerciseView != nil) {
+            //    currentExerciseView?.removeFromSuperview()
+            //    currentExerciseView = nil
+            //}
+            DispatchQueue.main.async {
+            webview.evaluateJavaScript("document.location = '\(self.currentUrl)';", completionHandler: { (object, error) in
+                if error == nil {
+                        print(object)
+                    }
+            })
+            
+            
+                
+            }
+        }
     }
 
     private var customMediaRecorder: CustomMediaRecorder? = nil
@@ -596,6 +639,24 @@ func getMsDurationOfAudioFile(_ filePath: URL?) -> Int {
             "migrated": migrated,
             "existing": existing
         ])
+    }
+    
+    static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
+        var options: JSONSerialization.WritingOptions = []
+        if prettyPrinted {
+          options = JSONSerialization.WritingOptions.prettyPrinted
+        }
+
+        do {
+          let data = try JSONSerialization.data(withJSONObject: json, options: options)
+          if let string = String(data: data, encoding: String.Encoding.utf8) {
+            return string
+          }
+        } catch {
+          print(error)
+        }
+
+        return ""
     }
 
 }
