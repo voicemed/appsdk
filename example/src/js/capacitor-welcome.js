@@ -1,20 +1,22 @@
-import { SplashScreen } from '@capacitor/splash-screen';
-import { Camera } from '@capacitor/camera';
-import { Voicemed} from 'voicemed-appsdk';
+import {SplashScreen} from '@capacitor/splash-screen';
+import {Camera} from '@capacitor/camera';
+import {Voicemed} from 'voicemed-appsdk';
 
 window.customElements.define(
-  'capacitor-welcome',
-  class extends HTMLElement {
-    constructor() {
-      super();
+    'capacitor-welcome',
+    class extends HTMLElement {
+        constructor() {
+            super();
 
-      SplashScreen.hide();
-      window.test = Voicemed;
-      console.log('test me', Voicemed.echo({'value':'Dummy method'}).then((r)=>{console.log('got somethng',r)}));
+            SplashScreen.hide();
+            window.test = Voicemed;
+            console.log('test me', Voicemed.echo({'value': 'Dummy method'}).then((r) => {
+                console.log('got somethng', r)
+            }));
 
-      const root = this.attachShadow({ mode: 'open' });
+            const root = this.attachShadow({mode: 'open'});
 
-      root.innerHTML = `
+            root.innerHTML = `
     <style>
       :host {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -57,6 +59,10 @@ window.customElements.define(
       main pre {
         white-space: pre-line;
       }
+      #exerciseList li {
+        padding: 12px 0px;
+        font-size: 18px;
+      }
     </style>
     <div>
       <capacitor-welcome-titlebar>
@@ -68,71 +74,108 @@ window.customElements.define(
         </p>
         <h2>Getting Started</h2>
         <p>
-          Authenticate
+          1. Authenticate to VoiceMed environment
         </p>
         <p>
           <button class="button" id="take-user">Authenticate random User</button>
         </p>
         <h2>List Exercises</h2>
         <p>
-          List
+          2. List Challenges and exercises available for this user
         </p>
         <p>
           <button class="button" id="take-list">List</button>
         </p>
-        <h2>StartExercise</h2>
-        <p>
-          start
-        </p>
-        <p>
-          <button class="button" id="start-exe">Start</button>
-        </p>
-        <p>
-          <img id="image" style="max-width: 100%">
-        </p>
+        <div id="exerciseList" style="max-height: 30vh; overflow-y: scroll;">&nbsp;</div>
       </main>
     </div>
     `;
-    }
-
-    connectedCallback() {
-      const self = this;
-
-      self.shadowRoot.querySelector('#take-user').addEventListener('click', async function (e) {
-        try {
-          const user = await Voicemed.authenticateUser({externalID:"321",email:"testsdkuser@voicemed.io"});
-          console.log('got user data:', user);
-        } catch (e) {
-          console.warn('User cancelled', e);
         }
-      });
-        self.shadowRoot.querySelector('#take-list').addEventListener('click', async function (e) {
-            try {
-                const exercises = await Voicemed.listExercises({token:"faketoken"})
-                console.log('got exercises:', exercises);
-            } catch (e) {
-                console.warn('Error', e);
-            }
-        });
-        self.shadowRoot.querySelector('#start-exe').addEventListener('click', async function (e) {
-            try {
-                const result = await Voicemed.startExercise({token:"faketoken",id:"321",program_id:"123",program_index:1})
-                console.log('got result:', result);
-            } catch (e) {
-                console.warn('Error', e);
-            }
-        });
+
+        connectedCallback() {
+            const self = this;
+
+            self.shadowRoot.querySelector('#take-user').addEventListener('click', async function (e) {
+                try {
+                    const user = await Voicemed.authenticateUser({externalID: "yh-test321-sdk"});
+                    console.log('got user data:', user);
+                    if (user && user.access_token) {
+                        window.currentToken = user.access_token;
+                        alert('User authenticated!');
+                    }
+                } catch (e) {
+                    console.warn('User cancelled', e);
+                }
+            });
+            self.shadowRoot.querySelector('#take-list').addEventListener('click', async function (e) {
+                try {
+                    let token = {}
+                    if (typeof window["currentToken"] !== 'undefined') {
+                        token.token = window["currentToken"];
+                    }
+                    Voicemed.listExercises(token).then((r) => {
+                        alert('exercises retrieved');
+                        console.log('got challenges and exercises:', r.challenges);
+                        const _lista = self.shadowRoot.querySelector('#exerciseList');
+                        _lista.innerHTML = "";
+                        r.challenges.forEach((challenge) => {
+                            const d = document.createElement('DIV');
+                            d.innerHTML = "Challenge: " + challenge.title;
+                            _lista.appendChild(d);
+                            const _u = document.createElement('UL')
+                            challenge.exercises.forEach((exerciseCnt, index) => {
+                                const exercise = exerciseCnt.exercise
+                                const _li = document.createElement('LI');
+                                _li.innerHTML = exercise.title + " (" + exercise.type + ")";
+                                _u.appendChild(_li);
+                                _li.addEventListener('click', (e) => {
+                                    Voicemed.startExercise({
+                                        id: exercise._id,
+                                        program_id: challenge._id,
+                                        program_index: index
+                                    }).then((result) => {
+                                        console.log('got result:', result);
+                                    }).catch((error) => {
+                                        console.error('Exercise runner error', error)
+                                    })
+
+                                })
+                            });
+                            _lista.appendChild(_u);
+                        });
+                    }).catch((e) => {
+                        console.error('cannot get exercises', e);
+                        alert('cannot retrieve exercises')
+                    })
+
+                } catch (e) {
+                    console.warn('Error', e);
+                }
+            });
+            self.shadowRoot.querySelector('#start-exe').addEventListener('click', async function (e) {
+                try {
+                    const result = await Voicemed.startExercise({
+                        token: "faketoken",
+                        id: "321",
+                        program_id: "123",
+                        program_index: 1
+                    })
+                    console.log('got result:', result);
+                } catch (e) {
+                    console.warn('Error', e);
+                }
+            });
+        }
     }
-  }
 );
 
 window.customElements.define(
-  'capacitor-welcome-titlebar',
-  class extends HTMLElement {
-    constructor() {
-      super();
-      const root = this.attachShadow({ mode: 'open' });
-      root.innerHTML = `
+    'capacitor-welcome-titlebar',
+    class extends HTMLElement {
+        constructor() {
+            super();
+            const root = this.attachShadow({mode: 'open'});
+            root.innerHTML = `
     <style>
       :host {
         position: relative;
@@ -151,6 +194,6 @@ window.customElements.define(
     </style>
     <slot></slot>
     `;
+        }
     }
-  }
 );

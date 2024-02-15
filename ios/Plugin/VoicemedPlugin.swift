@@ -20,8 +20,8 @@ public class VoicemedPlugin: CAPPlugin {
     public let jsName = "Voicemed"
     private var voicemedplugin: VoicemedPlugin?
     
-    private let API_authenticationSuffix = "v1/auth/signup";
-    private let API_listProgramsSuffix = "v1/user/programs";
+    private let API_authenticationSuffix = "v2/auth/login";
+    private let API_listProgramsSuffix = "v2/user/programs";
     private let API_completeExerciseSuffix = "v2/user/breathing_exercises";
     //let completeUrl = $nuxt.$apiConstants.userBreathingExercises + "/" + _id + "/" + suffix;
     /*
@@ -93,19 +93,10 @@ public class VoicemedPlugin: CAPPlugin {
 
     @objc func authenticateUser(_ call: CAPPluginCall) {
         let _extID = call.getString("externalID", "")
-        let _email = call.getString("email", "")
         
         if _extID.isEmpty {
             call.reject("ExternalID must be filled")
         }
-        if _email.isEmpty {
-            call.reject("Email is mandatory")
-        }
-        var json: [String:Any] = [
-            "externalID":_extID,
-            "email":_email,
-            "usermeta":false
-        ]
         var _usermeta = [String:Any]()
         
         if let usermeta = call.getObject("usermeta") {
@@ -121,15 +112,29 @@ public class VoicemedPlugin: CAPPlugin {
             if let sex = usermeta["sex"] as? String {
                 _usermeta.updateValue(sex, forKey: "sex")
             }
-            json.updateValue(_usermeta, forKey: "usermeta")
         }
-        if let jsonData = try? JSONSerialization.data(withJSONObject: json) {
+        
+        //Il primo metodo serve solo per verificare che l'oggetto sia un json valido
+        if let _metajson = try? JSONSerialization.data(withJSONObject: _usermeta) {
+            var bodyParts = URLComponents()
+            let jsonData = VoicemedPlugin.stringify(json: _usermeta)
+            var queryItems: [URLQueryItem] = bodyParts.queryItems ??  []
+            queryItems.append(URLQueryItem(name: "externalId", value: _extID ))
+            if ( jsonData.compare("{}") != .orderedSame) {
+                queryItems.append(URLQueryItem(name: "meta", value: jsonData))
+            }
+            bodyParts.queryItems = queryItems
+            let postDataString =  bodyParts.query
+            let postData = postDataString?.data(using: .utf8)
+            print("Pronto \(String(describing: postDataString))")
             //Add the new restApi path:
-            let url = URL(string: appUrl)!
+            let _url = "\(appUrl)\(API_authenticationSuffix)"
+            let url = URL(string: _url)!
             var request = URLRequest(url: url)
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.addValue(appKey, forHTTPHeaderField: "api-key")
             request.httpMethod = "POST"
-            request.httpBody = jsonData
-            
+            request.httpBody = postData
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data, error == nil else {
                     print(error?.localizedDescription ?? "No data")
@@ -138,53 +143,110 @@ public class VoicemedPlugin: CAPPlugin {
                 }
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {
-                    print(responseJSON)
-                    if let token = responseJSON["token"] {
+                    if let token = responseJSON["access_token"] {
                         self.preferences.set(token as! String, for: "token")
                     }
                     call.resolve(responseJSON)
                 }
             }
+            task.resume()
             return
+        } else {
+            call.reject("Something whent wrong")
         }
-        call.reject("Something whent wrong")
     }
 
     @objc func listExercises(_ call: CAPPluginCall) {
-        let _token = call.getString("token", preferences.get(by: "token") ?? "")
-        
+        var _token = call.getString("token", preferences.get(by: "token") ?? "")
+        var _full = call.getBool("full", true)
+        if _token.isEmpty {
+            //Se non è passato via json, usa quello conservato
+            _token = self.preferences.get(by: "token") ?? ""
+        }
         if _token.isEmpty {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
             return
         }
         //Add the new restApi path:
-        let url = URL(string: appUrl)!
+        let url = URL(string: "\(appUrl)\(API_listProgramsSuffix)")!
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
         //Authenticate request:
-        request.addValue("Token \(_token)", forHTTPHeaderField: "Authorization")
+        request.addValue(appKey, forHTTPHeaderField: "api-key")
+        request.addValue("Bearer \(_token)", forHTTPHeaderField: "Authorization")
+        //Method
+        request.httpMethod = "GET"
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
                 call.reject(error?.localizedDescription ?? "No data")
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-                call.resolve(responseJSON)
+            var responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let _responseJSON = responseJSON as? NSArray {
+                var challenges:NSMutableArray = []
+                if(_full) {
+                    Task {
+                        for case let challenge as [String:Any] in _responseJSON {
+                            let _newChallenge = await try self.retrieveChallenge(token: _token, challenge: challenge) as [String:Any]
+                            if(_newChallenge != nil) {
+                                challenges.add(_newChallenge)
+                            } else {
+                                challenges.add(challenge)
+                            }
+                        }
+                        responseJSON = [
+                            "challenges":challenges
+                        ]
+                        if let responseJSON = responseJSON as? [String: Any] {
+                            call.resolve(responseJSON)
+                        } else {
+                            print("Non sappiamo oggettto")
+                            call.reject("Errore")
+                        }
+                    }
+                } else {
+                    for case let challenge as [String:Any] in _responseJSON {
+                        challenges.add(challenge)
+                    }
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        call.resolve(responseJSON)
+                    } else {
+                        print("Non sappiamo oggettto")
+                        call.reject("Errore")
+                    }
+                }
+                
+                
             }
         }
+        task.resume()
     }
-    
-    
-    
+    func retrieveChallenge( token : String, challenge : [String:Any]) async throws -> [String:Any] {
+        //Add the new restApi path:
+        let stringID = challenge["_id"] ?? ""
+        let url = URL(string: "\(appUrl)\(API_listProgramsSuffix)/\(stringID)")!
+        var request = URLRequest(url: url)
+        //Authenticate request:
+        request.addValue(appKey, forHTTPHeaderField: "api-key")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+        return responseJSON as! [String:Any]
+    }
     @objc func startExercise(_ call: CAPPluginCall) {
-        let _token = call.getString("token", preferences.get(by: "token") ?? "")
+        var _token = call.getString("token", preferences.get(by: "token") ?? "")
         let _id = call.getString("id", "")
         let _program_id = call.getString("program_id", "")
         let _program_index = call.getInt("program_index", 0)
-        
+        if _token.isEmpty {
+            //Se non è passato via json, usa quello conservato
+            _token = self.preferences.get(by: "token") ?? ""
+        }
+        if _token.isEmpty {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+            return
+        }
         if _token.isEmpty {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
             return
@@ -233,7 +295,24 @@ public class VoicemedPlugin: CAPPlugin {
                                 print(object)
                             }
                     })
-                    webview.evaluateJavaScript("document.location = '\(final)';", completionHandler: { (object, error) in
+                    
+                    let createFullScreenIframe = """
+                    if(document.getElementById("vmiframe_handler")) {
+                        document.getElementById("vmiframe_handler").remove();
+                    }
+                        const iFrameVM = document.createElement("IFRAME");
+                        iFrameVM.id = "vmiframe_handler";
+                        iFrameVM.classList.add('vmiframe_handler');
+                        iFrameVM.style.position='absolute';
+                        iFrameVM.style.left='0px';
+                        iFrameVM.style.top='0px';
+                        iFrameVM.style.width='100vw';
+                        iFrameVM.style.height='100vh';
+                        iFrameVM.style.zIndex=99999;
+                        iFrameVM.src = "\(final)";
+                        document.querySelector('body').appendChild(iFrameVM);
+                    """
+                    webview.evaluateJavaScript(createFullScreenIframe, completionHandler: { (object, error) in
                         if error == nil {
                                 print(object)
                             }

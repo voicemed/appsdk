@@ -34,3 +34,17 @@ Example:
   - Voicemed.listExercises();
 - Start Exercise:
   - Voicemed.startExercise({exercise:exerciseObject});
+
+
+## Exercise results:
+
+Exercise Reason possible values: 
+- "not supported"		> cam or mic not available
+- "denied"			> cam or mic permissions not granted
+- "user-cancelled"	> user cancelled exercise execution (quit)
+- "exercise-notrecognized"	>	exercise kind not supported
+- 'exercise-load-fail'	>	cannot load exercise from voicemed server or not found
+- 'exercise-audio-fail'	>	cannot load audio track from voicemed server
+- 'exercise-video-fail'	>	cannot load audio track from voicemed server
+- 'exercise-finish-fail'	>	cannot store exercise results on voicemed server
+- 'exercise-completed'	>	normal completed status (result will be filled with exercise results)

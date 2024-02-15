@@ -31,10 +31,6 @@ export interface VoicemedAuthenticateUser {
      */
     externalID?: string;
     /**
-     * Unique user email
-     */
-    email?: string;
-    /**
      * Key value pairs, suggested for best results: age, height, weight, sex
      */
     usermeta?: {
