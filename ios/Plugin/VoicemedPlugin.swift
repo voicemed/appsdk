@@ -288,14 +288,7 @@ public class VoicemedPlugin: CAPPlugin {
                     
                     print("final url: \(final)")
                     let jsonData = VoicemedPlugin.stringify(json: json)
-                    webview.evaluateJavaScript("window.currentExercise=\(jsonData)")
-                    
-                    webview.evaluateJavaScript("console.log('go to :', '\(final)');", completionHandler: { (object, error) in
-                        if error == nil {
-                                print(object)
-                            }
-                    })
-                    
+                    webview.evaluateJavaScript("window.currentExercise=\(jsonData); window.currentToken=\(_token)")
                     let createFullScreenIframe = """
                     if(document.getElementById("vmiframe_handler")) {
                         document.getElementById("vmiframe_handler").remove();
@@ -317,7 +310,6 @@ public class VoicemedPlugin: CAPPlugin {
                                 print(object)
                             }
                     })
-                    webview.evaluateJavaScript("window.currentExercise=\(jsonData)")
                     call.resolve(ResponseGenerator.successResponse())
                  }
                 return
