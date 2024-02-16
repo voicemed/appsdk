@@ -1,0 +1,15 @@
+{
+	"appId": "com.example.plugin",
+	"appName": "example",
+	"bundledWebRuntime": false,
+	"webDir": "dist",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0
+		},
+		"Voicemed": {
+			"appKey": "ac7dde4e-01e4-44ca-ba29-dedda5ee52eb",
+			"environment": "staging"
+		}
+	}
+}
