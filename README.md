@@ -25,15 +25,21 @@ Example:
 
 - Ensure your logged user is logged in into Voicemed:
     - If you don't have an authentication code:
-        - Voicemed.authenticateUser({"expernalID":<your unique id>,"email":<optional unique email>,"
-          usermeta":{<userMeta>}});
+        - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
         - Retrieve the authentication code and store it for the future.
-    - If you have an authentication code:
-        - Voicemed.authenticateByToken({"token":<your authcode>});
+    
 - List Available exercises:
-  - Voicemed.listExercises();
+  ```Voicemed.listExercises();```
 - Start Exercise:
-  - Voicemed.startExercise({exercise:exerciseObject});
+  ```Voicemed.startExercise({exercise:exerciseObject});```
+- Listen for Exercise Finish and results: 
+  ```
+  Voicemed.addListener('finishedExercise', (info) => {
+    console.log('got exercise end', info);
+  });
+  ``` 
+- Close Exercise runner panel:
+  ```Voicemed.closeExercise();```
 
 
 ## Exercise results:
@@ -43,8 +49,8 @@ Exercise Reason possible values:
 - "denied"			> cam or mic permissions not granted
 - "user-cancelled"	> user cancelled exercise execution (quit)
 - "exercise-notrecognized"	>	exercise kind not supported
-- 'exercise-load-fail'	>	cannot load exercise from voicemed server or not found
-- 'exercise-audio-fail'	>	cannot load audio track from voicemed server
-- 'exercise-video-fail'	>	cannot load audio track from voicemed server
-- 'exercise-finish-fail'	>	cannot store exercise results on voicemed server
-- 'exercise-completed'	>	normal completed status (result will be filled with exercise results)
+- "exercise-load-fail"	>	cannot load exercise from voicemed server or not found
+- "exercise-audio-fail"	>	cannot load audio track from voicemed server
+- "exercise-video-fail"	>	cannot load audio track from voicemed server
+- "exercise-finish-fail"	>	cannot store exercise results on voicemed server
+- "exercise-completed"	>	normal completed status (result will be filled with exercise results)

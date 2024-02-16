@@ -7,15 +7,18 @@ window.customElements.define(
     class extends HTMLElement {
         constructor() {
             super();
-
             SplashScreen.hide();
-            window.test = Voicemed;
+
+            //Register completed exercise listener
+            Voicemed.addListener('finishedExercise', (info) => {
+                console.log('got exercise end', info);
+            });
+
             console.log('test me', Voicemed.echo({'value': 'Dummy method'}).then((r) => {
                 console.log('got somethng', r)
             }));
 
             const root = this.attachShadow({mode: 'open'});
-
             root.innerHTML = `
     <style>
       :host {
@@ -148,19 +151,6 @@ window.customElements.define(
                         alert('cannot retrieve exercises')
                     })
 
-                } catch (e) {
-                    console.warn('Error', e);
-                }
-            });
-            self.shadowRoot.querySelector('#start-exe').addEventListener('click', async function (e) {
-                try {
-                    const result = await Voicemed.startExercise({
-                        token: "faketoken",
-                        id: "321",
-                        program_id: "123",
-                        program_index: 1
-                    })
-                    console.log('got result:', result);
                 } catch (e) {
                     console.warn('Error', e);
                 }

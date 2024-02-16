@@ -31,6 +31,7 @@ CAP_PLUGIN(VoicemedPlugin, "Voicemed",
             CAP_PLUGIN_METHOD(listExercises, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(startExercise, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(finishExercise, CAPPluginReturnPromise);
+            CAP_PLUGIN_METHOD(closeExercise, CAPPluginReturnPromise);
            
             CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
 )

@@ -22,6 +22,12 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
             value: "ok"
         });
     }
+    closeExercise(): Promise<{ value: string }> {
+
+        return Promise.resolve({
+            value: "closed"
+        });
+    }
 
     authenticateUser(options: VoicemedAuthenticateUser): Promise<{ token: string; }> {
         window.console.log('User', options);

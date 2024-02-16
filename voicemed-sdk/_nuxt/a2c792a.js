@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[31],{958:function(n,s,o){"use strict";o.r(s),o.d(s,"BrowserWeb",(function(){return e})),o.d(s,"Browser",(function(){return i}));var t=o(111);class e extends t.b{constructor(){super(),this._lastWindow=null}async open(n){this._lastWindow=window.open(n.url,n.windowName||"_blank")}async close(){return new Promise(((n,s)=>{null!=this._lastWindow?(this._lastWindow.close(),this._lastWindow=null,n()):s("No active window to close!")}))}}const i=new e}}]);
+//# sourceMappingURL=a2c792a.js.map

@@ -240,7 +240,6 @@ public class VoicemedPlugin: CAPPlugin {
         let _program_id = call.getString("program_id", "")
         let _program_index = call.getInt("program_index", 0)
         if _token.isEmpty {
-            //Se non è passato via json, usa quello conservato
             _token = self.preferences.get(by: "token") ?? ""
         }
         if _token.isEmpty {
@@ -265,19 +264,8 @@ public class VoicemedPlugin: CAPPlugin {
         }
         
         let json :[String:Any] = ["exercise_id":_id,"program_id":_program_id,"program_index":_program_index]
-        
-            //Check assets exists in project
             if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
-                //if(currentExerciseView != nil) {
-                //    currentExerciseView?.removeFromSuperview()
-                //    currentExerciseView = nil
-                //}
-                
                 DispatchQueue.main.async {
-                    //Store current url for the future
-                    //self.currentExerciseView = WKWebView(frame: webview.frame, configuration: webview.configuration)
-                    //webview.addSubview(self.currentExerciseView!)
-                    
                     webview.evaluateJavaScript("document.location", completionHandler: { (object, error) in
                         if error == nil {
                                 print(object)
@@ -285,15 +273,17 @@ public class VoicemedPlugin: CAPPlugin {
                             }
                     })
                     let final = "\(_baseUrl)/voicemed-sdk/index.html?id=\(_id)&pid=\(_program_id)&px=\(_program_index)"
-                    
-                    print("final url: \(final)")
                     let jsonData = VoicemedPlugin.stringify(json: json)
-                    webview.evaluateJavaScript("window.currentExercise=\(jsonData); window.currentToken=\(_token)")
+                    webview.evaluateJavaScript("window.currentExercise=\(jsonData);window.currentVMToken='\(_token)';window.currentVMKey='\(self.appKey)';window.currentVMUrl='\(self.appUrl)'")
                     let createFullScreenIframe = """
                     if(document.getElementById("vmiframe_handler")) {
                         document.getElementById("vmiframe_handler").remove();
                     }
-                        const iFrameVM = document.createElement("IFRAME");
+                        window.capacitorHandler = Capacitor;
+                        window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
+                        window.deviceHandler  = Capacitor.Plugins.Device;
+                        window.browserHandler  = Capacitor.Plugins.Browser;
+                        window.iFrameVM = document.createElement("IFRAME");
                         iFrameVM.id = "vmiframe_handler";
                         iFrameVM.classList.add('vmiframe_handler');
                         iFrameVM.style.position='absolute';
@@ -318,30 +308,29 @@ public class VoicemedPlugin: CAPPlugin {
         
         
     }
+    @objc func closeExercise(_ call: CAPPluginCall) {
+        if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
+            DispatchQueue.main.async {
+                let closeFullScreenIframe = """
+                if(document.getElementById("vmiframe_handler")) {
+                    document.getElementById("vmiframe_handler").remove();
+                }
+                """
+                webview.evaluateJavaScript(closeFullScreenIframe, completionHandler: { (object, error) in
+                    if error == nil {
+                            print(object)
+                        }
+                })
+                call.resolve(ResponseGenerator.successResponse())
+            }
+            
+        }
+        
+    }
     
     @objc func finishExercise(_ call: CAPPluginCall) {
-        self.notifyListeners("finisheExercise", data: call.dictionaryRepresentation as! [String : Any])
-        //if(currentExerciseView != nil) {
-        //    currentExerciseView?.removeFromSuperview()
-        //    currentExerciseView = nil
-        //}
-        //call.resolve(ResponseGenerator.successResponse())
-        if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
-            //if(currentExerciseView != nil) {
-            //    currentExerciseView?.removeFromSuperview()
-            //    currentExerciseView = nil
-            //}
-            DispatchQueue.main.async {
-            webview.evaluateJavaScript("document.location = '\(self.currentUrl)';", completionHandler: { (object, error) in
-                if error == nil {
-                        print(object)
-                    }
-            })
-            
-            
-                
-            }
-        }
+        //Fire event!
+        self.notifyListeners("finishedExercise", data: call.dictionaryRepresentation as! [String : Any])
     }
 
     private var customMediaRecorder: CustomMediaRecorder? = nil
@@ -401,7 +390,6 @@ public class VoicemedPlugin: CAPPlugin {
     @objc func openPermissionPanel(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:]) { result in
-                print("End settings pane \(result)")
                 self.checkMicPerm(call)
             }
         }
@@ -460,7 +448,6 @@ public class VoicemedPlugin: CAPPlugin {
     if permissions.contains("microphone") {
         group.enter()
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            print("Mic request \(granted) grant?")
             group.leave()
         }
     }
@@ -531,7 +518,6 @@ func gotMicInfo(information:Any?) {
     self.notifyListeners("airlynUpdateMic", data: ["micName":info,"micSensitivity":0.0])
 }
 func gotPeakMeters(information:Any?) {
-    print("Got Peak? \(information)")
     if information is AudioLevels {
         let pLevel:AudioLevels = information as! AudioLevels
         self.notifyListeners("airlynUpdateMeters", data: ["peakPower":pLevel.peakLevel,"averagePower":pLevel.level])
@@ -546,8 +532,7 @@ func gotPeakMeters(information:Any?) {
 @objc func stopRecording(_ call: CAPPluginCall) {
     customMediaRecorder?.detatchObservers()
     let _retrieveCAF = call.getBool("returnCAF", false)
-    print("Return CAF? \(_retrieveCAF)")
-    print("Richiesta fine registrazione...")
+
     if(customMediaRecorder == nil) {
         call.reject(Messages.RECORDING_HAS_NOT_STARTED)
         return
@@ -566,7 +551,6 @@ func gotPeakMeters(information:Any?) {
     )
     if(_retrieveCAF) {
         let tmpAudioFile = customMediaRecorder?.getTmpOutputFile()
-        //print("Got tmp Caf File: \(tmpAudioFile)")
         if(tmpAudioFile != nil) {
             let cafData = RecordData(
                 _recordDataBase64: readFileAsBase64(tmpAudioFile),

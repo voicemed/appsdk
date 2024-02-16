@@ -125,6 +125,8 @@ export interface VoicemedPlugin {
 
     finishExercise(options: VoiceMedFinishExercise): Promise<{ value: string }>;
 
+    closeExercise(): Promise<{ value: string }>;
+
     checkCameraPerm(): Promise<{
         value: string
     }>;
