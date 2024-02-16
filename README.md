@@ -9,7 +9,7 @@ npm install voicemed-appsdk
 npx cap sync
 ```
 ### Layout Dist
-in voicemed-sdk there is the builded vendor layout files to be added to your webproject.
+in voicemed-sdk there is the built layout files to be added to your webproject.
 
 
 ### Post Install
@@ -19,28 +19,40 @@ Example:
 - npm run syncAndroidLayoutToDest --dest=./example/android/app/src/main
 - npm run synciOSLayoutToDest --dest=./example/ios/App/App
 
+> remember that built layout files have to be copied each time you will change your public/dist folder.
+
 ## Library usage
 
 - Import VoiceMed sdk in your scripts: import { Voicemed} from 'voicemed-appsdk';
 
-- Ensure your logged user is logged in into Voicemed:
+### Steps
+1. Ensure your logged user is logged in into Voicemed:
     - If you don't have an authentication code:
         - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
         - Retrieve the authentication code and store it for the future.
     
-- List Available exercises:
+2. List Available exercises:
   ```Voicemed.listExercises();```
-- Start Exercise:
+3. Start Exercise:
   ```Voicemed.startExercise({exercise:exerciseObject});```
+
+4. Close Exercise runner panel:
+  ```Voicemed.closeExercise();```
+
+If you want to listen for exercise execution result declare the following listener
 - Listen for Exercise Finish and results: 
   ```
   Voicemed.addListener('finishedExercise', (info) => {
     console.log('got exercise end', info);
+    //Your code, info.reason, info.result
   });
   ``` 
-- Close Exercise runner panel:
-  ```Voicemed.closeExercise();```
 
+#### Tips
+- if you want to close (force close) the exercise runner call the ```Voicemed.closeExercise();``` function.
+- The exercise will be automatically closed when the user taps: 
+  - Close 
+  - Done
 
 ## Exercise results:
 
