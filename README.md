@@ -54,3 +54,21 @@ Exercise Reason possible values:
 - "exercise-video-fail"	>	cannot load audio track from voicemed server
 - "exercise-finish-fail"	>	cannot store exercise results on voicemed server
 - "exercise-completed"	>	normal completed status (result will be filled with exercise results)
+
+## Android & iOS Tips:
+
+### iOS
+
+Remember to add in your plist ns<>Usage Description like these:
+```
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>AirLyn requires access to your microphone to record your breath exercises</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>AirLyn requires access your photolibrary to allow Avatar change feature</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AirLyn requires access to your photo to attach pictures during the breath exercises</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+```
