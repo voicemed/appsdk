@@ -14,10 +14,15 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Pair;
+import android.webkit.ValueCallback;
+import android.webkit.WebView;
 
 import androidx.activity.result.ActivityResult;
 
 import com.getcapacitor.PermissionState;
+import com.voicemed.appsdk.httputils.APIAccessTask;
+import com.voicemed.appsdk.httputils.APIResponseObject;
 import com.voicemed.appsdk.recorder.CurrentRecordingStatus;
 import com.voicemed.appsdk.recorder.CustomMediaRecorder;
 import com.voicemed.appsdk.recorder.RecordData;
@@ -34,6 +39,9 @@ import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,27 +57,30 @@ import static com.voicemed.appsdk.recorder.Messages.RECORDING_HAS_NOT_STARTED;
 
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 
 
-@CapacitorPlugin(
-        name = "Voicemed",
-        permissions = {
-                @Permission(
-                        alias = VoicemedPlugin.RECORD_AUDIO_ALIAS,
-                        strings = {Manifest.permission.RECORD_AUDIO}
-                ),
-                @Permission(
-                        alias = "storage",
-                        strings = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                )
-        }
+@CapacitorPlugin(name = "Voicemed", permissions = {@Permission(alias = VoicemedPlugin.RECORD_AUDIO_ALIAS, strings = {Manifest.permission.RECORD_AUDIO}), @Permission(alias = "storage", strings = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})}
 
 )
 public class VoicemedPlugin extends Plugin {
@@ -84,6 +95,13 @@ public class VoicemedPlugin extends Plugin {
     private String environment = "";
 
     private String appUrl = "";
+    private String currentUrl = "";
+
+    static final String _stagingUrl = "https://sandbox-api-2.voicemed.io/";
+    static final String _prodUrl = "https://api-2.voicemed.io/";
+    static final String API_authenticationSuffix = "v2/auth/login";
+    static final String API_listProgramsSuffix = "v2/user/programs";
+    static final String API_completeExerciseSuffix = "v2/user/breathing_exercises";
 
 
     @Override
@@ -102,46 +120,297 @@ public class VoicemedPlugin extends Plugin {
         }
 
         if (this.environment.equals("staging")) {
-            this.appUrl = "https://sandbox-api-2.voicemed.io/";
+            this.appUrl = _stagingUrl;
         } else if (this.environment.equals("production")) {
-            this.appUrl = "https://api-2.voicemed.io/";
+            this.appUrl = _prodUrl;
         }
     }
 
     @PluginMethod()
     public void authenticateUser(PluginCall call) {
-        String value = call.getString("value");
+        String value = call.getString("externalID", "");
+        if (value == null) {
+            value = "";
+        }
+        if (value.isEmpty()) {
+            call.reject("ExternalID must be filled");
+        }
+        JSObject _meta = call.getObject("usermeta");
 
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.resolve(ret);
-    }
+        String finalURL = appUrl + API_authenticationSuffix;
+        //Build params:
+        List<Pair<String, String>> _postData = new ArrayList<>();
+        _postData.add(new Pair<>("externalId", value));
 
-    @PluginMethod()
-    public void authenticateByToken(PluginCall call) {
-        String value = call.getString("value");
+        List<Pair<String, String>> _headerData = new ArrayList<>();
+        _headerData.add(new Pair<>("api-key", appKey));
+        _headerData.add(new Pair<>("Content-Type", "application/x-www-form-urlencoded"));
 
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.resolve(ret);
+        if (_meta != null) {
+            _postData.add(new Pair<>("meta", _meta.toString()));
+        }
+        new APIAccessTask(getContext(), finalURL, "POST", _postData, _headerData, new APIAccessTask.OnCompleteListener() {
+            @Override
+            public void onComplete(APIResponseObject result) {
+                if (result.responseCode >= 200 && result.responseCode <= 202) {
+                    try {
+                        JSObject jRes = new JSObject(result.response);
+                        if (jRes.has("access_token")) {
+                            String token = jRes.getString("access_token");
+                            preferences.set("token", token);
+                        }
+                        call.resolve(jRes);
+                    } catch (Throwable t) {
+                        call.reject("Something went wrong");
+                    }
+                } else {
+                    call.reject("something went wrong");
+                }
+            }
+        }).execute();
     }
 
     @PluginMethod()
     public void listExercises(PluginCall call) {
-        String value = call.getString("value");
+        Boolean full = call.getBoolean("full", true);
+        String token = call.getString("token", preferences.get("token"));
+        if (token.isEmpty()) {
+            token = preferences.get("token");
+        }
+        if (token.isEmpty()) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        String finalURL = appUrl + API_listProgramsSuffix;
 
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.resolve(ret);
+        String finalToken = token;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String response = "";
+                HttpURLConnection conn = null;
+                try {
+                    URL url = new URL(finalURL);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Content-length", "0");
+                    conn.setUseCaches(false);
+                    conn.setAllowUserInteraction(false);
+                    conn.setRequestProperty("api-key", appKey);
+                    conn.setRequestProperty("Authorization", "Bearer " + finalToken);
+                    conn.connect();
+                    int status = conn.getResponseCode();
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            br.close();
+                            response = sb.toString();
+                    }
+                } catch (MalformedURLException ex) {
+                    call.reject("Authorization, malformed url");
+
+                } catch (IOException ex) {
+                    call.reject("Something went wrong");
+                } finally {
+                    if (conn != null) {
+                        try {
+                            conn.disconnect();
+                        } catch (Exception ex) {
+                            call.reject("Something went wrong");
+                        }
+                    }
+                }
+                //String to json :
+                if (!response.isEmpty()) {
+                    ArrayList<JSObject> jChallenges = new ArrayList<JSObject>();
+                    try {
+                        JSArray jRes = new JSArray(response);
+                        List<JSObject> _lista = jRes.toList();
+                        for (JSObject _challenge : _lista) {
+                            String _id = _challenge.getString("_id", "");
+                            if (!_id.isEmpty()) {
+                                JSObject _newChallenge = getChallenge(_id, finalToken);
+                                if (!_newChallenge.equals(null)) {
+                                    jChallenges.add(_newChallenge);
+                                } else {
+                                    jChallenges.add(_challenge);
+                                }
+                            }
+                        }
+                    } catch (Throwable t) {
+                        call.reject("Something went wrong");
+                    }
+                    if (jChallenges.size() > 0) {
+                        JSArray _finalList = new JSArray(jChallenges);
+                        JSObject res = new JSObject();
+                        res.put("challenges", _finalList);
+                        call.resolve(res);
+                    } else {
+                        call.reject("Error");
+                    }
+                } else {
+                    call.reject("Something went wrong");
+                }
+            }
+        }).start();
+
+    }
+
+    private JSObject getChallenge(String challengeID, String token) {
+        String finalURL = appUrl + API_completeExerciseSuffix + "/" + challengeID;
+        String response = "";
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(finalURL);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-length", "0");
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+            conn.setRequestProperty("api-key", appKey);
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            conn.connect();
+            int status = conn.getResponseCode();
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+                    response = sb.toString();
+            }
+        } catch (MalformedURLException ex) {
+            return null;
+
+        } catch (IOException ex) {
+            return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.disconnect();
+                } catch (Exception ex) {
+                    return null;
+                }
+            }
+        }
+        //String to json :
+        if (!response.isEmpty()) {
+            try {
+                JSObject jRes = new JSObject(response);
+                return jRes;
+            } catch (Throwable t) {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     @PluginMethod()
     public void startExercise(PluginCall call) {
-        String value = call.getString("value");
+        String token = call.getString("token", "");
+        String _id = call.getString("id", "");
+        String _program_id = call.getString("program_id", "");
+        int _program_index = call.getInt("program_index", 0);
 
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.resolve(ret);
+        if (token.isEmpty()) {
+            token = preferences.get("token");
+        }
+
+        if (token.isEmpty()) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        if (_id.isEmpty()) {
+            call.reject("Exercise ID must be valid");
+            return;
+        }
+        if (_program_id.isEmpty()) {
+            call.reject("Program ID must be valid");
+            return;
+        }
+        if (_program_index < 0) {
+            call.reject("Program Index must be valid");
+            return;
+        }
+        String finalToken = token;
+        getBridge().executeOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                String baseURL = getBridge().getConfig().getServerUrl();
+                WebView w = getBridge().getWebView();
+                w.evaluateJavascript("document.location", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        currentUrl = value;
+                    }
+                });
+                String _final = baseURL + "/voicemed-sdk/index.html?id=" + _id + "&pid=" + _program_id + "&px=" + _program_index;
+                JSObject _jsonData = new JSObject();
+                _jsonData.put("exercise_id", _id);
+                _jsonData.put("program_id", _program_id);
+                _jsonData.put("program_index", _program_index);
+                String json = _jsonData.toString();
+                String initCommand = "window.currentExerciseURL=" + _final + ";window.currentExercise=" + json + ";window.currentVMToken='" + finalToken + "';window.currentVMKey='" + appKey + "';window.currentVMUrl='" + appUrl + "';";
+                String finalCommand = """
+                        if(document.getElementById("vmiframe_handler")) {
+                            document.getElementById("vmiframe_handler").remove();
+                        }
+                        window.capacitorHandler = Capacitor;
+                        window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
+                        window.deviceHandler  = Capacitor.Plugins.Device;
+                        window.browserHandler  = Capacitor.Plugins.Browser;
+                        window.iFrameVM = document.createElement("IFRAME");
+                        iFrameVM.id = "vmiframe_handler";
+                        iFrameVM.classList.add('vmiframe_handler');
+                        iFrameVM.style.position='absolute';
+                        iFrameVM.style.left='0px';
+                        iFrameVM.style.top='0px';
+                        iFrameVM.style.width='100vw';
+                        iFrameVM.style.height='100vh';
+                        iFrameVM.style.zIndex=99999;
+                        iFrameVM.src = window.currentExerciseURL;
+                        document.querySelector('body').appendChild(iFrameVM);
+                        """;
+                w.evaluateJavascript(initCommand + finalCommand, new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.d("VOICEMED", "Got set value result" + value);
+                    }
+                });
+                call.resolve(ResponseGenerator.successResponse());
+            }
+        });
+    }
+
+    @PluginMethod()
+    public void closeExercise(PluginCall call) {
+        getBridge().executeOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                String closeFullScreenIframe = """
+                        if(document.getElementById("vmiframe_handler")) {
+                            document.getElementById("vmiframe_handler").remove();
+                        }
+                        """;
+                WebView w = getBridge().getWebView();
+                w.evaluateJavascript(closeFullScreenIframe, new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.d("VOICEMED", "Finito" + value);
+                    }
+                });
+                call.resolve(ResponseGenerator.successResponse());
+            }
+        });
     }
 
     @PluginMethod()
@@ -229,11 +498,7 @@ public class VoicemedPlugin extends Plugin {
 
     @PluginMethod()
     public void openPermissionPanel(PluginCall call) {
-        startActivityForResult(
-                call,
-                new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getContext().getPackageName(), null)),
-                "permissionPanelResult"
-        );
+        startActivityForResult(call, new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getContext().getPackageName(), null)), "permissionPanelResult");
     }
 
     @ActivityCallback()
@@ -281,8 +546,7 @@ public class VoicemedPlugin extends Plugin {
         aliases[0] = "storage";
         aliases[1] = VoicemedPlugin.RECORD_AUDIO_ALIAS;
         /*aliases[2] = "camera";*/
-        requestPermissionForAliases(aliases,
-                call, "wholePermsCallback");
+        requestPermissionForAliases(aliases, call, "wholePermsCallback");
     }
 
     @PermissionCallback
@@ -342,8 +606,7 @@ public class VoicemedPlugin extends Plugin {
     public void canDeviceVoiceRecord(PluginCall call) {
         if (CustomMediaRecorder.canPhoneCreateMediaRecorder(getContext()))
             call.resolve(ResponseGenerator.successResponse());
-        else
-            call.resolve(ResponseGenerator.failResponse());
+        else call.resolve(ResponseGenerator.failResponse());
     }
 
     @PluginMethod()
@@ -439,15 +702,10 @@ public class VoicemedPlugin extends Plugin {
         try {
             mediaRecorder.stopRecording();
             File recordedFile = mediaRecorder.getOutputFile();
-            RecordData recordData = new RecordData(
-                    readRecordedFileAsBase64(recordedFile),
-                    getMsDurationOfAudioFile(recordedFile.getAbsolutePath()),
-                    "audio/x-wav"
-            );
+            RecordData recordData = new RecordData(readRecordedFileAsBase64(recordedFile), getMsDurationOfAudioFile(recordedFile.getAbsolutePath()), "audio/x-wav");
             if (recordData.getRecordDataBase64() == null || recordData.getMsDuration() < 0)
                 call.reject(FAILED_TO_FETCH_RECORDING);
-            else
-                call.resolve(ResponseGenerator.dataResponse(recordData.toJSObject()));
+            else call.resolve(ResponseGenerator.dataResponse(recordData.toJSObject()));
         } catch (Exception exp) {
             call.reject(FAILED_TO_FETCH_RECORDING, exp);
         } finally {
@@ -522,8 +780,7 @@ public class VoicemedPlugin extends Plugin {
 
     private boolean isMicrophoneOccupied() {
         AudioManager audioManager = (AudioManager) this.getContext().getSystemService(Context.AUDIO_SERVICE);
-        if (audioManager == null)
-            return true;
+        if (audioManager == null) return true;
         return audioManager.getMode() != AudioManager.MODE_NORMAL;
     }
 
@@ -656,4 +913,17 @@ public class VoicemedPlugin extends Plugin {
         call.resolve();
     }
 
+
+    private String getDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (first) first = false;
+            else result.append("&");
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+        return result.toString();
+    }
 }

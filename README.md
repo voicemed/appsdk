@@ -84,3 +84,10 @@ Remember to add in your plist ns<>Usage Description like these:
 	<key>UIFileSharingEnabled</key>
 	<true/>
 ```
+
+### Android 
+Remember to add in your manifest the propert permissions: 
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
