@@ -75,6 +75,13 @@ window.customElements.define(
         <p>
           Voicemed Tester
         </p>
+        <h2>Request permissions</h2>
+        <p>
+          0. Request Proper permissions
+        </p>
+        <p>
+          <button class="button" id="take-permissions">Request</button>
+        </p>
         <h2>Getting Started</h2>
         <p>
           1. Authenticate to VoiceMed environment
@@ -98,6 +105,20 @@ window.customElements.define(
         connectedCallback() {
             const self = this;
 
+            self.shadowRoot.querySelector('#take-permissions').addEventListener('click', async function (e) {
+                try {
+                    Voicemed.checkMicPerm().then((r)=> {
+                        console.log("Permission request finished",r);
+                        alert('Permission request was completed');
+                    }).catch((e)=> {
+                        console.error('Cannot request permissionis',e);
+                        alert('Cannot request permissions');
+                    });
+
+                } catch (e) {
+                    console.warn('Permission error (general)', e);
+                }
+            });
             self.shadowRoot.querySelector('#take-user').addEventListener('click', async function (e) {
                 try {
                     const user = await Voicemed.authenticateUser({externalID: "yh-test321-sdk"});

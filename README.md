@@ -61,6 +61,7 @@ If you want to listen for exercise execution result declare the following listen
   - Close 
   - Done
 - *Before starting and exercise* request All write|read|record_audio permission with your layout and explainations.
+  - If needed you can use the Voicemed.checkMicPerm().then((r)=> { ... }).catch((e)=> { ... });
 
 ## Exercise results:
 
