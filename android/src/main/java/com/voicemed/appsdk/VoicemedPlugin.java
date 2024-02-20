@@ -128,20 +128,15 @@ public class VoicemedPlugin extends Plugin {
 
     @PluginMethod()
     public void authenticateUser(PluginCall call) {
-        String value = call.getString("externalID", "");
-        if (value == null) {
-            value = "";
-        }
+        String value = call.getString("externalID");
         if (StringIsEmpty(value)) {
             call.reject("ExternalID must be filled");
         }
         JSObject _meta = call.getObject("usermeta");
-
         String finalURL = appUrl + API_authenticationSuffix;
         //Build params:
         List<Pair<String, String>> _postData = new ArrayList<>();
         _postData.add(new Pair<>("externalId", value));
-
         List<Pair<String, String>> _headerData = new ArrayList<>();
         _headerData.add(new Pair<>("api-key", appKey));
         _headerData.add(new Pair<>("Content-Type", "application/x-www-form-urlencoded"));

@@ -121,11 +121,15 @@ public class APIAccessTask extends AsyncTask<String, Void, APIResponseObject> {
                 result.append("&");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                result.append(URLEncoder.encode(pair.first, StandardCharsets.UTF_8));
+                result.append(URLEncoder.encode(pair.first.toString(), StandardCharsets.UTF_8));
+            } else {
+                result.append(URLEncoder.encode(pair.first.toString(), "UTF-8"));
             }
             result.append("=");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                result.append(URLEncoder.encode(pair.second, StandardCharsets.UTF_8));
+                result.append(URLEncoder.encode(pair.second.toString(), StandardCharsets.UTF_8));
+            } else {
+                result.append(URLEncoder.encode(pair.second.toString(), "UTF-8"));
             }
         }
         return result.toString();
