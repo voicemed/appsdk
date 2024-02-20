@@ -107,11 +107,11 @@ window.customElements.define(
 
             self.shadowRoot.querySelector('#take-permissions').addEventListener('click', async function (e) {
                 try {
-                    Voicemed.checkMicPerm().then((r)=> {
-                        console.log("Permission request finished",r);
+                    Voicemed.checkMicPerm().then((r) => {
+                        console.log("Permission request finished", r);
                         alert('Permission request was completed');
-                    }).catch((e)=> {
-                        console.error('Cannot request permissionis',e);
+                    }).catch((e) => {
+                        console.error('Cannot request permissionis', e);
                         alert('Cannot request permissions');
                     });
 
@@ -126,9 +126,12 @@ window.customElements.define(
                     if (user && user.access_token) {
                         window.currentToken = user.access_token;
                         alert('User authenticated!');
+                    } else {
+                        alert('cannot login');
                     }
                 } catch (e) {
                     console.warn('User cancelled', e);
+                    alert('login error');
                 }
             });
             self.shadowRoot.querySelector('#take-list').addEventListener('click', async function (e) {
