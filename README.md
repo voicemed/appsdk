@@ -25,6 +25,13 @@ Example:
 
 - Import VoiceMed sdk in your scripts: import { Voicemed} from 'voicemed-appsdk';
 
+### Capacitor Plugins needed by this library
+
+- @capacitor/device
+- @capacitor/browser
+- @capacitor/keyboard
+- @capacitor/dialog (not mandatory but suggested)
+
 ### Steps
 1. Ensure your logged user is logged in into Voicemed:
     - If you don't have an authentication code:
@@ -53,6 +60,7 @@ If you want to listen for exercise execution result declare the following listen
 - The exercise will be automatically closed when the user taps: 
   - Close 
   - Done
+- *Before starting and exercise* request All write|read|record_audio permission with your layout and explainations.
 
 ## Exercise results:
 
@@ -86,8 +94,14 @@ Remember to add in your plist ns<>Usage Description like these:
 ```
 
 ### Android 
-Remember to add in your manifest the propert permissions: 
+Remember to add in your manifest the proper permissions: 
 ```
 <uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
 ```
 

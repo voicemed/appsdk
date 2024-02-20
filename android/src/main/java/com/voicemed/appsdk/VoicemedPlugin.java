@@ -230,15 +230,15 @@ public class VoicemedPlugin extends Plugin {
                     ArrayList<JSObject> jChallenges = new ArrayList<JSObject>();
                     try {
                         JSArray jRes = new JSArray(response);
-                        List<JSObject> _lista = jRes.toList();
-                        for (JSObject _challenge : _lista) {
-                            String _id = _challenge.getString("_id", "");
+                        List<JSONObject> _lista = jRes.toList();
+                        for (JSONObject _challenge : _lista) {
+                            String _id = _challenge.optString("_id","");
                             if (!_id.isEmpty()) {
                                 JSObject _newChallenge = getChallenge(_id, finalToken);
                                 if (!_newChallenge.equals(null)) {
                                     jChallenges.add(_newChallenge);
                                 } else {
-                                    jChallenges.add(_challenge);
+                                    jChallenges.add(new JSObject(_challenge.toString()));
                                 }
                             }
                         }
@@ -262,7 +262,7 @@ public class VoicemedPlugin extends Plugin {
     }
 
     private JSObject getChallenge(String challengeID, String token) {
-        String finalURL = appUrl + API_completeExerciseSuffix + "/" + challengeID;
+        String finalURL = appUrl + API_listProgramsSuffix + "/" + challengeID;
         String response = "";
         HttpURLConnection conn = null;
         try {
@@ -345,7 +345,10 @@ public class VoicemedPlugin extends Plugin {
         getBridge().executeOnMainThread(new Runnable() {
             @Override
             public void run() {
-                String baseURL = getBridge().getConfig().getServerUrl();
+                String baseURL = getBridge().getLocalUrl();
+                if(baseURL.isEmpty()) {
+                    baseURL = getBridge().getServerUrl();
+                }
                 WebView w = getBridge().getWebView();
                 w.evaluateJavascript("document.location", new ValueCallback<String>() {
                     @Override
@@ -359,7 +362,7 @@ public class VoicemedPlugin extends Plugin {
                 _jsonData.put("program_id", _program_id);
                 _jsonData.put("program_index", _program_index);
                 String json = _jsonData.toString();
-                String initCommand = "window.currentExerciseURL=" + _final + ";window.currentExercise=" + json + ";window.currentVMToken='" + finalToken + "';window.currentVMKey='" + appKey + "';window.currentVMUrl='" + appUrl + "';";
+                String initCommand = "window.currentExerciseURL='" + _final + "';window.currentExercise=" + json + ";window.currentVMToken='" + finalToken + "';window.currentVMKey='" + appKey + "';window.currentVMUrl='" + appUrl + "';";
                 String finalCommand = """
                         if(document.getElementById("vmiframe_handler")) {
                             document.getElementById("vmiframe_handler").remove();
@@ -368,6 +371,8 @@ public class VoicemedPlugin extends Plugin {
                         window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
                         window.deviceHandler  = Capacitor.Plugins.Device;
                         window.browserHandler  = Capacitor.Plugins.Browser;
+                        window.localKeyboard  = Capacitor.Plugins.Keyboard;
+                        window.localDialog  = Capacitor.Plugins.Dialog;
                         window.iFrameVM = document.createElement("IFRAME");
                         iFrameVM.id = "vmiframe_handler";
                         iFrameVM.classList.add('vmiframe_handler');
@@ -411,6 +416,11 @@ public class VoicemedPlugin extends Plugin {
                 call.resolve(ResponseGenerator.successResponse());
             }
         });
+    }
+
+    @PluginMethod()
+    public void finishExercise(PluginCall call) {
+        notifyListeners("finishedExercise", call.getData());
     }
 
     @PluginMethod()
