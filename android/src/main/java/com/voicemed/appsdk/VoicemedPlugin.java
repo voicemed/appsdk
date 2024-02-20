@@ -132,7 +132,7 @@ public class VoicemedPlugin extends Plugin {
         if (value == null) {
             value = "";
         }
-        if (value.isEmpty()) {
+        if (StringIsEmpty(value)) {
             call.reject("ExternalID must be filled");
         }
         JSObject _meta = call.getObject("usermeta");
@@ -149,35 +149,46 @@ public class VoicemedPlugin extends Plugin {
         if (_meta != null) {
             _postData.add(new Pair<>("meta", _meta.toString()));
         }
-        new APIAccessTask(getContext(), finalURL, "POST", _postData, _headerData, new APIAccessTask.OnCompleteListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onComplete(APIResponseObject result) {
-                if (result.responseCode >= 200 && result.responseCode <= 202) {
-                    try {
-                        JSObject jRes = new JSObject(result.response);
-                        if (jRes.has("access_token")) {
-                            String token = jRes.getString("access_token");
-                            preferences.set("token", token);
+            public void run() {
+                new APIAccessTask(getContext(), finalURL, "POST", _postData, _headerData, new APIAccessTask.OnCompleteListener() {
+                    @Override
+                    public void onComplete(APIResponseObject result) {
+                        if (result.responseCode >= 200 && result.responseCode <= 202) {
+                            try {
+                                JSObject jRes = new JSObject(result.response);
+                                if (jRes.has("access_token")) {
+                                    String token = jRes.getString("access_token");
+                                    preferences.set("token", token);
+                                }
+                                call.resolve(jRes);
+                            } catch (Throwable t) {
+                                call.reject("Something went wrong");
+                            }
+                        } else {
+                            call.reject("something went wrong");
                         }
-                        call.resolve(jRes);
-                    } catch (Throwable t) {
-                        call.reject("Something went wrong");
                     }
-                } else {
-                    call.reject("something went wrong");
-                }
+                }).execute();
             }
-        }).execute();
+        }).start();
+    }
+    private boolean StringIsEmpty(String tmp) {
+        if(tmp != null && !tmp.isEmpty() && !tmp.equals("null")) {
+            return false;
+        }
+        return true;
     }
 
     @PluginMethod()
     public void listExercises(PluginCall call) {
         Boolean full = call.getBoolean("full", true);
         String token = call.getString("token", preferences.get("token"));
-        if (token.isEmpty()) {
+        if (StringIsEmpty(token)) {
             token = preferences.get("token");
         }
-        if (token.isEmpty()) {
+        if (StringIsEmpty(token)) {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
         }
         String finalURL = appUrl + API_listProgramsSuffix;
@@ -226,14 +237,14 @@ public class VoicemedPlugin extends Plugin {
                     }
                 }
                 //String to json :
-                if (!response.isEmpty()) {
+                if (!StringIsEmpty(response)) {
                     ArrayList<JSObject> jChallenges = new ArrayList<JSObject>();
                     try {
                         JSArray jRes = new JSArray(response);
                         List<JSONObject> _lista = jRes.toList();
                         for (JSONObject _challenge : _lista) {
                             String _id = _challenge.optString("_id","");
-                            if (!_id.isEmpty()) {
+                            if (!StringIsEmpty(_id)) {
                                 JSObject _newChallenge = getChallenge(_id, finalToken);
                                 if (!_newChallenge.equals(null)) {
                                     jChallenges.add(_newChallenge);
@@ -303,7 +314,7 @@ public class VoicemedPlugin extends Plugin {
             }
         }
         //String to json :
-        if (!response.isEmpty()) {
+        if (!StringIsEmpty(response)) {
             try {
                 JSObject jRes = new JSObject(response);
                 return jRes;
@@ -322,18 +333,18 @@ public class VoicemedPlugin extends Plugin {
         String _program_id = call.getString("program_id", "");
         int _program_index = call.getInt("program_index", 0);
 
-        if (token.isEmpty()) {
+        if (StringIsEmpty(token)) {
             token = preferences.get("token");
         }
 
-        if (token.isEmpty()) {
+        if (StringIsEmpty(token)) {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
         }
-        if (_id.isEmpty()) {
+        if (StringIsEmpty(_id)) {
             call.reject("Exercise ID must be valid");
             return;
         }
-        if (_program_id.isEmpty()) {
+        if (StringIsEmpty(_program_id)) {
             call.reject("Program ID must be valid");
             return;
         }
@@ -346,7 +357,7 @@ public class VoicemedPlugin extends Plugin {
             @Override
             public void run() {
                 String baseURL = getBridge().getLocalUrl();
-                if(baseURL.isEmpty()) {
+                if(StringIsEmpty(baseURL)) {
                     baseURL = getBridge().getServerUrl();
                 }
                 WebView w = getBridge().getWebView();
