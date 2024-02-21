@@ -127,6 +127,29 @@ public class VoicemedPlugin extends Plugin {
     }
 
     @PluginMethod()
+    public void logout(PluginCall call) {
+        preferences.clear();
+        call.resolve();
+    }
+
+    @PluginMethod()
+    public void fillUserData(PluginCall call) {
+        String _currentData = preferences.get("userdata");
+        String token = preferences.get("token");
+        if (StringIsEmpty(token)) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        if(StringIsEmpty(_currentData)) {
+            call.reject("No data for this user");
+        }
+        try {
+            JSObject jData = new JSObject(_currentData);
+            call.resolve(jData);
+        }catch (JSONException e) {
+            call.reject("No data for this user");
+        }
+    }
+    @PluginMethod()
     public void authenticateUser(PluginCall call) {
         String value = call.getString("externalID");
         if (StringIsEmpty(value)) {
@@ -156,6 +179,14 @@ public class VoicemedPlugin extends Plugin {
                                 if (jRes.has("access_token")) {
                                     String token = jRes.getString("access_token");
                                     preferences.set("token", token);
+                                    JSObject _eventData = new JSObject();
+                                    _eventData.put("currentToken", token);
+                                    _eventData.put("id", value);
+                                    if (_meta != null) {
+                                        _eventData.put("meta", _meta);
+                                    }
+                                    preferences.set("userdata",_eventData.toString());
+                                    notifyListeners("airlynUpdateUserData", _eventData);
                                 }
                                 call.resolve(jRes);
                             } catch (Throwable t) {
@@ -169,8 +200,9 @@ public class VoicemedPlugin extends Plugin {
             }
         }).start();
     }
+
     private boolean StringIsEmpty(String tmp) {
-        if(tmp != null && !tmp.isEmpty() && !tmp.equals("null")) {
+        if (tmp != null && !tmp.isEmpty() && !tmp.equals("null")) {
             return false;
         }
         return true;
@@ -238,7 +270,7 @@ public class VoicemedPlugin extends Plugin {
                         JSArray jRes = new JSArray(response);
                         List<JSONObject> _lista = jRes.toList();
                         for (JSONObject _challenge : _lista) {
-                            String _id = _challenge.optString("_id","");
+                            String _id = _challenge.optString("_id", "");
                             if (!StringIsEmpty(_id)) {
                                 JSObject _newChallenge = getChallenge(_id, finalToken);
                                 if (!_newChallenge.equals(null)) {
@@ -352,7 +384,7 @@ public class VoicemedPlugin extends Plugin {
             @Override
             public void run() {
                 String baseURL = getBridge().getLocalUrl();
-                if(StringIsEmpty(baseURL)) {
+                if (StringIsEmpty(baseURL)) {
                     baseURL = getBridge().getServerUrl();
                 }
                 WebView w = getBridge().getWebView();
