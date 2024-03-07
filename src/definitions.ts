@@ -56,6 +56,12 @@ export interface VoicemedAuthenticateUser {
     };
 }
 
+export interface VoiceMedChallenges {
+    "_id": string,
+    "name": string,
+    "exercises": VoiceMedExercise[]
+}
+
 export interface VoiceMedExercise {
     tags: string[];
     "createdAt": string;
@@ -96,6 +102,7 @@ export interface VoiceMedRequestExercise {
 
 export interface VoiceMedRequest {
     "token": string;
+    "full": boolean
 }
 
 export interface VoiceMedFinishExercise {
@@ -119,7 +126,7 @@ export interface VoicemedPlugin {
 
     authenticateByToken(options: VoiceMedRequest): Promise<{ token: string }>;
 
-    listExercises(options: VoiceMedRequest): Promise<{ exercises: VoiceMedExercise[] }>;
+    listExercises(options: VoiceMedRequest): Promise<{ challenges: VoiceMedChallenges[] }>;
 
     startExercise(options: VoiceMedRequestExercise): Promise<{ value: string }>;
 
