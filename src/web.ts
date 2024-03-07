@@ -7,7 +7,6 @@ import {
     VoiceMedRequest,
     VoiceMedRequestExercise
 } from './definitions';
-import * as console from "console";
 
 export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     _stagingUrl = "https://sandbox-api-2.voicemed.io/";
@@ -22,6 +21,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
 
     constructor(config?: WebPluginConfig) {
         super(config);
+        window.console.log(config);
         // @ts-ignore
         if (config && typeof config["VoicemedPlugin"] !== 'undefined') {
             // @ts-ignore
@@ -41,11 +41,18 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
                 this.environment = "staging"
             }
         }
+        if (typeof this.appKey === 'undefined') {
+            this.appKey = "";
+        }
+        if (this.appKey.length <= 0) {
+            this.appKey = "ac7dde4e-01e4-44ca-ba29-dedda5ee52eb"
+        }
         if (this.environment == 'production') {
             this.appUrl = this._prodUrl;
         } else {
             this.appUrl = this._stagingUrl;
         }
+        window.console.log('Voicemed inited');
     }
 
     startExercise(options: VoiceMedRequestExercise): Promise<{ value: string; }> {
@@ -84,7 +91,9 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         const finalURL = this.appUrl + this.API_authenticationSuffix;
         let fData = new FormData();
         fData.append("externalId", extID);
-        fData.append("meta", JSON.stringify(_meta));
+        if (_meta != null && typeof _meta ==='object' && Object.keys(_meta).length>0) {
+            fData.append("meta", JSON.stringify(_meta));
+        }
         const headers = {
             "api-key": this.appKey,
             "Content-Type": "application/x-www-form-urlencoded"
@@ -101,7 +110,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
                 _eventData['currentToken'] = r['access_token'];
                 // @ts-ignore
                 _eventData['id'] = extID;
-                if (_meta != null) {
+                if (_meta != null && typeof _meta ==='object' && Object.keys(_meta).length>0) {
                     // @ts-ignore
                     _eventData['meta'] = _meta;
                 }
@@ -203,7 +212,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     }
 
     preferenceConfigure(options: { group: string }): Promise<{ value: string }> {
-        console.log('ECHO', options);
+        window.console.log('ECHO', options);
         return Promise.resolve({value: ""});
     }
 
@@ -222,7 +231,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     }
 
     preferenceRemove(options: { key: string }): Promise<{ value: string }> {
-        console.log('ECHO', options);
+        window.console.log('ECHO', options);
         // @ts-ignore
         this.fakePreferenceStorage[options.key] = null;
         // @ts-ignore
@@ -231,7 +240,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     }
 
     preferenceSet(options: { key: string; value: string }): Promise<{ value: any }> {
-        console.log('ECHO', options);
+        window.console.log('ECHO', options);
         // @ts-ignore
         this.fakePreferenceStorage[options.key] = options.value;
         return Promise.resolve({value: this.fakePreferenceStorage});
@@ -254,7 +263,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     }
 
     startRecording(options: { useAGC: boolean }): Promise<{ value: string }> {
-        console.log('ECHO', options);
+        window.console.log('ECHO', options);
         return Promise.resolve({value: ""});
     }
 
