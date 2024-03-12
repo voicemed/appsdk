@@ -90,18 +90,21 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         }
         const finalURL = this.appUrl + this.API_authenticationSuffix;
         let fData = new FormData();
+        let jData: any = {}
         fData.append("externalId", extID);
-        if (_meta != null && typeof _meta ==='object' && Object.keys(_meta).length>0) {
+        jData.externalId = extID;
+        if (_meta != null && typeof _meta === 'object' && Object.keys(_meta).length > 0) {
             fData.append("meta", JSON.stringify(_meta));
+            jData.meta = _meta
         }
         const headers = {
             "api-key": this.appKey,
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/json"
         };
         return fetch(finalURL, {
             "method": 'POST',
             "headers": headers,
-            "body": fData
+            "body": JSON.stringify(jData)
         }).then((r) => r.json()).then((r) => {
             if (typeof r['access_token'] !== 'undefined') {
                 this.preferenceSet({key: 'token', value: r['access_token']});
@@ -110,7 +113,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
                 _eventData['currentToken'] = r['access_token'];
                 // @ts-ignore
                 _eventData['id'] = extID;
-                if (_meta != null && typeof _meta ==='object' && Object.keys(_meta).length>0) {
+                if (_meta != null && typeof _meta === 'object' && Object.keys(_meta).length > 0) {
                     // @ts-ignore
                     _eventData['meta'] = _meta;
                 }
@@ -144,22 +147,31 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         return fetch(finalURL, {headers: headers})
             .then((r) => r.json())
             .then((challenges) => {
-                return Promise.resolve({
-                    "challenges": challenges.map((challenge: any) => {
+                let _list : any[] = []
+                return challenges.reduce((carry: any, challenge: any) => {
+                    return carry.then((r: any) => {
+                        if (r) {
+                            _list.push(r)
+                        }
                         let id = typeof challenge['_id'] !== 'undefined' ? challenge._id : "";
                         if (id.length > 0) {
                             return this._getChallenge(id, token);
                         } else {
-                            return challenge;
+                            return Promise.resolve(challenge)
                         }
-                    })
-                })
+                    });
+                }, Promise.resolve(false)).then((fin: any) => {
+                    if (fin) {
+                        _list.push(fin)
+                    }
+                    return {"challenges": _list}
+                });
             });
     }
 
-    async _getChallenge(challengeID: string, token: string) {
+    _getChallenge(challengeID: string, token: string) {
         const finalURL = this.appUrl + this.API_listProgramsSuffix + "/" + challengeID;
-        return await fetch(finalURL, {headers: {"api-key": this.appKey, "Authorization": "Bearer " + token}})
+        return fetch(finalURL, {headers: {"api-key": this.appKey, "Authorization": "Bearer " + token}})
             .then((r) => r.json())
     }
 
