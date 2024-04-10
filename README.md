@@ -32,7 +32,7 @@ Example:
 - @capacitor/keyboard
 - @capacitor/dialog (not mandatory but suggested)
 
-### Steps
+### Steps single exercise
 1. Ensure your logged user is logged in into Voicemed:
     - If you don't have an authentication code:
         - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
@@ -54,6 +54,37 @@ If you want to listen for exercise execution result declare the following listen
     //Your code, info.reason, info.result
   });
   ``` 
+
+### Steps whole challenge
+1. Ensure your logged user is logged in into Voicemed:
+    - If you don't have an authentication code:
+        - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
+        - Retrieve the authentication code and store it for the future.
+
+2. List Available challenges:
+   ```Voicemed.listChallenges();```
+3. Start challenge:
+   ```Voicemed.startChallenge({challenge:challengeObject});```
+
+4. Close Exercise/Challenge runner panel:
+   ```Voicemed.closeExercise();```
+
+If you want to listen for exercise execution result declare the following listener
+- Listen for single Exercise Finish and results:
+  ```
+  Voicemed.addListener('finishedExercise', (info) => {
+    console.log('got exercise end', info);
+    //Your code, info.reason, info.result
+  });
+  ``` 
+- Listen for whole Challenge Finish:
+  ```
+  Voicemed.addListener('finishedChallenge', (info) => {
+    console.log('got challenge end', info);
+    //Your code, info.reason, info.result
+  });
+  ``` 
+
 
 #### Tips
 - if you want to close (force close) the exercise runner call the ```Voicemed.closeExercise();``` function.

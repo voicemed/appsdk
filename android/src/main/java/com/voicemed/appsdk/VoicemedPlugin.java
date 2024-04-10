@@ -434,6 +434,78 @@ public class VoicemedPlugin extends Plugin {
         });
     }
 
+
+    @PluginMethod()
+    public void startChallenge(PluginCall call) {
+        String token = call.getString("token", "");
+        String _program_id = call.getString("program_id", "");
+
+        if (StringIsEmpty(token)) {
+            token = preferences.get("token");
+        }
+
+        if (StringIsEmpty(token)) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        if (StringIsEmpty(_program_id)) {
+            call.reject("Program ID must be valid");
+            return;
+        }
+        String finalToken = token;
+        getBridge().executeOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                String baseURL = getBridge().getLocalUrl();
+                if (StringIsEmpty(baseURL)) {
+                    baseURL = getBridge().getServerUrl();
+                }
+                WebView w = getBridge().getWebView();
+                w.evaluateJavascript("document.location", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        currentUrl = value;
+                    }
+                });
+                String _final = baseURL + "/voicemed-sdk/index.html?pid=" + _program_id + "&pmode=challenge";
+                JSObject _jsonData = new JSObject();
+                _jsonData.put("command", "challenge");
+                _jsonData.put("program_id", _program_id);
+                String json = _jsonData.toString();
+                String initCommand = "window.currentExerciseURL='" + _final + "';window.currentChallenge=" + json + ";window.currentVMToken='" + finalToken + "';window.currentVMKey='" + appKey + "';window.currentVMUrl='" + appUrl + "';";
+                String finalCommand = """
+                        if(document.getElementById("vmiframe_handler")) {
+                            document.getElementById("vmiframe_handler").remove();
+                        }
+                        window.capacitorHandler = Capacitor;
+                        window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
+                        window.deviceHandler  = Capacitor.Plugins.Device;
+                        window.browserHandler  = Capacitor.Plugins.Browser;
+                        window.localKeyboard  = Capacitor.Plugins.Keyboard;
+                        window.localDialog  = Capacitor.Plugins.Dialog;
+                        window.iFrameVM = document.createElement("IFRAME");
+                        iFrameVM.id = "vmiframe_handler";
+                        iFrameVM.classList.add('vmiframe_handler');
+                        iFrameVM.style.position='absolute';
+                        iFrameVM.style.left='0px';
+                        iFrameVM.style.top='0px';
+                        iFrameVM.style.width='100vw';
+                        iFrameVM.style.height='100vh';
+                        iFrameVM.style.zIndex=99999;
+                        iFrameVM.src = window.currentExerciseURL;
+                        document.querySelector('body').appendChild(iFrameVM);
+                        """;
+                w.evaluateJavascript(initCommand + finalCommand, new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.d("VOICEMED", "Got set value result" + value);
+                    }
+                });
+                call.resolve(ResponseGenerator.successResponse());
+            }
+        });
+    }
+
+
     @PluginMethod()
     public void closeExercise(PluginCall call) {
         getBridge().executeOnMainThread(new Runnable() {
@@ -459,6 +531,10 @@ public class VoicemedPlugin extends Plugin {
     @PluginMethod()
     public void finishExercise(PluginCall call) {
         notifyListeners("finishedExercise", call.getData());
+    }
+    @PluginMethod()
+    public void finishChallenge(PluginCall call) {
+        notifyListeners("finishedChallenge", call.getData());
     }
 
     @PluginMethod()

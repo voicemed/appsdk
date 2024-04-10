@@ -24,6 +24,14 @@ window.customElements.define(
       h1, h2, h3, h4, h5 {
         text-transform: uppercase;
       }
+      .activateChallenge {
+        display: inline-block;
+        padding:4px 8px;
+        border:1px solid #3d3d3d;
+        color:#3d3d3d;
+        border-radius: 4px;
+        box-shadow: 2px 2px 0px #000000;        
+      }
       .button {
         display: inline-block;
         padding: 10px;
@@ -101,42 +109,45 @@ window.customElements.define(
             const self = this;
 
             self.shadowRoot.querySelector('#log').innerHTML =
-                self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:orange;'>Register finishedExercise event listener</span>";
+                self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Register finishedExercise event listener</span>";
             //Register completed exercise listener
             Voicemed.addListener('finishedExercise', (info) => {
                 console.log('got exercise end', info);
                 self.shadowRoot.querySelector('#log').innerHTML =
-                    self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:darkgreen;'>Got finishedExercise event: " + JSON.stringify(info) + "</span>";
+                    self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:darkgreen;'>Got finishedExercise event: " + JSON.stringify(info) + "</span>";
             });
             self.shadowRoot.querySelector('#take-permissions').addEventListener('click', async function (e) {
                 try {
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:orange;'>Request permissions check</span>";
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Request permissions check</span>";
                     Voicemed.checkMicPerm().then((r) => {
                         console.log("Permission request finished", r);
                         alert('Permission request was completed');
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/>" + JSON.stringify(r);
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/>" + JSON.stringify(r);
                     }).catch((e) => {
                         console.error('Cannot request permissionis', e);
                         alert('Cannot request permissions');
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
                     });
 
                 } catch (e) {
                     console.warn('Permission error (general)', e);
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
                 }
             });
             self.shadowRoot.querySelector('#take-user').addEventListener('click', async function (e) {
                 try {
                     let randomUser = Math.floor(Math.random() * (2000 - 100 + 1) + 100);
-                    const _randomUserString = "yh-test"+randomUser+"-sdk";
+                    const _randomUserString = "yh-test" + randomUser + "-sdk";
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:orange;'>Request user auth for random : <b>"+_randomUserString+"</b></span>";
-                    Voicemed.authenticateUser({externalID: _randomUserString}).then((user)=>{
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Request user auth for random : <b>" + _randomUserString + "</b></span>";
+                    Voicemed.authenticateUser({
+                        externalID: _randomUserString,
+                        email: randomUser + '@sample.com'
+                    }).then((user) => {
                         console.log('got user data:', user);
                         if (user && user.access_token) {
                             window.currentToken = user.access_token;
@@ -145,22 +156,22 @@ window.customElements.define(
                             alert('cannot login');
                         }
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style=''>Got auth response: " + JSON.stringify(user) + "</span>";
-                    }).catch((e)=>{
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style=''>Got auth response: " + JSON.stringify(user) + "</span>";
+                    }).catch((e) => {
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>Got auth error: " + JSON.stringify(e) + "</span>";
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>Got auth error: " + JSON.stringify(e) + "</span>";
                     });
                 } catch (e) {
                     console.warn('User cancelled', e);
                     alert('login error');
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
                 }
             });
             self.shadowRoot.querySelector('#take-list').addEventListener('click', async function (e) {
                 try {
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:orange;'>Request exercises list by logged user</span>";
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Request exercises list by logged user</span>";
 
                     let token = {}
                     if (typeof window["currentToken"] !== 'undefined') {
@@ -170,13 +181,34 @@ window.customElements.define(
                         alert('exercises retrieved');
                         console.log('got challenges and exercises:', r.challenges);
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style=''>" + JSON.stringify(r) + "</span>";
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style=''>" + JSON.stringify(r) + "</span>";
                         const _lista = self.shadowRoot.querySelector('#exerciseList');
                         _lista.innerHTML = "";
                         r.challenges.forEach((challenge) => {
                             const d = document.createElement('DIV');
-                            d.innerHTML = "Challenge: " + challenge.title;
+                            const sAct = document.createElement('SPAN');
+                            sAct.classList.add('activateChallenge');
+                            sAct.innerHTML = "Start Challenge";
+
+                            d.innerHTML = "Challenge: " + challenge.title + "";
+                            d.appendChild(sAct);
                             _lista.appendChild(d);
+
+                            sAct.addEventListener('click', (e) => {
+                                self.shadowRoot.querySelector('#log').innerHTML =
+                                    self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Request Start Challenge</span>";
+                                Voicemed.startChallenge({
+                                    program_id: challenge._id
+                                }).then((result) => {
+                                    console.log('got result:', result);
+                                    self.shadowRoot.querySelector('#log').innerHTML =
+                                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:darkgreen;'>Challenge runner finish: " + JSON.stringify(result) + "</span>";
+                                }).catch((error) => {
+                                    console.error('Challenge runner error', error)
+                                    self.shadowRoot.querySelector('#log').innerHTML =
+                                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>Challenge runner error: " + JSON.stringify(error) + "</span>";
+                                })
+                            });
                             const _u = document.createElement('UL')
                             challenge.exercises.forEach((exerciseCnt, index) => {
                                 const exercise = exerciseCnt.exercise
@@ -185,7 +217,7 @@ window.customElements.define(
                                 _u.appendChild(_li);
                                 _li.addEventListener('click', (e) => {
                                     self.shadowRoot.querySelector('#log').innerHTML =
-                                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:orange;'>Request Start Exercise</span>";
+                                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:orange;'>Request Start Exercise</span>";
 
                                     Voicemed.startExercise({
                                         id: exercise._id,
@@ -194,28 +226,29 @@ window.customElements.define(
                                     }).then((result) => {
                                         console.log('got result:', result);
                                         self.shadowRoot.querySelector('#log').innerHTML =
-                                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:darkgreen;'>Exercise runner finish: " + JSON.stringify(result) + "</span>";
+                                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:darkgreen;'>Exercise runner finish: " + JSON.stringify(result) + "</span>";
                                     }).catch((error) => {
                                         console.error('Exercise runner error', error)
                                         self.shadowRoot.querySelector('#log').innerHTML =
-                                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>Exercise runner error: " + JSON.stringify(error) + "</span>";
+                                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>Exercise runner error: " + JSON.stringify(error) + "</span>";
                                     })
 
                                 })
                             });
                             _lista.appendChild(_u);
                         });
+
                     }).catch((e) => {
                         console.error('cannot get exercises', e);
                         alert('cannot retrieve exercises')
                         self.shadowRoot.querySelector('#log').innerHTML =
-                            self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>Cannot retrieve exercises: " + JSON.stringify(e) + "</span>";
+                            self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>Cannot retrieve exercises: " + JSON.stringify(e) + "</span>";
                     })
 
                 } catch (e) {
                     console.warn('Error', e);
                     self.shadowRoot.querySelector('#log').innerHTML =
-                        self.shadowRoot.querySelector('#log').innerHTML  + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
                 }
             });
         }

@@ -15,11 +15,11 @@ protocol AudioLevelProvider {
 
 @objc(VoicemedPlugin)
 public class VoicemedPlugin: CAPPlugin {
-    
+
     public let identifier = "VoicemedPlugin"
     public let jsName = "Voicemed"
     private var voicemedplugin: VoicemedPlugin?
-    
+
     private let API_authenticationSuffix = "v2/auth/login";
     private let API_listProgramsSuffix = "v2/user/programs";
     private let API_completeExerciseSuffix = "v2/user/breathing_exercises";
@@ -40,7 +40,7 @@ public class VoicemedPlugin: CAPPlugin {
     private var preferences = Preferences(with: PreferencesConfiguration())
     private var currentUrl = "";
     private var currentExerciseView:WKWebView? = nil
-    
+
     override public func load() {
         if let view = bridge?.viewController?.view {
             let config = voicemedConfig()
@@ -65,7 +65,7 @@ public class VoicemedPlugin: CAPPlugin {
     }
     private func voicemedConfig() -> VoicemedPluginConfig {
         var config = VoicemedPluginConfig()
-    
+
         print(getConfig().getConfigJSON().debugDescription)
 
         if let appKey = getConfig().getString("appKey") {
@@ -82,8 +82,8 @@ public class VoicemedPlugin: CAPPlugin {
         }
         return config
     }
-    
-    
+
+
     @objc func echo(_ call: CAPPluginCall) {
         call.resolve(ResponseGenerator.successResponse())
     }
@@ -93,12 +93,12 @@ public class VoicemedPlugin: CAPPlugin {
 
     @objc func authenticateUser(_ call: CAPPluginCall) {
         let _extID = call.getString("externalID", "")
-        
+
         if _extID.isEmpty {
             call.reject("ExternalID must be filled")
         }
         var _usermeta = [String:Any]()
-        
+
         if let usermeta = call.getObject("usermeta") {
             if let age = usermeta["age"] as? Int {
                 _usermeta.updateValue(age, forKey: "age")
@@ -113,7 +113,7 @@ public class VoicemedPlugin: CAPPlugin {
                 _usermeta.updateValue(sex, forKey: "sex")
             }
         }
-        
+
         //Il primo metodo serve solo per verificare che l'oggetto sia un json valido
         if let _metajson = try? JSONSerialization.data(withJSONObject: _usermeta) {
             var bodyParts = URLComponents()
@@ -215,8 +215,8 @@ public class VoicemedPlugin: CAPPlugin {
                         call.reject("Errore")
                     }
                 }
-                
-                
+
+
             }
         }
         task.resume()
@@ -262,7 +262,7 @@ public class VoicemedPlugin: CAPPlugin {
             call.reject("Program Index must be valid")
             return
         }
-        
+
         let json :[String:Any] = ["exercise_id":_id,"program_id":_program_id,"program_index":_program_index]
             if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
                 DispatchQueue.main.async {
@@ -305,9 +305,73 @@ public class VoicemedPlugin: CAPPlugin {
                 return
             }
             call.reject("Cannot find main View controller");
-        
-        
+
+
     }
+    @objc func startChallenge(_ call: CAPPluginCall) {
+            var _token = call.getString("token", preferences.get(by: "token") ?? "")
+            let _program_id = call.getString("program_id", "")
+            if _token.isEmpty {
+                _token = self.preferences.get(by: "token") ?? ""
+            }
+            if _token.isEmpty {
+                call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+                return
+            }
+            if _token.isEmpty {
+                call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+                return
+            }
+            if _program_id.isEmpty {
+                call.reject("Program ID must be valid")
+                return
+            }
+
+            let json :[String:Any] = ["program_id":_program_id, "command":"challenge"]
+                if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
+                    DispatchQueue.main.async {
+                        webview.evaluateJavaScript("document.location", completionHandler: { (object, error) in
+                            if error == nil {
+                                    print(object)
+                                self.currentUrl = object as? String ?? ""
+                                }
+                        })
+                        let final = "\(_baseUrl)/voicemed-sdk/index.html?pid=\(_program_id)&pmode=challenge"
+                        let jsonData = VoicemedPlugin.stringify(json: json)
+                        webview.evaluateJavaScript("window.currentChallenge=\(jsonData);window.currentVMToken='\(_token)';window.currentVMKey='\(self.appKey)';window.currentVMUrl='\(self.appUrl)'")
+                        let createFullScreenIframe = """
+                        if(document.getElementById("vmiframe_handler")) {
+                            document.getElementById("vmiframe_handler").remove();
+                        }
+                            window.capacitorHandler = Capacitor;
+                            window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
+                            window.deviceHandler  = Capacitor.Plugins.Device;
+                            window.browserHandler  = Capacitor.Plugins.Browser;
+                            window.iFrameVM = document.createElement("IFRAME");
+                            iFrameVM.id = "vmiframe_handler";
+                            iFrameVM.classList.add('vmiframe_handler');
+                            iFrameVM.style.position='absolute';
+                            iFrameVM.style.left='0px';
+                            iFrameVM.style.top='0px';
+                            iFrameVM.style.width='100vw';
+                            iFrameVM.style.height='100vh';
+                            iFrameVM.style.zIndex=99999;
+                            iFrameVM.src = "\(final)";
+                            document.querySelector('body').appendChild(iFrameVM);
+                        """
+                        webview.evaluateJavaScript(createFullScreenIframe, completionHandler: { (object, error) in
+                            if error == nil {
+                                    print(object)
+                                }
+                        })
+                        call.resolve(ResponseGenerator.successResponse())
+                     }
+                    return
+                }
+                call.reject("Cannot find main View controller");
+
+
+        }
     @objc func closeExercise(_ call: CAPPluginCall) {
         if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
             DispatchQueue.main.async {
@@ -323,14 +387,18 @@ public class VoicemedPlugin: CAPPlugin {
                 })
                 call.resolve(ResponseGenerator.successResponse())
             }
-            
+
         }
-        
+
     }
-    
+
     @objc func finishExercise(_ call: CAPPluginCall) {
         //Fire event!
         self.notifyListeners("finishedExercise", data: call.dictionaryRepresentation as! [String : Any])
+    }
+    @objc func finishChallenge(_ call: CAPPluginCall) {
+        //Fire event!
+        self.notifyListeners("finishedChallenge", data: call.dictionaryRepresentation as! [String : Any])
     }
 
     private var customMediaRecorder: CustomMediaRecorder? = nil
@@ -709,7 +777,7 @@ func getMsDurationOfAudioFile(_ filePath: URL?) -> Int {
             "existing": existing
         ])
     }
-    
+
     static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
         var options: JSONSerialization.WritingOptions = []
         if prettyPrinted {

@@ -30,8 +30,10 @@ CAP_PLUGIN(VoicemedPlugin, "Voicemed",
             CAP_PLUGIN_METHOD(authenticateByToken, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(listExercises, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(startExercise, CAPPluginReturnPromise);
+            CAP_PLUGIN_METHOD(startChallenge, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(finishExercise, CAPPluginReturnPromise);
+            CAP_PLUGIN_METHOD(finishChallenge, CAPPluginReturnPromise);
             CAP_PLUGIN_METHOD(closeExercise, CAPPluginReturnPromise);
-           
+
             CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
 )

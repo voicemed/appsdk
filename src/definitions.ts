@@ -31,6 +31,10 @@ export interface VoicemedAuthenticateUser {
      */
     externalID?: string;
     /**
+     * If available, send user email
+     */
+    email?: string;
+    /**
      * Key value pairs, suggested for best results: age, height, weight, sex
      */
     usermeta?: {
@@ -100,6 +104,11 @@ export interface VoiceMedRequestExercise {
     "program_index": bigint;
 }
 
+export interface VoiceMedRequestChallenge {
+    "token": string;
+    "program_id": string;
+}
+
 export interface VoiceMedRequest {
     "token": string;
     "full": boolean
@@ -113,6 +122,11 @@ export interface VoiceMedFinishExercise {
         "cyclesScore"?: any
     }
 }
+
+export interface VoiceMedFinishChallenge {
+    "reason": string;
+}
+
 
 export interface VoicemedPlugin {
     /* Dummy method */
@@ -130,9 +144,15 @@ export interface VoicemedPlugin {
 
     startExercise(options: VoiceMedRequestExercise): Promise<{ value: string }>;
 
+    startChallenge(options: VoiceMedRequestChallenge): Promise<{ value: string }>;
+
     finishExercise(options: VoiceMedFinishExercise): Promise<{ value: string }>;
 
+    finishChallenge(options: VoiceMedFinishChallenge): Promise<{ value: string }>;
+
     closeExercise(): Promise<{ value: string }>;
+
+    closeChallenge(): Promise<{ value: string }>;
 
     checkCameraPerm(): Promise<{
         value: string

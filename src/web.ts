@@ -1,10 +1,10 @@
 import {WebPlugin, WebPluginConfig} from '@capacitor/core';
 
 import {
-    VoicemedAuthenticateUser, VoiceMedChallenges,
+    VoicemedAuthenticateUser, VoiceMedChallenges, VoiceMedFinishChallenge,
     VoiceMedFinishExercise,
     VoicemedPlugin,
-    VoiceMedRequest,
+    VoiceMedRequest, VoiceMedRequestChallenge,
     VoiceMedRequestExercise
 } from './definitions';
 
@@ -62,7 +62,22 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         });
     }
 
+    startChallenge(options: VoiceMedRequestChallenge): Promise<{ value: string; }> {
+        window.console.log('res', options);
+        //Request challenge status
+        return Promise.resolve({
+            value: "ok"
+        });
+    }
+
     finishExercise(options: VoiceMedFinishExercise): Promise<{ value: string }> {
+        window.console.log('res', options);
+        return Promise.resolve({
+            value: "ok"
+        });
+    }
+
+    finishChallenge(options: VoiceMedFinishChallenge): Promise<{ value: string }> {
         window.console.log('res', options);
         return Promise.resolve({
             value: "ok"
@@ -76,9 +91,16 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         });
     }
 
+    closeChallenge(): Promise<{ value: string }> {
+        return Promise.resolve({
+            value: "closed"
+        });
+    }
+
     authenticateUser(options: VoicemedAuthenticateUser): Promise<{ token: string; }> {
         let extID = options.externalID;
         let _meta = options.usermeta;
+        let _email = options.email;
         if (typeof extID === 'undefined') {
             return Promise.reject("ExternalID must be filled");
         }
@@ -93,9 +115,17 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         let jData: any = {}
         fData.append("externalId", extID);
         jData.externalId = extID;
+        if (_email != null && typeof _email === 'string' ) {
+            fData.append("email", _email);
+            jData.email = _email
+        }
         if (_meta != null && typeof _meta === 'object' && Object.keys(_meta).length > 0) {
             fData.append("meta", JSON.stringify(_meta));
             jData.meta = _meta
+        }
+        if (_email != null && typeof _email === 'string' ) {
+            fData.append("email", _email);
+            jData.email = _email
         }
         const headers = {
             "api-key": this.appKey,
@@ -147,7 +177,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
         return fetch(finalURL, {headers: headers})
             .then((r) => r.json())
             .then((challenges) => {
-                let _list : any[] = []
+                let _list: any[] = []
                 return challenges.reduce((carry: any, challenge: any) => {
                     return carry.then((r: any) => {
                         if (r) {
@@ -282,4 +312,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     stopRecording(): Promise<{ value: string }> {
         return Promise.resolve({value: ""});
     }
+
+
+
 }

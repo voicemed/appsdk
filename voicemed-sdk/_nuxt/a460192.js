@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[33],{961:function(n,e,s){"use strict";s.r(e),s.d(e,"DialogWeb",(function(){return o}));var a=s(72);class o extends a.b{async alert(n){window.alert(n.message)}async prompt(n){const e=window.prompt(n.message,n.inputText||"");return{value:null!==e?e:"",cancelled:null===e}}async confirm(n){return{value:window.confirm(n.message)}}}}}]);
-//# sourceMappingURL=a460192.js.map
