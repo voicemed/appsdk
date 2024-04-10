@@ -384,6 +384,8 @@ public class VoicemedPlugin extends Plugin {
         getBridge().executeOnMainThread(new Runnable() {
             @Override
             public void run() {
+
+                Locale current = getActivity().getResources().getConfiguration().locale;
                 String baseURL = getBridge().getLocalUrl();
                 if (StringIsEmpty(baseURL)) {
                     baseURL = getBridge().getServerUrl();
@@ -395,7 +397,7 @@ public class VoicemedPlugin extends Plugin {
                         currentUrl = value;
                     }
                 });
-                String _final = baseURL + "/voicemed-sdk/index.html?id=" + _id + "&pid=" + _program_id + "&px=" + _program_index;
+                String _final = baseURL + "/voicemed-sdk/index.html?id=" + _id + "&pid=" + _program_id + "&px=" + _program_index+"&locale="+current.getLanguage();
                 JSObject _jsonData = new JSObject();
                 _jsonData.put("exercise_id", _id);
                 _jsonData.put("program_id", _program_id);
