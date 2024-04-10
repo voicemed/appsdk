@@ -175,6 +175,8 @@ public class VoicemedPlugin: CAPPlugin {
         request.addValue("Bearer \(_token)", forHTTPHeaderField: "Authorization")
         //Method
         request.httpMethod = "GET"
+        
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
@@ -262,6 +264,13 @@ public class VoicemedPlugin: CAPPlugin {
             call.reject("Program Index must be valid")
             return
         }
+        
+        var locales = Locale.preferredLanguages.first ?? "en"
+        if locales.lowercased().contains("it") {
+            locales = "it"
+        } else {
+            locales = "en"
+        }
 
         let json :[String:Any] = ["exercise_id":_id,"program_id":_program_id,"program_index":_program_index]
             if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
@@ -272,7 +281,7 @@ public class VoicemedPlugin: CAPPlugin {
                             self.currentUrl = object as? String ?? ""
                             }
                     })
-                    let final = "\(_baseUrl)/voicemed-sdk/index.html?id=\(_id)&pid=\(_program_id)&px=\(_program_index)"
+                    let final = "\(_baseUrl)/voicemed-sdk/index.html?id=\(_id)&pid=\(_program_id)&px=\(_program_index)&locale=\(locales)"
                     let jsonData = VoicemedPlugin.stringify(json: json)
                     webview.evaluateJavaScript("window.currentExercise=\(jsonData);window.currentVMToken='\(_token)';window.currentVMKey='\(self.appKey)';window.currentVMUrl='\(self.appUrl)'")
                     let createFullScreenIframe = """
@@ -326,6 +335,13 @@ public class VoicemedPlugin: CAPPlugin {
                 call.reject("Program ID must be valid")
                 return
             }
+        
+            var locales = Locale.preferredLanguages.first ?? "en"
+            if locales.lowercased().contains("it") {
+                locales = "it"
+            } else {
+                locales = "en"
+            }
 
             let json :[String:Any] = ["program_id":_program_id, "command":"challenge"]
                 if let webview = bridge?.webView, let _baseUrl = bridge?.config.localURL {
@@ -336,7 +352,7 @@ public class VoicemedPlugin: CAPPlugin {
                                 self.currentUrl = object as? String ?? ""
                                 }
                         })
-                        let final = "\(_baseUrl)/voicemed-sdk/index.html?pid=\(_program_id)&pmode=challenge"
+                        let final = "\(_baseUrl)/voicemed-sdk/index.html?pid=\(_program_id)&pmode=challenge&locale=\(locales)"
                         let jsonData = VoicemedPlugin.stringify(json: json)
                         webview.evaluateJavaScript("window.currentChallenge=\(jsonData);window.currentVMToken='\(_token)';window.currentVMKey='\(self.appKey)';window.currentVMUrl='\(self.appUrl)'")
                         let createFullScreenIframe = """
