@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -455,6 +456,9 @@ public class VoicemedPlugin extends Plugin {
         getBridge().executeOnMainThread(new Runnable() {
             @Override
             public void run() {
+                Locale current = getActivity().getResources().getConfiguration().locale;
+
+
                 String baseURL = getBridge().getLocalUrl();
                 if (StringIsEmpty(baseURL)) {
                     baseURL = getBridge().getServerUrl();
@@ -466,7 +470,7 @@ public class VoicemedPlugin extends Plugin {
                         currentUrl = value;
                     }
                 });
-                String _final = baseURL + "/voicemed-sdk/index.html?pid=" + _program_id + "&pmode=challenge";
+                String _final = baseURL + "/voicemed-sdk/index.html?pid=" + _program_id + "&pmode=challenge&locale="+current.getLanguage();
                 JSObject _jsonData = new JSObject();
                 _jsonData.put("command", "challenge");
                 _jsonData.put("program_id", _program_id);
