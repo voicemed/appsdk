@@ -135,6 +135,16 @@ export interface VoicemedPlugin {
     }): Promise<{
         value: string
     }>;
+    getEnvironment(options: {
+        value: string
+    }): Promise<{
+        environment: string
+    }>;
+    setEnvironment(options: {
+        environment: string
+    }): Promise<{
+        value: string
+    }>;
 
     authenticateUser(options: VoicemedAuthenticateUser): Promise<{ token: string }>;
 

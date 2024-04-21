@@ -21,7 +21,7 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
 
     constructor(config?: WebPluginConfig) {
         super(config);
-        window.console.log(config);
+        window.console.log('config', config);
         // @ts-ignore
         if (config && typeof config["VoicemedPlugin"] !== 'undefined') {
             // @ts-ignore
@@ -53,6 +53,28 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
             this.appUrl = this._stagingUrl;
         }
         window.console.log('Voicemed inited');
+    }
+    getEnvironment(options: { value: string }): Promise<{ environment: string }> {
+        window.console.log('res', options);
+        return Promise.resolve({
+            environment: this.environment
+        });
+    }
+
+    setEnvironment(options: { environment: string }): Promise<{ value: string }> {
+        window.console.log('res', options);
+        if(options.environment !='staging' && options.environment !='production' ) {
+            return Promise.reject("Available environment are staging and production");
+        }
+        this.environment = options.environment;
+        if (this.environment == 'production') {
+            this.appUrl = this._prodUrl;
+        } else {
+            this.appUrl = this._stagingUrl;
+        }
+        return Promise.resolve({
+            value: "ok"
+        });
     }
 
     startExercise(options: VoiceMedRequestExercise): Promise<{ value: string; }> {

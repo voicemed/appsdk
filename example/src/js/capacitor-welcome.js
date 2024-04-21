@@ -68,6 +68,23 @@ window.customElements.define(
         padding: 12px 0px;
         font-size: 18px;
       }
+      .environment_change .button {
+        background-color: #a3a3a3;
+        color: #333;
+        transition: color linear 300ms, background-color linear 300ms;
+      }
+      .environment_change .button:first-child {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+      .environment_change .button:last-child {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+      .environment_change .button.active {
+        background-color: #73B5F6;
+        color: #fff;
+      }
     </style>
     <div>
       <capacitor-welcome-titlebar>
@@ -76,6 +93,10 @@ window.customElements.define(
       <main>
         <p>
           Voicemed Tester
+        </p>
+        <h2>Choose environment</h2>
+        <p class="environment_change">
+          <button class="button" id="take-production">Production</button><button class="button" id="take-debug">Debug</button>
         </p>
         <h2>Request permissions</h2>
         <p>
@@ -250,6 +271,34 @@ window.customElements.define(
                     self.shadowRoot.querySelector('#log').innerHTML =
                         self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:red;'>" + JSON.stringify(e) + "</span>";
                 }
+            });
+
+            Voicemed.getEnvironment().then((env)=>{
+                let newEnv = env.environment;
+                console.log('got env response',env)
+                if(newEnv ==="staging") {
+                    self.shadowRoot.querySelector('#take-production').classList.remove('active');
+                    self.shadowRoot.querySelector('#take-debug').classList.add('active');
+                } else {
+                    self.shadowRoot.querySelector('#take-production').classList.add('active');
+                    self.shadowRoot.querySelector('#take-debug').classList.remove('active');
+                }
+            });
+            self.shadowRoot.querySelector('#take-production').addEventListener('click',async function(e) {
+               Voicemed.setEnvironment({"environment":'production'}).then((e)=>{
+                   self.shadowRoot.querySelector('#take-production').classList.add('active');
+                   self.shadowRoot.querySelector('#take-debug').classList.remove('active');
+               }).catch(()=>{
+
+               });
+            });
+            self.shadowRoot.querySelector('#take-debug').addEventListener('click',async function(e) {
+                Voicemed.setEnvironment({"environment":'staging'}).then((e)=>{
+                    self.shadowRoot.querySelector('#take-production').classList.remove('active');
+                    self.shadowRoot.querySelector('#take-debug').classList.add('active');
+                }).catch(()=>{
+
+                });
             });
         }
     }

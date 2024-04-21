@@ -105,6 +105,7 @@ public class VoicemedPlugin extends Plugin {
     static final String API_completeExerciseSuffix = "v2/user/breathing_exercises";
 
 
+
     @Override
     public void load() {
         preferences = new Preferences(getContext(), PreferencesConfiguration.DEFAULTS);
@@ -125,6 +126,29 @@ public class VoicemedPlugin extends Plugin {
         } else if (this.environment.equals("production")) {
             this.appUrl = _prodUrl;
         }
+    }
+
+    @PluginMethod()
+    public void getEnvironment(PluginCall call) {
+        JSObject jData = new JSObject();
+        jData.put("environment",this.environment);
+        call.resolve();
+    }
+    @PluginMethod()
+    public void setEnvironment(PluginCall call) {
+        String _newEnv = preferences.get("environment");
+         if (!_newEnv.equals("production") && !_newEnv.equals("staging")) {
+            Log.e("VOICEMED", "Environment not recognized, apply default: staging");
+            call.reject("Available environment are staging and production");
+            return;
+        }
+        this.environment = _newEnv;
+        if (this.environment.equals("staging")) {
+            this.appUrl = _stagingUrl;
+        } else if (this.environment.equals("production")) {
+            this.appUrl = _prodUrl;
+        }
+        call.resolve();
     }
 
     @PluginMethod()

@@ -84,6 +84,29 @@ public class VoicemedPlugin: CAPPlugin {
     }
 
 
+    @objc func getEnvironment(_ call: CAPPluginCall) {
+        call.resolve(["environment":environment])
+    }
+
+    @objc func setEnvironment(_ call: CAPPluginCall) {
+        let _extID = call.getString("environment", "")
+        if (_extID.compare("staging") != .orderedSame && _extID.compare("production") != .orderedSame) {
+            print("Error environment is not valid")
+            call.reject("Available environment are staging and production")
+            return
+        }else {
+            print("Voicemed environment: \(environment)")
+        }
+        environment = _extID;
+        if (environment.compare("staging") == .orderedSame) {
+            appUrl = "https://sandbox-api-2.voicemed.io/";
+        } else if (environment.compare("production") == .orderedSame) {
+            appUrl = "https://api-2.voicemed.io/";
+        }
+        call.resolve(ResponseGenerator.successResponse())
+    }
+
+
     @objc func echo(_ call: CAPPluginCall) {
         call.resolve(ResponseGenerator.successResponse())
     }
@@ -175,8 +198,8 @@ public class VoicemedPlugin: CAPPlugin {
         request.addValue("Bearer \(_token)", forHTTPHeaderField: "Authorization")
         //Method
         request.httpMethod = "GET"
-        
-        
+
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
@@ -264,7 +287,7 @@ public class VoicemedPlugin: CAPPlugin {
             call.reject("Program Index must be valid")
             return
         }
-        
+
         var locales = Locale.preferredLanguages.first ?? "en"
         if locales.lowercased().contains("it") {
             locales = "it"
@@ -335,7 +358,7 @@ public class VoicemedPlugin: CAPPlugin {
                 call.reject("Program ID must be valid")
                 return
             }
-        
+
             var locales = Locale.preferredLanguages.first ?? "en"
             if locales.lowercased().contains("it") {
                 locales = "it"
