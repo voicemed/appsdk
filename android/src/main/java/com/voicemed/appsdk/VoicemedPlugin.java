@@ -132,11 +132,11 @@ public class VoicemedPlugin extends Plugin {
     public void getEnvironment(PluginCall call) {
         JSObject jData = new JSObject();
         jData.put("environment",this.environment);
-        call.resolve();
+        call.resolve(jData);
     }
     @PluginMethod()
     public void setEnvironment(PluginCall call) {
-        String _newEnv = preferences.get("environment");
+        String _newEnv = call.getString("environment","");
          if (!_newEnv.equals("production") && !_newEnv.equals("staging")) {
             Log.e("VOICEMED", "Environment not recognized, apply default: staging");
             call.reject("Available environment are staging and production");
