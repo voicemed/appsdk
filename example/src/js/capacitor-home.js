@@ -1,6 +1,8 @@
 import {SplashScreen} from '@capacitor/splash-screen';
 import {Camera} from '@capacitor/camera';
 import {Voicemed} from 'voicemed-appsdk';
+import '../css/style.css'
+import logo from '../assets/imgs/logo_voicemed.png'
 
 window.customElements.define(
     'capacitor-home',
@@ -12,7 +14,7 @@ window.customElements.define(
             this.environment = _environment;
 
             SplashScreen.hide();
-            console.log('test me', Voicemed.echo({'value': 'Dummy method'}).then((r) => {
+            console.log(logo, 'test me', Voicemed.echo({'value': 'Dummy method'}).then((r) => {
                 console.log('got somethng', r)
             }));
 
@@ -138,7 +140,7 @@ window.customElements.define(
     </style>
     <div>
       <main>
-        <img src="assets/imgs/logo_voicemed.png" class="introLogo">
+        <img src="{logo}" class="introLogo">
         <p class="introMessage">
           <b>Health</b> check<br/>
           in your <b>pocket</b>
@@ -150,7 +152,7 @@ window.customElements.define(
         </div>
       </main>
     </div>
-    `;
+    `.replace('{logo}',logo);
         }
 
         requestPermissions() {

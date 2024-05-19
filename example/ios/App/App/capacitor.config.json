@@ -1,6 +1,6 @@
 {
 	"appId": "com.example.plugin",
-	"appName": "example",
+	"appName": "Voicemed preview",
 	"bundledWebRuntime": false,
 	"webDir": "dist",
 	"plugins": {

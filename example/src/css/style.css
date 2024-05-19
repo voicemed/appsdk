@@ -3,3 +3,49 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.introLogo {
+  max-width: 30vw;
+  margin:51px auto 0px auto;
+}
+.introMessage {
+  text-align: center;
+  font-size:30px;
+  color:#333333;
+  margin-bottom: 51px;
+}
+main {
+  text-align: center;
+  position: relative;
+  height: calc(100vh - 30px);
+}
+.footerActions {
+  position: absolute;
+  bottom:56px;
+  left:40px;
+  right:40px;
+}
+.footerActions p {
+  font-weight: bold;
+  font-size: 16px;
+  color:#333;
+}
+.footerActions input {
+  width:calc(100% - 6px);
+  border:1px solid #CCCCCC;
+  color:#333;
+  font-size: 16px;
+  height: 51px;
+  border-radius: 5px;
+
+}
+.footerActions button {
+  margin-top:10px;
+  width:100%;
+  color:#FFF;
+  font-size: 20px;
+  font-weight: bold;
+  height: 51px;
+  background-color: #FF1353;
+  border-radius: 5px;
+}

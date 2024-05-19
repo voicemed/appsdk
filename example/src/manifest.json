@@ -1,13 +1,24 @@
 {
-  "name": "App",
-  "short_name": "App",
+  "name": "Voicemed preview",
+  "short_name": "Voicemed preview",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
     "src": "assets/imgs/logo.png",
     "sizes": "512x512",
     "type": "image/png"
+  },{
+    "src": "assets/imgs/logo_voicemed.png",
+    "sizes": "114x120",
+    "type": "image/png"
   }],
+  "images": [
+    {
+      "src": "assets/imgs/logo_voicemed.png",
+      "sizes": "114x120",
+      "type": "image/png"
+    }
+  ],
   "background_color": "#31d53d",
   "theme_color": "#31d53d"
 }
