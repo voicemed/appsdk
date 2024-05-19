@@ -150,6 +150,12 @@ public class VoicemedPlugin extends Plugin {
         }
         call.resolve();
     }
+    @PluginMethod()
+    public void setApiKey(PluginCall call) {
+        String _newEnv = call.getString("apikey","");
+        this.appKey = _newEnv;
+        call.resolve();
+    }
 
     @PluginMethod()
     public void logout(PluginCall call) {
@@ -438,6 +444,8 @@ public class VoicemedPlugin extends Plugin {
                         window.browserHandler  = Capacitor.Plugins.Browser;
                         window.localKeyboard  = Capacitor.Plugins.Keyboard;
                         window.localDialog  = Capacitor.Plugins.Dialog;
+                        window.keepawake  = Capacitor.Plugins.KeepAwake;
+                        window.localKeepAwake  = Capacitor.Plugins.KeepAwake;
                         window.iFrameVM = document.createElement("IFRAME");
                         iFrameVM.id = "vmiframe_handler";
                         iFrameVM.classList.add('vmiframe_handler');
@@ -512,6 +520,8 @@ public class VoicemedPlugin extends Plugin {
                         window.browserHandler  = Capacitor.Plugins.Browser;
                         window.localKeyboard  = Capacitor.Plugins.Keyboard;
                         window.localDialog  = Capacitor.Plugins.Dialog;
+                        window.localKeepAwake  = Capacitor.Plugins.KeepAwake;
+                        window.keepawake  = Capacitor.Plugins.KeepAwake;
                         window.iFrameVM = document.createElement("IFRAME");
                         iFrameVM.id = "vmiframe_handler";
                         iFrameVM.classList.add('vmiframe_handler');

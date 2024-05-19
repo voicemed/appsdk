@@ -105,6 +105,11 @@ public class VoicemedPlugin: CAPPlugin {
         }
         call.resolve(ResponseGenerator.successResponse())
     }
+     @objc func setApiKey(_ call: CAPPluginCall) {
+            let _extID = call.getString("apikey", "")
+            appKey = _extID;
+            call.resolve(ResponseGenerator.successResponse())
+        }
 
 
     @objc func echo(_ call: CAPPluginCall) {
@@ -315,6 +320,8 @@ public class VoicemedPlugin: CAPPlugin {
                         window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
                         window.deviceHandler  = Capacitor.Plugins.Device;
                         window.browserHandler  = Capacitor.Plugins.Browser;
+                        window.keepawake  = Capacitor.Plugins.KeepAwake;
+                        window.localKeepAwake  = Capacitor.Plugins.KeepAwake;
                         window.iFrameVM = document.createElement("IFRAME");
                         iFrameVM.id = "vmiframe_handler";
                         iFrameVM.classList.add('vmiframe_handler');
@@ -386,6 +393,8 @@ public class VoicemedPlugin: CAPPlugin {
                             window.voiceMedHandler  = Capacitor.Plugins.Voicemed;
                             window.deviceHandler  = Capacitor.Plugins.Device;
                             window.browserHandler  = Capacitor.Plugins.Browser;
+                            window.keepawake  = Capacitor.Plugins.KeepAwake;
+                            window.localKeepAwake  = Capacitor.Plugins.KeepAwake;
                             window.iFrameVM = document.createElement("IFRAME");
                             iFrameVM.id = "vmiframe_handler";
                             iFrameVM.classList.add('vmiframe_handler');

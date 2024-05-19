@@ -76,6 +76,13 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
             value: "ok"
         });
     }
+    setApiKey(options: { apikey: string }): Promise<{ value: string }> {
+        window.console.log('res', options);
+        this.appKey = options.apikey;
+        return Promise.resolve({
+            value: "ok"
+        });
+    }
 
     startExercise(options: VoiceMedRequestExercise): Promise<{ value: string; }> {
         window.console.log('res', options);
