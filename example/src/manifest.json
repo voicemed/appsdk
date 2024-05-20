@@ -1,6 +1,6 @@
 {
-  "name": "Voicemed preview",
-  "short_name": "Voicemed preview",
+  "name": "Voicemed Clinical",
+  "short_name": "Voicemed Clinical",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{

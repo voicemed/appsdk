@@ -1,7 +1,7 @@
 {
-  "name": "capacitor-app",
+  "name": "voicemed-clinical",
   "version": "1.0.0",
-  "description": "Voicemed preview",
+  "description": "VoiceMed Clinical",
   "main": "index.js",
   "keywords": [
     "capacitor",

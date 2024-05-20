@@ -3,6 +3,14 @@ body {
   padding: 0;
   margin: 0;
 }
+.mainApp img {
+  transition: opacity linear 300ms, height linear 300ms;
+  overflow: hidden;
+}
+.mainApp.with-keyboard img {
+  opacity: 0;
+  max-height: 0px;
+}
 
 .introLogo {
   max-width: 30vw;
@@ -31,12 +39,13 @@ main {
   color:#333;
 }
 .footerActions input {
-  width:calc(100% - 6px);
+  width:calc(100% - 34px);
   border:1px solid #CCCCCC;
   color:#333;
   font-size: 16px;
   height: 51px;
   border-radius: 5px;
+  padding:0px 16px
 
 }
 .footerActions button {

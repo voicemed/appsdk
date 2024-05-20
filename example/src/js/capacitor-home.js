@@ -1,5 +1,6 @@
 import {SplashScreen} from '@capacitor/splash-screen';
 import {Camera} from '@capacitor/camera';
+import {Keyboard} from '@capacitor/keyboard';
 import {Voicemed} from 'voicemed-appsdk';
 import '../css/style.css'
 import logo from '../assets/imgs/logo_voicemed.png'
@@ -13,10 +14,19 @@ window.customElements.define(
             const _environment = 'staging';
             this.environment = _environment;
 
+
             SplashScreen.hide();
             console.log(logo, 'test me', Voicemed.echo({'value': 'Dummy method'}).then((r) => {
                 console.log('got somethng', r)
             }));
+
+            if(navigator && navigator.virtualKeyboard) {
+                navigator.virtualKeyboard.addEventListener('geometrychange', (event) => {
+                    const {x, y, width, height} = event.target.boundingRect;
+                    console.log('Virtual keyboard geometry changed:', x, y, width, height);
+                });
+            }
+
 
             const root = this.attachShadow({mode: 'open'});
             root.innerHTML = `
@@ -27,6 +37,17 @@ window.customElements.define(
         width: 100%;
         height: 100%;
       }
+      
+      
+    .mainApp img.introLogo {
+      transition: opacity linear 300ms, height linear 300ms;
+      overflow: hidden;
+    }
+    .mainApp.with-keyboard img.introLogo {
+      opacity: 0;
+      max-height: 0px;
+    }
+      
       .introLogo {
         max-width: 30vw;
         margin:51px auto 0px auto;
@@ -54,12 +75,14 @@ window.customElements.define(
         color:#333;
       }
       .footerActions input {
-        width:calc(100% - 6px);
+        width:calc(100% - 34px);
         border:1px solid #CCCCCC;
         color:#333;
         font-size: 16px;
         height: 51px;
         border-radius: 5px;
+        padding-left:16px;
+        padding-right:16px;
         
       }
       .footerActions button {
@@ -139,7 +162,7 @@ window.customElements.define(
       }
     </style>
     <div>
-      <main>
+      <main class="mainApp">
         <img src="{logo}" class="introLogo">
         <p class="introMessage">
           <b>Health</b> check<br/>
@@ -153,12 +176,22 @@ window.customElements.define(
       </main>
     </div>
     `.replace('{logo}',logo);
+
+            Keyboard.addListener('keyboardWillShow', info => {
+                root.querySelector('.mainApp').classList.add('with-keyboard');
+                console.log('keyboard will show with height:', info.keyboardHeight);
+            });
+
+            Keyboard.addListener('keyboardWillHide', () => {
+                console.log('keyboard will hide');
+                root.querySelector('.mainApp').classList.remove('with-keyboard');
+            });
         }
 
         requestPermissions() {
             return Voicemed.checkMicPerm().then((r) => {
                 console.log("Permission request finished", r);
-                alert('Permission request was completed');
+
             }).catch((e) => {
                 console.error('Cannot request permissionis', e);
                 alert('Cannot request permissions');
@@ -176,7 +209,7 @@ window.customElements.define(
                     console.log('got user data:', user);
                     if (user && user.access_token) {
                         window.currentToken = user.access_token;
-                        alert('User authenticated!');
+
                     } else {
                         alert('cannot login');
                     }
@@ -242,7 +275,7 @@ window.customElements.define(
                         return Voicemed.startChallenge({
                             program_id: _firstChallenge._id
                         }).then((result) => {
-                            console.log('got result:', result);
+                            console.log('startChallenge got result:', result);
                         });
                     } else {
                         alert('Cannot retrieve Challenges');

@@ -30,6 +30,7 @@ Example:
 - @capacitor/device
 - @capacitor/browser
 - @capacitor/keyboard
+- @capacitor-community/keep-awake (not mandatory but suggested)
 - @capacitor/dialog (not mandatory but suggested)
 
 ### Steps single exercise
