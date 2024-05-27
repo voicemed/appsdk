@@ -458,7 +458,6 @@ public class VoicemedPlugin extends Plugin {
                         iFrameVM.style.zIndex=99999;
                         iFrameVM.src = window.currentExerciseURL;
                         document.querySelector('body').appendChild(iFrameVM);
-                        setTimeout(function() { iFrameVM.style.opacity=1; },1500);
                         """;
                 w.evaluateJavascript(initCommand + finalCommand, new ValueCallback<String>() {
                     @Override
@@ -534,9 +533,7 @@ public class VoicemedPlugin extends Plugin {
                         iFrameVM.style.height='100vh';
                         iFrameVM.style.zIndex=99999;
                         iFrameVM.src = window.currentExerciseURL;
-                        iFrameVM.style.opacity = 0;
                         document.querySelector('body').appendChild(iFrameVM);
-                        setTimeout(function() { iFrameVM.style.opacity=1; },1500);
                         """;
                 w.evaluateJavascript(initCommand + finalCommand, new ValueCallback<String>() {
                     @Override

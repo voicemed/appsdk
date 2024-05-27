@@ -2,6 +2,8 @@ import {SplashScreen} from '@capacitor/splash-screen';
 import {Camera} from '@capacitor/camera';
 import {Keyboard} from '@capacitor/keyboard';
 import {Voicemed} from 'voicemed-appsdk';
+import {KeepAwake} from '@capacitor-community/keep-awake';
+import {App} from '@capacitor/app';
 import '../css/style.css'
 import logo from '../assets/imgs/logo_voicemed.png'
 
@@ -20,7 +22,7 @@ window.customElements.define(
                 console.log('got somethng', r)
             }));
 
-            if(navigator && navigator.virtualKeyboard) {
+            if (navigator && navigator.virtualKeyboard) {
                 navigator.virtualKeyboard.addEventListener('geometrychange', (event) => {
                     const {x, y, width, height} = event.target.boundingRect;
                     console.log('Virtual keyboard geometry changed:', x, y, width, height);
@@ -160,6 +162,43 @@ window.customElements.define(
         background-color: #73B5F6;
         color: #fff;
       }
+      
+      
+      
+.lds-dual-ring,
+.lds-dual-ring:after {
+  box-sizing: border-box;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 3.4px solid currentColor;
+  border-color: currentColor transparent currentColor transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+    .hidden {
+        display:none;
+    }
+
+      
     </style>
     <div>
       <main class="mainApp">
@@ -171,11 +210,14 @@ window.customElements.define(
         <div class="footerActions">
             <p>Please, insert the code</p>
             <input type="text" id="apiCode">
-            <button class="button" id="take-start">Start</button>
+            <button class="button" id="take-start">
+            <span class="text">Start</span>
+            <div class="lds-dual-ring hidden"></div>
+            </button>
         </div>
       </main>
     </div>
-    `.replace('{logo}',logo);
+    `.replace('{logo}', logo);
 
             Keyboard.addListener('keyboardWillShow', info => {
                 root.querySelector('.mainApp').classList.add('with-keyboard');
@@ -187,6 +229,20 @@ window.customElements.define(
                 root.querySelector('.mainApp').classList.remove('with-keyboard');
             });
         }
+
+
+        async keepAwakeFeature(){
+            await KeepAwake.keepAwake();
+        }
+        async allowSleep() {
+            await KeepAwake.allowSleep();
+        };
+
+        async isSupported() {
+            const result = await KeepAwake.isSupported();
+            return result.isSupported;
+        };
+
 
         requestPermissions() {
             return Voicemed.checkMicPerm().then((r) => {
@@ -243,6 +299,25 @@ window.customElements.define(
 
         connectedCallback() {
             const self = this;
+            App.addListener('appStateChange', ({isActive}) => {
+                if (self.isSupported()) {
+                    if (isActive) {
+                        self.keepAwakeFeature()
+                    } else {
+                        self.allowSleep()
+                    }
+                }
+                console.log('App loaded (State?')
+            });
+            App.getState().then((r) => {
+                console.log('request app state', r);
+                if (r.isActive) {
+                    if (self.isSupported()) {
+                        self.keepAwakeFeature()
+                    }
+                }
+            });
+
 
             Voicemed.setEnvironment({"environment": self.environment}).then((e) => {
                 console.log('new environment set')
@@ -255,32 +330,45 @@ window.customElements.define(
             });
             self.shadowRoot.querySelector('#take-start').addEventListener('click', async function (e) {
                 const _apiKey = self.shadowRoot.querySelector('#apiCode').value;
+                self.shadowRoot.querySelector('#take-start .text').classList.add('hidden');
+                self.shadowRoot.querySelector('#take-start .lds-dual-ring').classList.remove('hidden');
+
                 console.log(_apiKey, self.shadowRoot.querySelector('#apiCode'))
                 if (_apiKey === null || (_apiKey + "").length < 4) {
                     alert('Api code not valid');
+                    self.shadowRoot.querySelector('#take-start .text').classList.remove('hidden');
+                    self.shadowRoot.querySelector('#take-start .lds-dual-ring').classList.add('hidden');
                     return;
                 }
                 Voicemed.setApiKey({"apikey": _apiKey}).then((e) => {
                     console.log('new apiKey set');
-                }).then((r)=>{
+                }).then((r) => {
                     return self.requestPermissions()
-                }).then((r)=>{
+                }).then((r) => {
                     return self.requestUser()
-                }).then((r)=>{
+                }).then((r) => {
                     return self.requestChallenges()
-                }).then((r)=>{
+                }).then((r) => {
                     console.log('got challenges?', r)
-                    if(r && r.challenges) {
+                    if (r && r.challenges) {
                         const _firstChallenge = r.challenges[0];
                         return Voicemed.startChallenge({
                             program_id: _firstChallenge._id
                         }).then((result) => {
                             console.log('startChallenge got result:', result);
+
+                        }).finally(() => {
+                            self.shadowRoot.querySelector('#take-start .text').classList.remove('hidden');
+                            self.shadowRoot.querySelector('#take-start .lds-dual-ring').classList.add('hidden');
                         });
                     } else {
+                        self.shadowRoot.querySelector('#take-start .text').classList.remove('hidden');
+                        self.shadowRoot.querySelector('#take-start .lds-dual-ring').classList.add('hidden');
                         alert('Cannot retrieve Challenges');
                     }
                 }).catch(() => {
+                    self.shadowRoot.querySelector('#take-start .text').classList.remove('hidden');
+                    self.shadowRoot.querySelector('#take-start .lds-dual-ring').classList.add('hidden');
                     alert('Unable activate api key or no challenges found');
                 });
             });
