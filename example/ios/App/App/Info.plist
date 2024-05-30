@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>example</string>
+	<string>example</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,6 +21,16 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>AirLyn requires access to your microphone to record your breath exercises</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>AirLyn requires access your photolibrary to allow Avatar change feature</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AirLyn requires access to your photo to attach pictures during the breath exercises</string>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -45,15 +55,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-    <key>LSSupportsOpeningDocumentsInPlace</key>
-        <true/>
-        <key>NSMicrophoneUsageDescription</key>
-        <string>AirLyn requires access to your microphone to record your breath exercises</string>
-        <key>NSPhotoLibraryAddUsageDescription</key>
-        <string>AirLyn requires access your photolibrary to allow Avatar change feature</string>
-        <key>NSPhotoLibraryUsageDescription</key>
-        <string>AirLyn requires access to your photo to attach pictures during the breath exercises</string>
-        <key>UIFileSharingEnabled</key>
-        <true/>
 </dict>
 </plist>

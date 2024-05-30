@@ -1,4 +1,4 @@
-package com.example.plugin;
+package com.voicemed.clinicaldemo;
 
 import com.getcapacitor.BridgeActivity;
 
