@@ -27,6 +27,7 @@
     "voicemed-appsdk": "file:.."
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "latest",
     "vite": "^2.9.13"
   },

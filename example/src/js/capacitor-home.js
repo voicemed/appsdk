@@ -5,7 +5,7 @@ import {Voicemed} from 'voicemed-appsdk';
 import {KeepAwake} from '@capacitor-community/keep-awake';
 import {App} from '@capacitor/app';
 import '../css/style.css'
-import logo from '../assets/imgs/logo_voicemed.png'
+import logo from '../assets/imgs/logo.png'
 
 window.customElements.define(
     'capacitor-home',
@@ -13,7 +13,7 @@ window.customElements.define(
         constructor() {
             super();
 
-            const _environment = 'staging';
+            const _environment = 'production';
             this.environment = _environment;
 
 
