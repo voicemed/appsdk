@@ -33,6 +33,14 @@ Example:
 - @capacitor-community/keep-awake (not mandatory but suggested)
 - @capacitor/dialog (not mandatory but suggested)
 
+#### Browser plugin
+
+Although the browser plugin is not mandatory, it is recommended for managing any links present in the challenge texts and exercises. This way, the links will be handled by the device's native browser and can be correctly displayed.
+
+#### Device plugin
+
+The device plugin is recommended to enhance device recognition and thus optimize the experience. Additionally, some information related to the brand and version will be sent to the Voicemed engine to improve the product and the overall experience in the future.
+
 ### Steps single exercise
 1. Ensure your logged user is logged in into Voicemed:
     - If you don't have an authentication code:
