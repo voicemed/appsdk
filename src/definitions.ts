@@ -127,6 +127,38 @@ export interface VoiceMedFinishChallenge {
     "reason": string;
 }
 
+export interface VoiceMedUserActivitiesRange {
+    "token"?: string;
+    "date_from": string;
+    "date_to": string;
+    "type"?: 'recording' | 'audio' | 'video' | 'hold' | 'post' | 'questionnaire' | 'quiz';
+    "subtype"?: 'shushing' | 'humming' | 'dob';
+}
+
+export interface VoiceMedUserLastScoreType {
+    "token"?: string;
+    "subtype"?: 'shushing' | 'humming' | 'dob';
+}
+
+export interface VoiceMedUserHistory {
+    "token"?: string;
+    "breathingExerciseId": string;
+    "breathingScore": bigint;
+    "createdAt": string;
+    "medal": number;
+    "programId": string;
+    "subtype": 'shushing' | 'humming' | 'dob';
+    "title": string;
+    "type": 'recording' | 'audio' | 'video' | 'hold' | 'post' | 'questionnaire' | 'quiz';
+}
+export interface VoiceMedScore {
+    "breathingScore": bigint;
+    "createdAt": string;
+    "medal": number;
+    "subtype": 'shushing' | 'humming' | 'dob';
+    "type": 'recording' | 'audio' | 'video' | 'hold' | 'post' | 'questionnaire' | 'quiz';
+}
+
 
 export interface VoicemedPlugin {
     /* Dummy method */
@@ -135,11 +167,13 @@ export interface VoicemedPlugin {
     }): Promise<{
         value: string
     }>;
+
     getEnvironment(options: {
         value: string
     }): Promise<{
         environment: string
     }>;
+
     setEnvironment(options: {
         environment: string
     }): Promise<{
@@ -163,6 +197,10 @@ export interface VoicemedPlugin {
     closeExercise(): Promise<{ value: string }>;
 
     closeChallenge(): Promise<{ value: string }>;
+
+    userActivities(options: VoiceMedUserActivitiesRange): Promise<{ activitiesHistory: VoiceMedUserHistory[] }>;
+
+    userLastScores(options: VoiceMedUserLastScoreType): Promise<{ lastSevenScores: VoiceMedScore[] }>;
 
     checkCameraPerm(): Promise<{
         value: string

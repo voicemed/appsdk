@@ -5,12 +5,16 @@ import {
     VoiceMedFinishExercise,
     VoicemedPlugin,
     VoiceMedRequest, VoiceMedRequestChallenge,
-    VoiceMedRequestExercise
+    VoiceMedRequestExercise, VoiceMedScore, VoiceMedUserActivitiesRange, VoiceMedUserHistory, VoiceMedUserLastScoreType
 } from './definitions';
 
 export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
     _stagingUrl = "https://sandbox-api-2.voicemed.io/";
     _prodUrl = "https://api-2.voicemed.io/";
+
+    API_listuseractivities = "v1/user/activities";
+    API_listlastsevenscores = "v1/user/scores";
+
     API_authenticationSuffix = "v2/auth/login";
     API_listProgramsSuffix = "v2/user/programs";
     appKey = "";
@@ -225,6 +229,64 @@ export class VoicemedWeb extends WebPlugin implements VoicemedPlugin {
                     }
                     return {"challenges": _list}
                 });
+            });
+    }
+
+    userActivities(options: VoiceMedUserActivitiesRange): Promise<{ activitiesHistory: VoiceMedUserHistory[] }> {
+        let token = options.token;
+        if (typeof token === 'undefined') {
+            // @ts-ignore
+            token = typeof this.fakePreferenceStorage['token'] !== 'undefined' ? this.fakePreferenceStorage['token'] : null;
+        }
+        if (token == null || (token + "").length <= 0) {
+            return Promise.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        const finalURL = this.appUrl + this.API_listuseractivities;
+        const _token = typeof token === 'string' ? token : token['token']
+        const headers = {
+            "api-key": this.appKey,
+            "Authorization": "Bearer " + _token
+        }
+        let _suffixString = `?startDate=${options.date_from}&endDate=${options.date_to}`;
+        if(options.type && options.type?.length>0) {
+            _suffixString =_suffixString+`&type=${options.type}`;
+        }
+        if(options.subtype && options.subtype?.length>0) {
+            _suffixString =_suffixString+`&subtype=${options.type}`;
+        }
+        console.log('got token',token);
+        return fetch(finalURL+_suffixString, {headers: headers})
+            .then((r) => r.json())
+            .then((r)=> {
+                if(r.activitiesHistory) {
+                    return r.activitiesHistory;
+                }
+            });
+    }
+
+    userLastScores(options: VoiceMedUserLastScoreType): Promise<{ lastSevenScores: VoiceMedScore[] }> {
+        let token = options.token;
+        if (typeof token === 'undefined') {
+            // @ts-ignore
+            token = typeof this.fakePreferenceStorage['token'] !== 'undefined' ? this.fakePreferenceStorage['token'] : null;
+        }
+        if (token == null || (token + "").length <= 0) {
+            return Promise.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+        const finalURL = this.appUrl + this.API_listlastsevenscores;
+
+        const _token = typeof token === 'string' ? token : token['token']
+        const headers = {
+            "api-key": this.appKey,
+            "Authorization": "Bearer " + _token
+        }
+        const _suffixString = `?subtype=${options.subtype}`;
+        return fetch(finalURL+_suffixString, {headers: headers})
+            .then((r) => r.json())
+            .then((r)=> {
+                if(r.lastSevenScores) {
+                    return r.lastSevenScores;
+                }
             });
     }
 

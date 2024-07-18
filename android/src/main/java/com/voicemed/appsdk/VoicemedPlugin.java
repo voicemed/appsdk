@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
@@ -104,7 +105,8 @@ public class VoicemedPlugin extends Plugin {
     static final String API_listProgramsSuffix = "v2/user/programs";
     static final String API_completeExerciseSuffix = "v2/user/breathing_exercises";
 
-
+    static final String API_listuseractivities = "v1/user/activities";
+    static final String API_listlastsevenscores = "v1/user/scores";
 
     @Override
     public void load() {
@@ -131,13 +133,14 @@ public class VoicemedPlugin extends Plugin {
     @PluginMethod()
     public void getEnvironment(PluginCall call) {
         JSObject jData = new JSObject();
-        jData.put("environment",this.environment);
+        jData.put("environment", this.environment);
         call.resolve(jData);
     }
+
     @PluginMethod()
     public void setEnvironment(PluginCall call) {
-        String _newEnv = call.getString("environment","");
-         if (!_newEnv.equals("production") && !_newEnv.equals("staging")) {
+        String _newEnv = call.getString("environment", "");
+        if (!_newEnv.equals("production") && !_newEnv.equals("staging")) {
             Log.e("VOICEMED", "Environment not recognized, apply default: staging");
             call.reject("Available environment are staging and production");
             return;
@@ -150,9 +153,10 @@ public class VoicemedPlugin extends Plugin {
         }
         call.resolve();
     }
+
     @PluginMethod()
     public void setApiKey(PluginCall call) {
-        String _newEnv = call.getString("apikey","");
+        String _newEnv = call.getString("apikey", "");
         this.appKey = _newEnv;
         call.resolve();
     }
@@ -170,16 +174,17 @@ public class VoicemedPlugin extends Plugin {
         if (StringIsEmpty(token)) {
             call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
         }
-        if(StringIsEmpty(_currentData)) {
+        if (StringIsEmpty(_currentData)) {
             call.reject("No data for this user");
         }
         try {
             JSObject jData = new JSObject(_currentData);
             call.resolve(jData);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             call.reject("No data for this user");
         }
     }
+
     @PluginMethod()
     public void authenticateUser(PluginCall call) {
         String value = call.getString("externalID");
@@ -216,7 +221,7 @@ public class VoicemedPlugin extends Plugin {
                                     if (_meta != null) {
                                         _eventData.put("meta", _meta);
                                     }
-                                    preferences.set("userdata",_eventData.toString());
+                                    preferences.set("userdata", _eventData.toString());
                                     notifyListeners("airlynUpdateUserData", _eventData);
                                 }
                                 call.resolve(jRes);
@@ -385,6 +390,177 @@ public class VoicemedPlugin extends Plugin {
     }
 
     @PluginMethod()
+    public void userActivities(PluginCall call) {
+        String token = call.getString("token", preferences.get("token"));
+        String datefrom = call.getString("date_from", "");
+        String dateto = call.getString("date_to", "");
+        String type = call.getString("type", "");
+        String subtype = call.getString("subtype", "");
+        if (StringIsEmpty(token)) {
+            token = preferences.get("token");
+        }
+        if (StringIsEmpty(token)) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+
+        ArrayList<String> queries = new ArrayList<String>();
+        if (datefrom.length() > 0) {
+            queries.add("startDate=" + datefrom);
+        }
+        if (dateto.length() > 0) {
+            queries.add("endDate" + datefrom);
+        }
+        if (type.length() > 0) {
+            queries.add("type" + type);
+        }
+        if (subtype.length() > 0) {
+            queries.add("subtype" + subtype);
+        }
+        String suffixUrl = "";
+        if (queries.size() > 0) {
+            suffixUrl = "?" + TextUtils.join("&", queries.toArray());
+        }
+
+        String finalToken = token;
+        String finalURL = appUrl + API_listuseractivities + suffixUrl;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String response = "";
+                HttpURLConnection conn = null;
+                try {
+                    URL url = new URL(finalURL);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Content-length", "0");
+                    conn.setUseCaches(false);
+                    conn.setAllowUserInteraction(false);
+                    conn.setRequestProperty("api-key", appKey);
+                    conn.setRequestProperty("Authorization", "Bearer " + finalToken);
+                    conn.connect();
+                    int status = conn.getResponseCode();
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            br.close();
+                            response = sb.toString();
+                    }
+                } catch (MalformedURLException ex) {
+                    call.reject("Authorization, malformed url");
+
+                } catch (IOException ex) {
+                    call.reject("Something went wrong");
+                } finally {
+                    if (conn != null) {
+                        try {
+                            conn.disconnect();
+                        } catch (Exception ex) {
+                            call.reject("Something went wrong");
+                        }
+                    }
+                }
+                //String to json :
+                if (!StringIsEmpty(response)) {
+                    try {
+                        JSObject jRes = new JSObject(response);
+                        call.resolve(jRes);
+                    } catch (Throwable t) {
+                        call.reject("Something went wrong");
+                    }
+                } else {
+                    call.reject("Something went wrong");
+                }
+            }
+        }).start();
+    }
+
+    @PluginMethod()
+    public void userLastScores(PluginCall call) {
+        String token = call.getString("token", preferences.get("token"));
+        String subtype = call.getString("subtype", "");
+        if (StringIsEmpty(token)) {
+            token = preferences.get("token");
+        }
+        if (StringIsEmpty(token)) {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method");
+        }
+
+        ArrayList<String> queries = new ArrayList<String>();
+        if (subtype.length() > 0) {
+            queries.add("subtype" + subtype);
+        }
+        String suffixUrl = "";
+        if (queries.size() > 0) {
+            suffixUrl = "?" + TextUtils.join("&", queries.toArray());
+        }
+
+        String finalToken = token;
+        String finalURL = appUrl + API_listlastsevenscores + suffixUrl;
+        String response = "";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String response = "";
+                HttpURLConnection conn = null;
+                try {
+                    URL url = new URL(finalURL);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Content-length", "0");
+                    conn.setUseCaches(false);
+                    conn.setAllowUserInteraction(false);
+                    conn.setRequestProperty("api-key", appKey);
+                    conn.setRequestProperty("Authorization", "Bearer " + finalToken);
+                    conn.connect();
+                    int status = conn.getResponseCode();
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            br.close();
+                            response = sb.toString();
+                    }
+                } catch (MalformedURLException ex) {
+                    call.reject("Authorization, malformed url");
+
+                } catch (IOException ex) {
+                    call.reject("Something went wrong");
+                } finally {
+                    if (conn != null) {
+                        try {
+                            conn.disconnect();
+                        } catch (Exception ex) {
+                            call.reject("Something went wrong");
+                        }
+                    }
+                }
+                //String to json :
+                if (!StringIsEmpty(response)) {
+                    try {
+                        JSObject jRes = new JSObject(response);
+                        call.resolve(jRes);
+                    } catch (Throwable t) {
+                        call.reject("Something went wrong");
+                    }
+                } else {
+                    call.reject("Something went wrong");
+                }
+            }
+        }).start();
+    }
+
+    @PluginMethod()
     public void startExercise(PluginCall call) {
         String token = call.getString("token", "");
         String _id = call.getString("id", "");
@@ -427,7 +603,7 @@ public class VoicemedPlugin extends Plugin {
                         currentUrl = value;
                     }
                 });
-                String _final = baseURL + "/voicemed-sdk/index.html?id=" + _id + "&pid=" + _program_id + "&px=" + _program_index+"&locale="+current.getLanguage();
+                String _final = baseURL + "/voicemed-sdk/index.html?id=" + _id + "&pid=" + _program_id + "&px=" + _program_index + "&locale=" + current.getLanguage();
                 JSObject _jsonData = new JSObject();
                 _jsonData.put("exercise_id", _id);
                 _jsonData.put("program_id", _program_id);
@@ -505,7 +681,7 @@ public class VoicemedPlugin extends Plugin {
                         currentUrl = value;
                     }
                 });
-                String _final = baseURL + "/voicemed-sdk/index.html?pid=" + _program_id + "&pmode=challenge&locale="+current.getLanguage();
+                String _final = baseURL + "/voicemed-sdk/index.html?pid=" + _program_id + "&pmode=challenge&locale=" + current.getLanguage();
                 JSObject _jsonData = new JSObject();
                 _jsonData.put("command", "challenge");
                 _jsonData.put("program_id", _program_id);
@@ -573,6 +749,7 @@ public class VoicemedPlugin extends Plugin {
     public void finishExercise(PluginCall call) {
         notifyListeners("finishedExercise", call.getData());
     }
+
     @PluginMethod()
     public void finishChallenge(PluginCall call) {
         notifyListeners("finishedChallenge", call.getData());

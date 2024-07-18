@@ -23,6 +23,9 @@ public class VoicemedPlugin: CAPPlugin {
     private let API_authenticationSuffix = "v2/auth/login";
     private let API_listProgramsSuffix = "v2/user/programs";
     private let API_completeExerciseSuffix = "v2/user/breathing_exercises";
+    
+    private let API_listuseractivities = "v1/user/activities";
+    private let API_listlastsevenscores = "v1/user/scores";
     //let completeUrl = $nuxt.$apiConstants.userBreathingExercises + "/" + _id + "/" + suffix;
     /*
         let method = item.type === resManager.kindRECORDING ? 'POST' : 'PUT';
@@ -251,6 +254,113 @@ public class VoicemedPlugin: CAPPlugin {
         }
         task.resume()
     }
+    
+    @objc func userActivities(_ call: CAPPluginCall) {
+        var _token = call.getString("token", preferences.get(by: "token") ?? "")
+        let _dateFrom = call.getString("date_from", "")
+        let _dateTo = call.getString("date_to", "")
+        let _type = call.getString("type", "")
+        let _subtype = call.getString("subtype", "")
+        if _token.isEmpty {
+            //Se non è passato via json, usa quello conservato
+            _token = self.preferences.get(by: "token") ?? ""
+        }
+        if _token.isEmpty {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+            return
+        }
+        var queries = [String]()
+        if (_dateFrom.count>0) {
+            queries.append("startDate="+_dateFrom)
+        }
+        if (_dateTo.count>0) {
+            queries.append("endDate="+_dateFrom)
+        }
+        if (_type.count>0) {
+            queries.append("type="+_type)
+        }
+        if (_subtype.count>0) {
+            queries.append("subtype="+_subtype)
+        }
+        
+        
+        var _queries = "";
+        if(queries.count>0) {
+            _queries = _queries + "?" + queries.joined(separator: "&")
+        }
+        
+        let finalUrl = "\(appUrl)\(API_listuseractivities)\(_queries)"
+        //Add the new restApi path:
+        let url = URL(string: finalUrl)!
+        var request = URLRequest(url: url)
+        //Authenticate request:
+        request.addValue(appKey, forHTTPHeaderField: "api-key")
+        request.addValue("Bearer \(_token)", forHTTPHeaderField: "Authorization")
+        //Method
+        request.httpMethod = "GET"
+
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                call.reject(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let _responseJSON = responseJSON as? [String:Any] {
+                call.resolve(_responseJSON)
+            }
+        }
+        task.resume()
+    }
+    @objc func userLastScores(_ call: CAPPluginCall) {
+        var _token = call.getString("token", preferences.get(by: "token") ?? "")
+        let _subtype = call.getString("subtype", "")
+        if _token.isEmpty {
+            //Se non è passato via json, usa quello conservato
+            _token = self.preferences.get(by: "token") ?? ""
+        }
+        if _token.isEmpty {
+            call.reject("Token must be valid, please ensure you have completed the authenticateUser method")
+            return
+        }
+        var queries = [String]()
+        if (_subtype.count>0) {
+            queries.append("subtype="+_subtype)
+        }
+        
+        
+        var _queries = "";
+        if(queries.count>0) {
+            _queries = _queries + "?" + queries.joined(separator: "&")
+        }
+        
+        let finalUrl = "\(appUrl)\(API_listlastsevenscores)\(_queries)"
+        //Add the new restApi path:
+        let url = URL(string: finalUrl)!
+        var request = URLRequest(url: url)
+        //Authenticate request:
+        request.addValue(appKey, forHTTPHeaderField: "api-key")
+        request.addValue("Bearer \(_token)", forHTTPHeaderField: "Authorization")
+        //Method
+        request.httpMethod = "GET"
+
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                call.reject(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let _responseJSON = responseJSON as? [String:Any] {
+                call.resolve(_responseJSON)
+            }
+        }
+        task.resume()
+    }
+    
+    
     func retrieveChallenge( token : String, challenge : [String:Any]) async throws -> [String:Any] {
         //Add the new restApi path:
         let stringID = challenge["_id"] ?? ""

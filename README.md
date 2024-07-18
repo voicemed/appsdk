@@ -94,6 +94,29 @@ If you want to listen for exercise execution result declare the following listen
   });
   ``` 
 
+#### Steps User Activities
+1. Ensure your logged user is logged in into Voicemed:
+    - If you don't have an authentication code:
+        - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
+        - Retrieve the authentication code and store it for the future.
+
+2. Invoke Voicemed.userActivities(token,date_from,date_to,type,subtype):
+    - Token : you need a valid authentication token to complete the request
+    - dateFrom : the date range start in format Y-m-d eg. 2024-07-12
+    - dateTo : the date range end in format Y-m-d eg. 2024-07-12
+    - type : a valid exercise type between: 'recording' | 'audio' | 'video' | 'hold' | 'post' | 'questionnaire' | 'quiz'
+    - subtype : valid only for type 'recording', possible values : 'shushing' | 'humming' | 'dob'
+
+#### Steps User Last SevenScores
+1. Ensure your logged user is logged in into Voicemed:
+    - If you don't have an authentication code:
+        - Voicemed.authenticateUser({"expernalID":<your unique id>"usermeta":{<userMeta>}});
+        - Retrieve the authentication code and store it for the future.
+
+2. Invoke Voicemed.userLastScores(token,subtype):
+    - Token : you need a valid authentication token to complete the request
+    - subtype : a valid subtype between : 'shushing' | 'humming' | 'dob'
+
 
 #### Tips
 - if you want to close (force close) the exercise runner call the ```Voicemed.closeExercise();``` function.

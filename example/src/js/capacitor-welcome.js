@@ -119,11 +119,38 @@ window.customElements.define(
         <p>
           <button class="button" id="take-list">List</button>
         </p>
+        
+        <h2>Request UserActivities</h2>
+        <p>
+          <span>Random Type: <span id="act_randomtype"></span></span>
+          <span>Random Subtype: <span id="act_randomsubtype"></span></span>
+          <span>Random DateFrom: <span id="act_randomfrom"></span></span>
+          <span>Random DateTo: <span id="act_randomto"></span></span>
+          <button class="button" id="take-activities">Retrieve</button>
+        </p>
+        <h2>Request last Seven Scores</h2>
+        <p>
+          <span>Random Subtype: <span id="score_randomsubtype"></span></span>  
+          <button class="button" id="take-scores">Retrieve</button>
+        </p>
+        
         <div id="exerciseList" style="max-height: 30vh; overflow-y: scroll;">&nbsp;</div>
         <div id="log" style="max-height: 20vh; overflow-y: scroll; border-top:1px solid #666;padding-top:5px; padding-bottom: 20px;"><b>Voicemed plugin logs:</b><br/></div>
       </main>
     </div>
     `;
+        }
+
+        formatDateYmd(datetime) {
+            var d = new Date(datetime),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+            return [year, month, day].join('-');
         }
 
         connectedCallback() {
@@ -273,10 +300,67 @@ window.customElements.define(
                 }
             });
 
-            Voicemed.getEnvironment().then((env)=>{
+            self.shadowRoot.querySelector('#take-activities').addEventListener('click', async function (e) {
+                let token = {}
+                if (typeof window["currentToken"] !== 'undefined') {
+                    token.token = window["currentToken"];
+                }
+                let randomType = ['recording', 'audio', 'video', 'hold', 'post', 'questionnaire', 'quiz'];
+                let randomSubtype = ['shushing', 'humming', 'dob'];
+                let baseDate = new Date();
+                const randomIndex = Math.floor(Math.random() * randomType.length);
+                const _randomType = randomType[randomIndex];
+                let _randomSubType = "";
+                if (_randomType === "recording") {
+                    const randomSIndex = Math.floor(Math.random() * randomSubtype.length);
+                    _randomSubType = randomSubtype[randomSIndex];
+                }
+                baseDate.setDate(1);
+                const _dateFrom = baseDate;
+                const _dateTo = _dateFrom;
+                _dateTo.setMonth(_dateTo.getMonth() + 1);
+                _dateTo.setDate(-1);
+                self.shadowRoot.querySelector('#act_randomtype').innerText = _randomType;
+                self.shadowRoot.querySelector('#act_randomsubtype').innerText = _randomSubType;
+                self.shadowRoot.querySelector('#act_randomfrom').innerText = self.formatDateYmd(_dateFrom);
+                self.shadowRoot.querySelector('#act_randomto').innerText = self.formatDateYmd(_dateTo);
+
+                Voicemed.userActivities({
+                    token: token,
+                    type: _randomType,
+                    subtype: _randomSubType,
+                    date_to: self.formatDateYmd(_dateFrom),
+                    date_from: self.formatDateYmd(_dateTo)
+                }).then((r) => {
+                    console.log('got result', r)
+                    self.shadowRoot.querySelector('#log').innerHTML =
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:darkgreen;'>User activities retrieved: " + JSON.stringify(r) + "</span>";
+                })
+
+            });
+            self.shadowRoot.querySelector('#take-scores').addEventListener('click', async function (e) {
+                let token = {}
+                if (typeof window["currentToken"] !== 'undefined') {
+                    token.token = window["currentToken"];
+                }
+                let randomSubtype = ['shushing', 'humming', 'dob'];
+                const randomSIndex = Math.floor(Math.random() * randomSubtype.length);
+                const _randomSubType = randomSubtype[randomSIndex];
+                self.shadowRoot.querySelector('#score_randomsubtype').innerText = _randomSubType;
+                Voicemed.userLastScores({
+                    token: token,
+                    subtype: _randomSubType,
+                }).then((r) => {
+                    console.log('got result', r)
+                    self.shadowRoot.querySelector('#log').innerHTML =
+                        self.shadowRoot.querySelector('#log').innerHTML + "<br/><span style='color:darkgreen;'>User Last Seve Scores retrieved: " + JSON.stringify(r) + "</span>";
+                })
+            });
+
+            Voicemed.getEnvironment().then((env) => {
                 let newEnv = env.environment;
-                console.log('got env response',env)
-                if(newEnv ==="staging") {
+                console.log('got env response', env)
+                if (newEnv === "staging") {
                     self.shadowRoot.querySelector('#take-production').classList.remove('active');
                     self.shadowRoot.querySelector('#take-debug').classList.add('active');
                 } else {
@@ -284,19 +368,19 @@ window.customElements.define(
                     self.shadowRoot.querySelector('#take-debug').classList.remove('active');
                 }
             });
-            self.shadowRoot.querySelector('#take-production').addEventListener('click',async function(e) {
-               Voicemed.setEnvironment({"environment":'production'}).then((e)=>{
-                   self.shadowRoot.querySelector('#take-production').classList.add('active');
-                   self.shadowRoot.querySelector('#take-debug').classList.remove('active');
-               }).catch(()=>{
+            self.shadowRoot.querySelector('#take-production').addEventListener('click', async function (e) {
+                Voicemed.setEnvironment({"environment": 'production'}).then((e) => {
+                    self.shadowRoot.querySelector('#take-production').classList.add('active');
+                    self.shadowRoot.querySelector('#take-debug').classList.remove('active');
+                }).catch(() => {
 
-               });
+                });
             });
-            self.shadowRoot.querySelector('#take-debug').addEventListener('click',async function(e) {
-                Voicemed.setEnvironment({"environment":'staging'}).then((e)=>{
+            self.shadowRoot.querySelector('#take-debug').addEventListener('click', async function (e) {
+                Voicemed.setEnvironment({"environment": 'staging'}).then((e) => {
                     self.shadowRoot.querySelector('#take-production').classList.remove('active');
                     self.shadowRoot.querySelector('#take-debug').classList.add('active');
-                }).catch(()=>{
+                }).catch(() => {
 
                 });
             });
